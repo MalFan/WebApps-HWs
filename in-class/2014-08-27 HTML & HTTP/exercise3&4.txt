@@ -1,0 +1,9 @@
+GET /webapps/methods/check-get?andrewid=dfan&color=white HTTP/1.1
+host: garrod.isri.cmu.edu
+
+
+POST /webapps/methods/check-post HTTP/1.1
+host: garrod.isri.cmu.edu
+content-length: 25
+
+andrewid=dfan&color=white
