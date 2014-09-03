@@ -1,0 +1,11 @@
+
+form.form-signin {
+	width: 300px;
+
+	/*position: absolute;
+	left: 50%;
+	transform: translateX(-50%);*/
+
+	float: right;
+	margin-right: 100px;
+}
