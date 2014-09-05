@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>grumblr.</title>
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="custom.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body class="homepage">
+
+    <!-- Static navbar -->
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+            <a class="navbar-brand nav-grumblr " href="homepage.html">grumblr.</a>
+        </div>
+
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav">
+            <form class="navbar-form navbar-left">
+                <input type="text" class="form-control" placeholder="Search...">
+            </form>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+
+            <li class="dropdown">
+              <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown">Me <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="profile.html">My profile</a></li>
+                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Inbox</a></li>
+                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Settings</a></li>
+                <li><a href="login.html">Log out</a></li>
+              </ul>
+            </li>
+
+          </ul>
+
+        </div><!--/.nav-collapse -->
+
+      </div>
+    </div><!-- Static navbar -->
+
+    <div class="container"><!-- Post Body -->
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <!-- <div class="jumbotron"> -->
+
+        <div class="row">
+
+          <div class="col-sm-8 post-main">
+
+            <div class="postbox">
+              <div class="post-title">
+
+                <div class="post-avatar">
+                  <a href="profile.html">
+                    <img class="avatar1" src="img/img_trans.gif"><br>
+                  </a>
+                </div>
+
+                <div class="post-user">
+                  
+                  <p class="grumblr-name">Robin Van Persie</p>
+                  <p>35 minutes ago</p>
+                  
+                </div>
+              </div>
+              <div class="post-content">
+                  
+                <p>Robin van Persie (Dutch pronunciation: [ˈrɔbɪn vɑn ˈpɛrsi] ( listen); born 6 August 1983) is a Dutch footballer who plays as a striker for Manchester United and is the captain of the Netherlands national team. </p>
+                
+              </div>
+
+              <div class="post-picture">
+                <img class="center-block" src="img/mr_grumble.png"><br>
+              </div>
+
+            </div><!-- /.post -->
+
+            <!-- 2nd post -->
+            <div class="postbox">
+              <div class="post-title">
+
+                <div class="post-avatar">
+                  <a href="profile.html">
+                    <img class="avatar2" src="img/img_trans.gif"><br>
+                  </a>
+                </div>
+
+                <div class="post-user">
+                  
+                  <p class="grumblr-name">Lionel Messi</p>
+                  <p>1 hour ago</p>
+                  
+                </div>
+              </div>
+              <div class="post-content">
+                  
+                <p>Lionel Andrés "Leo" Messi Cuccittini (Spanish pronunciation: [ljoˈnel anˈdɾes ˈmesi] ( listen); born 24 June 1987), is an Argentine footballer who plays as a forward for Spanish club FC Barcelona and the Argentina national team.</p>
+                
+              </div>
+
+            </div><!-- /.post -->
+
+            <!-- <div class="postbox">
+              <h2 class="post-title">Sample blog post</h2>
+              <p class="post-meta">January 1, 2014 by <a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Mark</a></p>
+
+              <p>This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p>
+
+              <p>Cum sociis natoque penatibus et magnis <a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
+              <blockquote>
+                <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              </blockquote>
+              <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+              <h2>Heading</h2>
+              <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <h3>Sub-heading</h3>
+              <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+              <pre><code>Example code block</code></pre>
+              <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
+            </div> -->
+            <!-- /.post -->
+
+            
+
+            <!-- <ul class="pager">
+              <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Previous</a></li>
+              <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Next</a></li>
+            </ul> -->
+
+          </div><!-- /.post-main -->
+
+          <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+<!--             <div class="sidebar-module sidebar-module-inset">
+              <h4></h4>
+              <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+            </div> -->
+
+            <div class="sidebar-module postbox">
+            <h4>My grumblr.</h4>
+              <ol class="list-unstyled">
+                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My grumbles</a></li>
+                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My Favorite</a></li>
+              </ol>
+            </div>
+
+            <div class="sidebar-module postbox">
+              <h4>Hot grumblrs</h4>
+              <ol class="list-unstyled">
+                <li><a href="profile.html">
+                    <img class="avatar3" src="img/img_trans.gif"></a>
+                    CamGrumblr
+                </li>
+                <li><a href="profile.html">
+                    <img class="avatar4" src="img/img_trans.gif"></a>
+                    TwitGrumblr
+                </li>
+              </ol>
+            </div>
+
+            <div class="sidebar-module postbox">
+              <h4>Elsewhere</h4>
+              <ol class="list-unstyled">
+                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">GitHub</a></li>
+                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Twitter</a></li>
+                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Facebook</a></li>
+              </ol>
+            </div>
+
+          </div><!-- /.blog-sidebar -->
+
+        </div><!-- /.row -->
+
+      <!-- </div>-->
+    </div> <!-- /container --><!-- Post Body -->
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
