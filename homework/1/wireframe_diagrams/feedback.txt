@@ -1,0 +1,30 @@
+This is feedbacks I got from at least four fellow students and one TA.
+
+For the log in page:
+1. Make some difference between sign up btn and sign in btn.
+	—I used a transparent background and an additional hovering effect for the secondary button so that users can easily to distinguish them.
+
+For the home page:
+1. Add pictures, time-line.
+	—I added them in my final .html file.
+2. Combine left side bar and right side bar to make it simple.
+	—Yes. Trying to make it simpler.
+3. In right Nav-bar, add popular grumbles, people you might know, hot topics, ads and so on.
+	—I added some of them.
+4. In the drop down list, add my homepage, settings, log out.
+	—I added all of them. 
+
+
+
+Response to TA’s feedback:
+
+1. One comment is that it's unclear what the "Grumble" button to the right of the search bar does. Does it let you write a new post?
+	—It was used to post a new grumble. But I agree that this is a little bit confusing so I plan to put the new post part on top of the home page time line (Though it is not complete in my latest .html file yet).
+
+2. I’m also not sure how "Hot Grumbles" will look like. Will it just be text linking to popular grumbls?
+	—It looked like that but then I think it is too crowded if a lot of texts and pictures are put into such a narrow side bar. So I delete this part and add some other part instead.
+
+3. Is there going to be anything in the right of the personal profile page?
+	—I didn’t make up my mind what to add in the side bar when entering personal profile page from the home page. Maybe something related to the user’s account itself? This part is to be improved later.
+
+
