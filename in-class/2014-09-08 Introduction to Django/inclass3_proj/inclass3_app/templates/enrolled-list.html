@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+            <title>Enrolled list</title>
+            </head>
+    
+    <body>
+        {% if course_name %}
+            <h1>Course: {{course_name}}</h1>
+        {% else %}
+            <h1>Course:</h1>
+        {% endif %}
+        <br>
+        {% if person_name %}
+            <h1>Students:<br></h1>
+            <p>{{person_name}}</p>
+        {% else %}
+            <h1>Students:</h1>
+        {% endif %}
+        
+    </body>
+</html>
