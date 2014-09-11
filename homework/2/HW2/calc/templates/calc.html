@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Calculator</title>
+</head>
+
+<body>
+
+<form action="" method="post">
+
+  {% if num_ans %}
+  <input type="text" name="num_ans" value="{{num_ans}}" disabled="true"><br>
+  {% endif %}
+
+  <input type="submit" name="btn" value="7">
+  <input type="submit" name="btn" value="8">
+  <input type="submit" name="btn" value="9"><br>
+  <input type="submit" name="btn" value="4">
+  <input type="submit" name="btn" value="5">
+  <input type="submit" name="btn" value="6"><br>
+  <input type="submit" name="btn" value="1">
+  <input type="submit" name="btn" value="2">
+  <input type="submit" name="btn" value="3">
+  <input type="submit" name="btn" value="0"><br>
+  <input type="submit" name="btn" value="+">
+  <input type="submit" name="btn" value="-">
+  <input type="submit" name="btn" value="*">
+  <input type="submit" name="btn" value="/">
+  <input type="submit" name="btn" value="="><br>
+
+  {% if num_x %}
+  <input type="hidden" name="num_x" value="{{num_x}}"><br>
+  {% endif %}
+
+  {% if num_y %}
+  <input type="hidden" name="num_y" value="{{num_y}}"><br>
+  {% endif %}
+
+  {% if oper %}
+  <input type="hidden" name="oper" value="{{oper}}"><br>
+  {% endif %}
+
+  {% if state %}
+  <input type="hidden" name="state" value="{{state}}"><br>
+  {% endif %}
+
+  {% csrf_token %}
+</form>
+
+</body>
+</html>
