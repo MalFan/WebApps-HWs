@@ -39,71 +39,108 @@ def calculator(request):
 		btn_clicked_number = int(btn_clicked)
 	elif btn_clicked in operators:
 		btn_clicked_type = "operator"
-	else:
+	elif btn_clicked == "=":
 		btn_clicked_type = "equal"
 
 	# determine state
 	if state == "0": # means entering the first number
 		if btn_clicked_type == "number":
-			state = "0";
+			state = "0"
 			num_x = num_x * 10 + btn_clicked_number
 			num_ans = num_x
 		elif btn_clicked_type == "operator":
-			state = "1";
+			state = "1"
 			oper = btn_clicked
 			num_ans = num_x
 		elif btn_clicked_type == "equal":
-			state = "3";
-			num_ans = eval(str(num_x) + oper + str(num_y))
+			state = "3"
+			try:
+			    	num_ans = eval(str(num_x) + oper + str(num_y))
+			except ZeroDivisionError:
+			    	state = "4"			
 
 	elif state == "1": # means entering the operator
 		if btn_clicked_type == "number":
-			state = "2";
+			state = "2"
 			num_y = btn_clicked_number
 			num_ans = num_y
 		elif btn_clicked_type == "operator":
-			state = "1";
+			state = "1"
 			oper = btn_clicked
 			num_ans = num_x
 		elif btn_clicked_type == "equal":
-			state = "3";
+			state = "3"
 			num_y = num_x
-			num_ans = eval(str(num_x) + oper + str(num_y))
+			try:
+			    	num_ans = eval(str(num_x) + oper + str(num_y))
+			except ZeroDivisionError:
+			    	state = "4"
 
 	elif state == "2": # means entering the second number
 		if btn_clicked_type == "number":
-			state = "2";
+			state = "2"
 			num_y = (num_y * 10) + btn_clicked_number
 			num_ans = num_y
 		elif btn_clicked_type == "operator":
-			state = "2";
-			num_ans = eval(str(num_x) + oper + str(num_y))
-			num_x = num_ans
-			oper = btn_clicked
-			num_y = 0
+			state = "2"
+			try:
+			    	num_ans = eval(str(num_x) + oper + str(num_y))
+			except ZeroDivisionError:
+			    	state = "4"
+			if state != "4":
+				num_x = num_ans
+				oper = btn_clicked
+				num_y = 0
 		elif btn_clicked_type == "equal":
-			state = "3";	
-			num_ans = eval(str(num_x) + oper + str(num_y))
-			num_x = num_ans
+			state = "3"	
+			try:
+			    	num_ans = eval(str(num_x) + oper + str(num_y))
+			except ZeroDivisionError:
+			    	state = "4"
+			if state != "4":
+				num_x = num_ans
 
 	elif state == "3": # means entering the equal sign
 		if btn_clicked_type == "number":
-			state = "0";
+			state = "0"
 			num_x = btn_clicked
 			num_ans = num_x
 		elif btn_clicked_type == "operator":
-			state = "1";
+			state = "1"
 			oper = btn_clicked
 			num_ans = num_x
 		elif btn_clicked_type == "equal":
-			state = "3";
-			num_ans = eval(str(num_x) + oper + str(num_y))
+			state = "3"
+			try:
+			    	num_ans = eval(str(num_x) + oper + str(num_y))
+			except ZeroDivisionError:
+			    	state = "4"
+			if state != "4":
+				num_x = num_ans
+
+	elif state == "4": # means error
+		if btn_clicked_type == "number":
+			state = "0"
+			num_x = btn_clicked
+			num_ans = num_x
+		elif btn_clicked_type == "operator":
+			state = "1"
+			num_x = 0
+			oper = btn_clicked
+			num_ans = num_x
+		elif btn_clicked_type == "equal":
+			state = "3"
+			num_ans = 0
+			oper = "+"
 			num_x = num_ans
 
-
+	
 	context['num_x'] = str(num_x)
 	context['num_y'] = str(num_y)
-	context['num_ans'] = str(num_ans)
+	if state == "4":
+		context['num_ans'] = "Error"
+	else:
+		context['num_ans'] = str(num_ans)
 	context['oper'] = oper
 	context['state'] = state
 
