@@ -1,3 +1,37 @@
+1. This is a simple calculator. All integer functions are fully included. 
+    Example 1
+	First, click “1”, it will display “1”. 
+	Then, click “+”, the display won’t change.
+	Then, click “2”, it will display “2”.
+	Then, click “=”, it will display “3”.
+    Example 2
+	First, click “1”, it will display “1”. 
+	Then, click “+”, the display won’t change.
+	Then, click “=”, it will display “2”.
+    Example 3
+	First, click “1”, it will display “1”. 
+	Then, click “+”, the display won’t change.
+	Then, click “2”, it will display “2”.
+	Then, click “3”, it will display “23”.
+	Then, click “/”, it will display “24”.
+	Then, click “3”, it will display “3”.
+	Then, click “*”, it will display “8”.
+	Then, click “4”, it will display “4”.
+	Then, click “=”, it will display “32”.
+    Example 4
+	First, click “1”, it will display “1”. 
+	Then, click “+”, the display won’t change.
+	Then, click “2”, it will display “2”.
+	Then, click “=”, it will display “3”.
+	Then, click “=”, it will display “5”.
+	Then, click “=”, it will display “7”.
+    Example 5
+	First, click “1”, it will display “1”. 
+	Then, click “/”, the display won’t change.
+	Then, click “0”, it will display “0”.
+	Then, click “=”, it will display “Error”.
+
+
 To turn in homework 2, create files (and subdirectories if needed) in
 this directory, add and commit those files to your cloned repository,
 and push your commit to your bare repository on GitHub.
