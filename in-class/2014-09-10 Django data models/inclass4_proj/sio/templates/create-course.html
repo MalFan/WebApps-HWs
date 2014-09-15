@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Information Webapp</title>
+    <meta charset="utf-8">
+    <style>
+      th, td {
+          text-align: center;
+      }
+    </style>
+</head>
+
+<body>
+
+{% for error in errors %}
+<p style="color:red">
+{{error}}
+</p>
+{% endfor %}
+
+<h1>Current course list:</h1>
+<p>
+<table style="width:50%">
+  <tr>
+    <th>Course ID</th>
+    <th>Course Name</th>      
+    <th>Instructor</th>
+  </tr>
+  {% for course in courses %}
+  <tr>
+    <td>{{course.course_id}}</td>
+    <td>{{course.course_name}}</td>      
+    <td>{{course.instructor}}</td>
+  </tr>
+  {% endfor %}
+</table>
+</p>
+
+</body>
