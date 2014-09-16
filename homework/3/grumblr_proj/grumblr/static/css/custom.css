@@ -80,21 +80,16 @@ a.white-text{
 	z-index: 2;
 }
 /* Little modification*/
-.form-loginreg input[type="username"] {
+.input-top {
 	margin-bottom: -1px;
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 }
-.form-loginreg input[type="email_reg"] {
+.input-middle {
 	margin-bottom: -1px;
 	border-radius: 0;
 }
-.form-loginreg input[type="email_login"] {
-	margin-bottom: -1px;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-}
-.form-loginreg input[type="password"] {
+.input-bottom {
 	margin-bottom: 10px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -279,28 +274,28 @@ border-color: #325d87;
 img.avatar1 {
 	width: 64px;
 	height: 64px;
-	background: url(img/icon.jpg) -8px -73px;
+	background: url(../img/icon.jpg) -8px -73px;
 	background-size: 417.06667px 338.93333px; /*1564*64/240=417.06667*/
 }
 
 img.avatar2 {
 	width: 64px;
 	height: 64px;
-	background: url(img/icon.jpg) -8px -8px;
+	background: url(../img/icon.jpg) -8px -8px;
 	background-size: 417.06667px 338.93333px;
 }
 
 img.avatar3 {
 	width: 64px;
 	height: 64px;
-	background: url(img/icon.jpg) -74px -74px;
+	background: url(../img/icon.jpg) -74px -74px;
 	background-size: 417.06667px 338.93333px;
 }
 
 img.avatar4 {
 	width: 64px;
 	height: 64px;
-	background: url(img/icon.jpg) -143px -139px;
+	background: url(../img/icon.jpg) -143px -139px;
 	background-size: 417.06667px 338.93333px;
 }
 
@@ -341,7 +336,7 @@ p.subheading-grumblr {
 /*img.avatar5 {
 	width: 240px;
 	height: 240px;
-	background: url(img/icon.jpg) -1036px -1004px;
+	background: url(../img/icon.jpg) -1036px -1004px;
 }*/
 
 .profilebox {
@@ -440,7 +435,7 @@ td, th{
 img.avatar6 {
 	width: 120px;
 	height: 120px;
-	background: url(img/icon.jpg) -518px -502px;
+	background: url(../img/icon.jpg) -518px -502px;
 	background-size: 782px 635.5px;
 }
 
