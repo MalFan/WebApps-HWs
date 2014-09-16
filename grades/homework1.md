@@ -17,15 +17,11 @@ Commit graded: c1e19847ad29375cd5f7d226fef3a4da9b882c84
 
 + -2, It’s unclear from the UI how a user would make a new post.
 
-### Basic HTML/CSS (18/20)
+### Basic HTML/CSS (20/20)
 + We recommend validating your HTML pages with the [w3c validator
     tool](http://validator.w3.org/) to ensure that your markup is correctly
     formatted. For example, the validator found "Element form not allowed as
     child of element ul in this context"
-
-+ -2, Resources should have valid targets. For example, the images won't load.
-    You can check for resources which failed to load in the chrome developer
-    console.
 
 ### Version control - Git (5/10)
 + -5 Generally you should should commit parts of the assignment as you complete
@@ -38,7 +34,7 @@ Commit graded: c1e19847ad29375cd5f7d226fef3a4da9b882c84
 
 ---
 
-#### Total score (58/70)
+#### Total score (60/70)
 
 ---
 
