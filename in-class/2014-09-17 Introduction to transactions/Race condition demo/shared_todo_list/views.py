@@ -3,6 +3,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from time import sleep
 
+# from django.db import transaction
+
 # Imports the Item class
 from shared_todo_list.models import *
 
@@ -20,6 +22,7 @@ def home(request):
 
 
 # Action for the shared-todo-list/add-item route.
+# @transaction.atomic
 def add_item(request):
     errors = []  # A list to record messages for any errors we encounter.
 
