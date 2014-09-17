@@ -50,15 +50,16 @@ def search(request):
 	context = {}
 	errors = []
 
-	if not 'search-content' in request.POST or not request.POST['search-content']:
+	if not 'search-content' in request.GET or not request.GET['search-content']:
 		errors.append('Username is required.')
-		# return render(request, 'homepage.html', context)
+		return render(request, 'homepage.html', context)
 	else:
-		search_content = request.POST['search-content']
+		search_content = request.GET['search-content']
+		context['search_content'] = search_content
 
 	grumbls = Grumbl.objects.filter(text__contains=search_content)
 	# grumbls = Grumbl.objects.all()
-	context = {'grumbls' : reversed(grumbls)}
+	context['grumbls'] = reversed(grumbls)
 
 	return render(request, 'search.html', context)
 

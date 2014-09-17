@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Profile</title>
+    <title>Search grumbls</title>
 
     <!-- Bootstrap -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@
     <![endif]-->
   </head>
 
-  <body class="profile">
+  <body class="homepage">
 
     <!-- Static navbar -->
     <div class="navbar navbar-default navbar-static-top" role="navigation">
@@ -39,7 +39,7 @@
           <ul class="nav navbar-nav">
             <form class="navbar-form navbar-left" action="search" method="GET">
                 <div class="input-group">
-                  <input type="text" class="form-control" name="search-content" placeholder="Search..." required>
+                  <input type="text" class="form-control" name="search-content" placeholder="Search..." value="{{search_content}}" required>
                   <span class="input-group-btn">               
                     <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search">
                     </span></button>
@@ -76,60 +76,50 @@
         <div class="row">
 
           <div class="col-sm-8 post-main">
-
-            <div class="editbox">
-              <div class="edit-title">
-              <h3>Edit personal profile</h3>
-              </div>
-
-              <hr class="profile-hr">
-              
-              <div class="edit-list">
-                <div class="edit-item-name">
-                  <h3>Avatar</h3>
+<!-- 
+            <div class="grumblebox">
+              <form class="form-grumble" role="form" action="{% url 'grumblr.views.homepage' %}" method="post">
+                <div class="grumblecontent-div">
+                  <input type="text" class="grumbl-text" name="grumble-text" placeholder="Today, what would you like to grumbl?" required>
                 </div>
-                
-                <div class="profile-avatar">
-                  <img class="avatar6" src="../static/img/img_trans.gif"><br>
+                <div class="grumblebtns-div">
+                  <button class="btn btn-lg btn-primary btn-block grumbl-btn pull-right" type="submit">grumbl!</button>
                 </div>
+                {% csrf_token %}
+              </form>
+                            <p>Results for {{search_content}}</p>
+            </div> -->
 
-                <div class="edit-btn">
-                  <button class="btn btn-lg btn-primary btn-block">Change photo</button>
+            <div class="searchbox">
+              <p>Results for <b>{{search_content}}</b></p>
+            </div>
+
+            {% for grumbl in grumbls %}
+            <!-- load post -->
+            <div class="postbox">
+              <div class="post-title">
+                <div class="post-avatar">
+                  <a href="{% url 'grumblr.views.profile' %}">
+                    <img class="avatar5" src="../static/img/img_trans.gif"><br>
+                  </a>
                 </div>
-              </div>
-
-              <hr class="profile-hr">
-
-              <div class="edit-list">
-                <div class="edit-item-name">
-                  <h3>Introduction</h3>
-                </div>
-                
-                <div class="edit-input">
-                  <input type="intro" class="form-control" placeholder="Write your brief intro">
-                </div>
-
-              </div>
-
-              <hr class="profile-hr">
-
-              <div class="edit-list">
-                <div class="edit-item-name">
-                  <h3>Location</h3>
-                </div>
-                
-                <div class="edit-input">
-                  <input type="intro" class="form-control" placeholder="Where are you">
+                <div class="post-user">
+                  <p class="grumblr-name">{{grumbl.user}}</p>
+                  <p>{{grumbl.pub_time}}</p>
                 </div>
               </div>
-
-              <div class="edit-save">
-                <div class="edit-btn"><a href="profile.html">
-                    <button class="btn btn-lg btn-primary btn-block">Save changes</button></a>
-                </div>
+              <div class="post-content">
+                <p>{{grumbl.text}}</p>
               </div>
+            </div><!-- /.load post -->
+            {% endfor %}
 
-            </div><!-- /.post -->
+
+
+            <!-- <ul class="pager">
+              <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Previous</a></li>
+              <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Next</a></li>
+            </ul> -->
 
           </div><!-- /.post-main -->
 
