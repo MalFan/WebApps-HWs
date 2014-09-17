@@ -200,58 +200,91 @@ border-color: #325d87;
  */
 
 .post-main {
-  font-size: 18px;
-  line-height: 1.5;
+	font-size: 18px;
+	line-height: 1.5;
 }
 
 /* Sidebar modules for boxing content */
 .sidebar-module {
-  padding: 15px;
-  margin: 0 -15px 15px;
+	padding: 15px;
+	margin: 0 -15px 15px;
 }
 .sidebar-module-inset {
-  padding: 15px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
+	padding: 15px;
+	background-color: #f5f5f5;
+	border-radius: 4px;
 }
 .sidebar-module-inset p:last-child,
 .sidebar-module-inset ul:last-child,
 .sidebar-module-inset ol:last-child {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 
 /* Pagination */
 .pager {
-  margin-bottom: 60px;
-  text-align: left;
+	margin-bottom: 60px;
+	text-align: left;
 }
 .pager > li > a {
-  width: 140px;
-  padding: 10px 20px;
-  text-align: center;
-  border-radius: 30px;
+	width: 140px;
+	padding: 10px 20px;
+	text-align: center;
+	border-radius: 30px;
 }
 
 /*
  * grumble posts
  */
+.grumblebox {
+	overflow:hidden; 
+	margin-bottom: 60px;
+	background-color: #fff;
+	padding: 15px 15px 15px 15px;
+	margin: 20px 0px;
+	border-radius: 4px;
+	border: 2px solid #496f94;
+}
+.grumblecontent-div {
+
+}
+.grumblebtns-div {
+	text-align: right;
+}
+.grumbl-text {
+	height: 38px;
+	width: 100%;
+	font-size: 16px;
+	border-radius: 4px;
+	border: 1px solid grey;
+	padding: 5px 5px;
+}
+.grumbl-btn {
+	height: 36px;
+	width: 98px;
+	margin-top: 5px;
+	padding: 0px 0px 3px 1px;
+	background-color: #1c4c7a;
+	font: bold 17px Georgia, serif;
+
+}
+
 
 .postbox {
-  margin-bottom: 60px;
-  background-color: #fff;
-  padding: 5px 15px;
-  margin: 20px 0px;
-  border-radius: 4px;
-  border: 2px solid #496f94;
+	margin-bottom: 60px;
+	background-color: #fff;
+	padding: 6px 15px 15px 15px;
+	margin: 20px 0px;
+	border-radius: 4px;
+	border: 2px solid #496f94;
 }
 .post-title {
-  margin-bottom: 6px;
-  font-size: 16px;
+	margin-bottom: 6px;
+	font-size: 16px;
 }
 .post-meta {
-  margin-bottom: 20px;
-  color: #999;
+	margin-bottom: 20px;
+	color: #999;
 }
 
 /*
@@ -259,14 +292,14 @@ border-color: #325d87;
  */
 
 .post-footer {
-  padding: 40px 0;
-  color: #999;
-  text-align: center;
-  background-color: #f9f9f9;
-  border-top: 1px solid #e5e5e5;
+	padding: 40px 0;
+	color: #999;
+	text-align: center;
+	background-color: #f9f9f9;
+	border-top: 1px solid #e5e5e5;
 }
 .post-footer p:last-child {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 
@@ -298,6 +331,14 @@ img.avatar4 {
 	background: url(../img/icon.jpg) -143px -139px;
 	background-size: 417.06667px 338.93333px;
 }
+
+img.avatar5 {
+	width: 64px;
+	height: 64px;
+	background: url(../img/icon.jpg) -277px -268px;
+	background-size: 417.06667px 338.93333px;
+}
+
 
 
 .post-avatar {
@@ -483,4 +524,33 @@ h3,
 .h3 {
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+
+
+/* post grumbl form */
+
+.form-grumble {
+/*	max-width: 330px;*/
+	/*padding: 15px;*/
+	/*margin: 0 auto;*/
+}
+.form-grumble .form-grumble-heading,
+.form-grumble {
+	/*margin-bottom: 10px;*/
+}
+.form-grumble {
+	/*font-weight: normal;*/
+}
+.form-grumble {
+	/*position: relative;*/
+	/*height: auto;*/
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 10px;
+	/*font-size: 16px;*/
+}
+.form-grumble {
+	/*z-index: 2;*/
 }

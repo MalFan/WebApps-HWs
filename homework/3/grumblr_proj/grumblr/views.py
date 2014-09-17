@@ -12,10 +12,55 @@ from grumblr.models import *
 
 @login_required
 def homepage(request):
+	context = {}
+	errors = []
 	# Sets up list of just the logged-in user's (request.user's) grumbls
+	# Just display the homepage if it is a GET request
+	if request.method == 'GET':
+		grumbls = Grumbl.objects.all()
+		# grumbls = Grumbl.objects.filter(user = request.user)
+		context['grumbls'] = reversed(grumbls)
+		return render(request, 'homepage.html', context)
+	
+	# If it is a POST request, process that request first
+	if not 'grumble-text' in request.POST or not request.POST['grumble-text']:
+		errors.append('You must enter an item to add.')
+	else:
+		new_grumbl = Grumbl(text=request.POST['grumble-text'], user=request.user)
+		new_grumbl.save()
+
+	# grumbls = Grumbl.objects.filter(user=request.user)
+	grumbls = Grumbl.objects.all()
+	context = {'grumbls' : reversed(grumbls), 'errors' : errors}
+
+	return render(request, 'homepage.html', context)
+
+@login_required
+def my_grumbls(request):
+	context = {}
+
+	grumbls = Grumbl.objects.filter(user=request.user)
 	# grumbls = Grumbl.objects.all()
-	grumbls = Grumbl.objects.filter(user = request.user)
-	return render(request, 'homepage.html', {'grumbls': grumbls})
+	context = {'grumbls' : reversed(grumbls)}
+
+	return render(request, 'homepage.html', context)
+
+@login_required
+def search(request):
+	context = {}
+	errors = []
+
+	if not 'search-content' in request.POST or not request.POST['search-content']:
+		errors.append('Username is required.')
+		# return render(request, 'homepage.html', context)
+	else:
+		search_content = request.POST['search-content']
+
+	grumbls = Grumbl.objects.filter(text__contains=search_content)
+	# grumbls = Grumbl.objects.all()
+	context = {'grumbls' : reversed(grumbls)}
+
+	return render(request, 'search.html', context)
 
 @login_required
 def  profile(request):
@@ -75,6 +120,6 @@ def register(request):
 							    email = request.POST['email'], \
 							    password = request.POST['password1'])
 	login(request, new_user)
-	return redirect('homepage.html')
+	return redirect('/')
 
 

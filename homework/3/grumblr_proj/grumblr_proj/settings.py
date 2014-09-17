@@ -40,7 +40,7 @@ INSTALLED_APPS = (
 )
 
 LOGIN_URL = '/login'
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

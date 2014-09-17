@@ -6,6 +6,8 @@ urlpatterns = patterns('',
 	# url(r'^$', 'grumblr_proj.views.home', name='home'),
 	# url(r'^blog/', include('blog.urls')),
 	url(r'^$', 'grumblr.views.homepage'),
+	url(r'^my-grumbls$', 'grumblr.views.my_grumbls'),
+	url(r'^search$', 'grumblr.views.search'),
 
 	url(r'^profile$', 'grumblr.views.profile'),
 	url(r'^edit-profile$', 'grumblr.views.edit_profile'),

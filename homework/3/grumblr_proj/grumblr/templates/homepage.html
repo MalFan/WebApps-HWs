@@ -31,14 +31,22 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <a class="navbar-brand nav-grumblr " href="homepage.html">grumblr.</a>
+            <a class="navbar-brand nav-grumblr " href="{% url 'grumblr.views.homepage' %}">grumblr.</a>
         </div>
 
         <div class="navbar-collapse collapse">
 
           <ul class="nav navbar-nav">
-            <form class="navbar-form navbar-left">
-                <input type="text" class="form-control" placeholder="Search...">
+            <form class="navbar-form navbar-left" action="search" method="POST">
+                <div class="input-group">
+                  <input type="text" class="form-control" name="search-content" placeholder="Search..." required>
+                  <span class="input-group-btn">
+                    
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    
+                  </span>          
+                </div>
+                {% csrf_token %}
             </form>
           </ul>
 
@@ -47,10 +55,10 @@
             <li class="dropdown">
               <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown">Me <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="profile.html">My profile</a></li>
+                <li><a href="{% url 'grumblr.views.profile' %}">My profile</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Inbox</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Settings</a></li>
-                <li><a href="login.html">Log out</a></li>
+                <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}">Log out</a></li>
               </ul>
             </li>
 
@@ -70,11 +78,46 @@
 
           <div class="col-sm-8 post-main">
 
+            <div class="grumblebox">
+              <form class="form-grumble" role="form" action="{% url 'grumblr.views.homepage' %}" method="post">
+                <div class="grumblecontent-div">
+                  <input type="text" class="grumbl-text" name="grumble-text" placeholder="Today, what would you like to grumbl?" required>
+                </div>
+                <div class="grumblebtns-div">
+                  <button class="btn btn-lg btn-primary btn-block grumbl-btn pull-right" type="submit">grumbl!</button>
+                </div>
+                {% csrf_token %}
+              </form>
+            </div>
+
+
+            {% for grumbl in grumbls %}
+            <!-- load post -->
+            <div class="postbox">
+              <div class="post-title">
+                <div class="post-avatar">
+                  <a href="{% url 'grumblr.views.profile' %}">
+                    <img class="avatar5" src="../static/img/img_trans.gif"><br>
+                  </a>
+                </div>
+                <div class="post-user">
+                  <p class="grumblr-name">{{grumbl.user}}</p>
+                  <p>{{grumbl.pub_time}}</p>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>{{grumbl.text}}</p>
+              </div>
+            </div><!-- /.load post -->
+            {% endfor %}
+
+
+            <!-- first post -->
             <div class="postbox">
               <div class="post-title">
 
                 <div class="post-avatar">
-                  <a href="profile.html">
+                  <a href="{% url 'grumblr.views.profile' %}">
                     <img class="avatar1" src="../static/img/img_trans.gif"><br>
                   </a>
                 </div>
@@ -103,7 +146,7 @@
               <div class="post-title">
 
                 <div class="post-avatar">
-                  <a href="profile.html">
+                  <a href="{% url 'grumblr.views.profile' %}">
                     <img class="avatar2" src="../static/img/img_trans.gif"><br>
                   </a>
                 </div>
@@ -122,28 +165,7 @@
               </div>
 
             </div><!-- /.post -->
-
-            <!-- <div class="postbox">
-              <h2 class="post-title">Sample blog post</h2>
-              <p class="post-meta">January 1, 2014 by <a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Mark</a></p>
-
-              <p>This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p>
-
-              <p>Cum sociis natoque penatibus et magnis <a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-              <blockquote>
-                <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              </blockquote>
-              <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-              <h2>Heading</h2>
-              <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-              <h3>Sub-heading</h3>
-              <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-              <pre><code>Example code block</code></pre>
-              <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-            </div> -->
-            <!-- /.post -->
-
-            
+          
 
             <!-- <ul class="pager">
               <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Previous</a></li>
@@ -161,7 +183,7 @@
             <div class="sidebar-module postbox">
             <h4>My grumblr.</h4>
               <ol class="list-unstyled">
-                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My grumbles</a></li>
+                <li><a href="{% url 'grumblr.views.my_grumbls' %}">My grumbles</a></li>
                 <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My Favorite</a></li>
               </ol>
             </div>
@@ -169,11 +191,11 @@
             <div class="sidebar-module postbox">
               <h4>Hot grumblrs</h4>
               <ol class="list-unstyled">
-                <li><a href="profile.html">
+                <li><a href="{% url 'grumblr.views.profile' %}">
                     <img class="avatar3" src="../static/img/img_trans.gif"></a>
                     CamGrumblr
                 </li>
-                <li><a href="profile.html">
+                <li><a href="{% url 'grumblr.views.profile' %}">
                     <img class="avatar4" src="../static/img/img_trans.gif"></a>
                     TwitGrumblr
                 </li>
@@ -200,6 +222,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
   </body>
 </html>

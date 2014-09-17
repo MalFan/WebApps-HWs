@@ -6,9 +6,9 @@ from django.contrib.auth.models import User
 class Grumbl(models.Model):
 	text = models.CharField(max_length=42)
 	user = models.ForeignKey(User)
-	pub_time = models.DateTimeField()
-	likes = models.IntegerField()
-	dislikes = models.IntegerField()
+	pub_time = models.DateTimeField(auto_now=True)
+	likes = models.IntegerField(default=0)
+	dislikes = models.IntegerField(default=0)
 	# img = models.ImageField()
 
 	def __unicode__(self):

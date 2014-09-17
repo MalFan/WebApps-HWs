@@ -31,7 +31,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <a class="navbar-brand nav-grumblr " href="homepage.html">grumblr.</a>
+            <a class="navbar-brand nav-grumblr " href="{% url 'grumblr.views.homepage' %}">grumblr.</a>
         </div>
 
         <div class="navbar-collapse collapse">
@@ -47,10 +47,10 @@
             <li class="dropdown">
               <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown">Me <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="profile.html">My profile</a></li>
+                <li><a href="{% url 'grumblr.views.profile' %}">My profile</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Inbox</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Settings</a></li>
-                <li><a href="login.html">Log out</a></li>
+                <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}">Log out</a></li>
               </ul>
             </li>
 
@@ -73,10 +73,8 @@
             <div class="profilebox">
               <div class="profile-title">
 
-                <div class="profile-avatar">
-                  <a href="profile.html">
-                    <img class="avatar6" src="../static/img/img_trans.gif"><br>
-                  </a>
+                <div class="profile-avatar"> 
+                  <img class="avatar6" src="../static/img/img_trans.gif"><br>
                 </div>
 
                 <div class="profile-user">
@@ -86,7 +84,7 @@
                 </div>
 
                 <div class="editbtn">
-                  <a class="blue-text" href="editprofile.html"><button type="button" class="edit">Edit profile</button></a>
+                  <a class="blue-text" href={% url 'grumblr.views.edit_profile' %}><button type="button" class="edit">Edit profile</button></a>
                 </div>
               </div>
 
@@ -130,7 +128,7 @@
             <div class="sidebar-module postbox">
             <h4>My grumblr.</h4>
               <ol class="list-unstyled">
-                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My grumbles</a></li>
+                <li><a href="{% url 'grumblr.views.my_grumbls' %}">My grumbles</a></li>
                 <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My Favorite</a></li>
               </ol>
             </div>
@@ -138,11 +136,11 @@
             <div class="sidebar-module postbox">
               <h4>Hot grumblrs</h4>
               <ol class="list-unstyled">
-                <li><a href="profile.html">
+                <li><a href="{% url 'grumblr.views.profile' %}">
                     <img class="avatar3" src="../static/img/img_trans.gif"></a>
                     CamGrumblr
                 </li>
-                <li><a href="profile.html">
+                <li><a href="{% url 'grumblr.views.profile' %}">
                     <img class="avatar4" src="../static/img/img_trans.gif"></a>
                     TwitGrumblr
                 </li>
@@ -169,6 +167,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
   </body>
 </html>
