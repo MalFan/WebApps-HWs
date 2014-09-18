@@ -52,12 +52,12 @@
           <ul class="nav navbar-nav navbar-right">
 
             <li class="dropdown">
-              <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown">Me <span class="caret"></span></a>
+              <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{current_user.username}} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="{% url 'grumblr.views.profile' %}">My profile</a></li>
-                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Inbox</a></li>
-                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Settings</a></li>
-                <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}">Log out</a></li>
+                <li><a href="{% url 'grumblr.views.profile' %}"><span class="glyphicon glyphicon-home"></span> My profile</a></li>
+                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
+                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
               </ul>
             </li>
 
@@ -85,20 +85,20 @@
                 </div>
 
                 <div class="profile-user">
-                  <p class="profile-name">{{current_profile_name}}</p>
+                  <p class="profile-name">{{current_user.username}}</p>
                   <p class="grumblr-intro">{{current_profile.intro}}<!-- Grumble the music, love CMU. --></p>
                   <p class="grumblr-location">{{current_profile.location}}<!-- Pittsburgh, US --></p>
                 </div>
 
                 <div class="editbtn">
-                  <a class="blue-text" href={% url 'grumblr.views.edit_profile' %}><button type="button" class="edit">Edit profile</button></a>
+                  <a class="blue-text trans-move" href={% url 'grumblr.views.edit_profile' %}>Edit profile</a>
                 </div>
               </div>
 
               <hr class="profile-hr">
               
               <div class="profile-detail">
-                <h3>Details of Desai Fan</h3>
+                <h3>Details of {{current_user.username}}</h3>
                 <br>
                 <table>
                   <tr>

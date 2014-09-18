@@ -29,20 +29,29 @@ div.loginregbox {
 }
 
 div.tranbtn {
-	text-align: right;
+	/*text-align: right;*/
 }
-button.trans {
+.trans-move {
 	border-style: none;
 	outline: none;
 	background: transparent;
 
 	position: relative;
 	width: 100px;
-	left: -10px;
+	left: -5px;
 	transition: left 0.5s;
 }
-button.trans:hover {
+.trans-move:hover {
 	left: 0px;
+}
+
+.fgt-pwd {
+	margin-left: -50px;
+}
+.fgt-pwd:hover {
+	/*color: #e9f2fa;*/
+	color: #d9e8f6;
+	text-decoration: underline;
 }
 
 a.white-text{
@@ -296,7 +305,7 @@ border-color: #325d87;
 .postbox {
 	margin-bottom: 60px;
 	background-color: #fff;
-	padding: 6px 15px 15px 15px;
+	padding: 6px 15px 6px 15px;
 	margin: 20px 0px;
 	border-radius: 4px;
 	border: 2px solid #496f94;
@@ -371,6 +380,7 @@ img.avatar5 {
 
 p {
 	margin: 0px;
+	word-wrap: break-word;
 }
 
 p.subheading-grumblr {
@@ -390,6 +400,8 @@ p.subheading-grumblr {
 .post-content {
 	font-size: 18px;
   	line-height: 1.5;
+  	padding-left: 5px;
+  	padding-right: 5px;
 }
 
 
@@ -429,6 +441,7 @@ p.subheading-grumblr {
 /*	float: left;*/
 	margin-right: 30px;
 	margin-top: 25px;
+	margin-left: 10px;
 }
 
 .edit-profile-avatar {
@@ -461,20 +474,7 @@ p.subheading-grumblr {
 div.editbtn {
 	text-align: right;
 }
-button.edit {
-	border-style: none;
-	outline: none;
-	background: transparent;
 
-	position: relative;
-	width: 100px;
-	top: 0px;
-	left: 0px;
-	transition: left 0.5s;
-}
-button.edit:hover {
-	left: 10px;
-}
 a.blue-text {
 	color: #1c4c7a; 
 	text-decoration:none;
@@ -502,7 +502,7 @@ td, th{
 .profilebox {
   margin-bottom: 60px;
   background-color: #fff;
-  padding: 0px;
+  padding: 0px 0px 0px 0px;
   margin: 20px 0px;
   border-radius: 4px;
   border: 1px solid #7693af;
@@ -588,4 +588,40 @@ h3,
 }
 .form-grumble {
 	/*z-index: 2;*/
+}
+
+/* Post-footer */
+.post-footer {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	font-size: 12px;
+	border-style: none;
+	background-color: #fff;
+	overflow: hidden;
+}
+.post-footer>ul>li>a {
+	padding: 5px 8px;
+	/*color: #496f94;*/
+	/*color: #6081a1;*/
+	color: #6f8daa;
+}
+.post-footer>ul>li>a:hover,
+.post-footer>ul>li>a:focus {
+/*	padding: 5px 5px;*/
+	color: #496f94;
+	/*color: #6081a1;*/
+}
+
+.post-footer>ul {
+	padding-top: 5px;
+}
+
+/* Dropdown list padding modified */
+.dropdown-menu>li>a {
+padding: 10px 15px;
+}
+.dropdown-menu {
+padding: 0px;
 }

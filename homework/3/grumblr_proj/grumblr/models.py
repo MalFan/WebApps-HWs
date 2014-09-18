@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Grumbl(models.Model):
 	text = models.CharField(max_length=42)
 	user = models.ForeignKey(User)
-	pub_time = models.DateTimeField(auto_now=True)
+	pub_time = models.DateTimeField(auto_now_add=True)
 	likes = models.IntegerField(default=0)
 	dislikes = models.IntegerField(default=0)
 	# img = models.ImageField()

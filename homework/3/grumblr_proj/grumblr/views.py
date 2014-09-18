@@ -10,10 +10,17 @@ from django.contrib.auth import login, authenticate
 
 from grumblr.models import *
 
+from django.db import transaction
+
+@transaction.atomic
 @login_required
 def homepage(request):
 	context = {}
 	errors = []
+
+	# Get current user first
+	context['current_user'] = request.user
+
 	# Sets up list of just the logged-in user's (request.user's) grumbls
 	# Just display the homepage if it is a GET request
 	if request.method == 'GET':
@@ -31,7 +38,8 @@ def homepage(request):
 
 	# grumbls = Grumbl.objects.filter(user=request.user)
 	grumbls = Grumbl.objects.all()
-	context = {'grumbls' : reversed(grumbls), 'errors' : errors}
+	context['grumbls'] = reversed(grumbls)
+	context['errors'] = errors
 
 	return render(request, 'homepage.html', context)
 
@@ -39,16 +47,24 @@ def homepage(request):
 def my_grumbls(request):
 	context = {}
 
+	# Get current user first
+	context['current_user'] = request.user
+
 	grumbls = Grumbl.objects.filter(user=request.user)
 	# grumbls = Grumbl.objects.all()
-	context = {'grumbls' : reversed(grumbls)}
+	context['grumbls'] = reversed(grumbls)
 
-	return render(request, 'homepage.html', context)
+	# There is another page--mygrumbls.html, but it is not in use for now
+	return render(request, 'homepage.html', context) 
+
 
 @login_required
 def search(request):
 	context = {}
 	errors = []
+
+	# Get current user first
+	context['current_user'] = request.user
 
 	if not 'search-content' in request.GET or not request.GET['search-content']:
 		errors.append('Username is required.')
@@ -63,10 +79,14 @@ def search(request):
 
 	return render(request, 'search.html', context)
 
+@transaction.atomic
 @login_required
 def  profile(request):
 	context = {}
 	errors = []
+
+	# Get current user first
+	context['current_user'] = request.user
 
 	# If it is a POST request, process that request first
 	if request.method == 'POST':
@@ -83,18 +103,23 @@ def  profile(request):
 	# current_profile = Profile.objects.filter(user = request.user) # request.user need to be modified
 	current_profile = Profile.objects.get(user=request.user)
 	context['current_profile'] = current_profile
-	context['current_profile_name'] = request.user
+	# context['current_profile_name'] = request.user
 
 	return render(request, 'profile.html', context)
 
 @login_required
 def  edit_profile(request):
 	context = {}
+
+	# Get current user first
+	context['current_user'] = request.user
+
 	current_profile = Profile.objects.get(user=request.user)
 	context['current_profile'] = current_profile
-	context['current_profile_name'] = request.user
+	# context['current_profile_name'] = request.user
 	return render(request, 'editprofile.html', context)
 
+@transaction.atomic
 def register(request):
 	context = {}
 

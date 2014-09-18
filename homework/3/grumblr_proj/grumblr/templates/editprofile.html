@@ -52,12 +52,12 @@
           <ul class="nav navbar-nav navbar-right">
 
             <li class="dropdown">
-              <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown">Me <span class="caret"></span></a>
+              <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{current_user.username}} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="{% url 'grumblr.views.profile' %}">My profile</a></li>
-                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Inbox</a></li>
-                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#">Settings</a></li>
-                <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}">Log out</a></li>
+                <li><a href="{% url 'grumblr.views.profile' %}"><span class="glyphicon glyphicon-home"></span> My profile</a></li>
+                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
+                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
               </ul>
             </li>
 
@@ -103,7 +103,7 @@
                     <h3>Introduction</h3>
                   </div>
                   <div class="edit-input">
-                    <input type="intro" class="form-control" name="intro" placeholder="Write your brief intro" value="{{current_profile.intro}}">
+                    <input type="intro" class="form-control" name="intro" placeholder="Write your brief intro" maxlength="200" value="{{current_profile.intro}}">
                   </div>
                 </div>
 
@@ -113,7 +113,7 @@
                     <h3>Location</h3>
                   </div>
                   <div class="edit-input">
-                    <input type="intro" class="form-control" name="location" placeholder="Where are you" value="{{current_profile.location}}">
+                    <input type="intro" class="form-control" name="location" placeholder="Where are you" maxlength="50" value="{{current_profile.location}}">
                   </div>
                 </div>
 
