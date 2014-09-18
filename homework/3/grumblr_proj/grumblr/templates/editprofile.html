@@ -78,58 +78,53 @@
           <div class="col-sm-8 post-main">
 
             <div class="editbox">
-              <div class="edit-title">
-              <h3>Edit personal profile</h3>
-              </div>
+              <form class="form-edit-profile" role="form" action="{% url 'grumblr.views.profile' %}" method="post">
 
-              <hr class="profile-hr">
-              
-              <div class="edit-list">
-                <div class="edit-item-name">
-                  <h3>Avatar</h3>
-                </div>
-                
-                <div class="profile-avatar">
-                  <img class="avatar6" src="../static/img/img_trans.gif"><br>
+                <div class="edit-title">
+                <h3>Edit personal profile</h3>
                 </div>
 
-                <div class="edit-btn">
-                  <button class="btn btn-lg btn-primary btn-block">Change photo</button>
-                </div>
-              </div>
-
-              <hr class="profile-hr">
-
-              <div class="edit-list">
-                <div class="edit-item-name">
-                  <h3>Introduction</h3>
-                </div>
-                
-                <div class="edit-input">
-                  <input type="intro" class="form-control" placeholder="Write your brief intro">
+                <hr class="profile-hr">
+                <div class="edit-list">
+                  <div class="edit-item-name">
+                    <h3>Avatar</h3>
+                  </div>
+                  <div class="edit-profile-avatar">
+                    <img class="avatar6" src="../static/img/img_trans.gif"><br>
+                  </div>
+                  <div class="edit-btn">
+                    <button class="btn btn-lg btn-primary btn-block">Change photo</button>
+                  </div>
                 </div>
 
-              </div>
-
-              <hr class="profile-hr">
-
-              <div class="edit-list">
-                <div class="edit-item-name">
-                  <h3>Location</h3>
+                <hr class="profile-hr">
+                <div class="edit-list">
+                  <div class="edit-item-name">
+                    <h3>Introduction</h3>
+                  </div>
+                  <div class="edit-input">
+                    <input type="intro" class="form-control" name="intro" placeholder="Write your brief intro" value="{{current_profile.intro}}">
+                  </div>
                 </div>
-                
-                <div class="edit-input">
-                  <input type="intro" class="form-control" placeholder="Where are you">
-                </div>
-              </div>
 
-              <div class="edit-save">
-                <div class="edit-btn"><a href="profile.html">
-                    <button class="btn btn-lg btn-primary btn-block">Save changes</button></a>
+                <hr class="profile-hr">
+                <div class="edit-list">
+                  <div class="edit-item-name">
+                    <h3>Location</h3>
+                  </div>
+                  <div class="edit-input">
+                    <input type="intro" class="form-control" name="location" placeholder="Where are you" value="{{current_profile.location}}">
+                  </div>
                 </div>
-              </div>
 
-            </div><!-- /.post -->
+                <div class="edit-save">
+                  <div class="edit-btn"><a href="profile.html">
+                      <button class="btn btn-lg btn-primary btn-block" type="submit">Save changes</button></a>
+                  </div>
+                </div>
+                {% csrf_token %}
+              </form><!-- form -->
+            </div><!-- /.box -->
 
           </div><!-- /.post-main -->
 
@@ -142,7 +137,7 @@
             <div class="sidebar-module postbox">
             <h4>My grumblr.</h4>
               <ol class="list-unstyled">
-                <li><a href="{% url 'grumblr.views.my_grumbls' %}">My grumbles</a></li>
+                <li><a href="{% url 'grumblr.views.my_grumbls' %}">My grumbls</a></li>
                 <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My Favorite</a></li>
               </ol>
             </div>

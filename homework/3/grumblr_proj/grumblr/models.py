@@ -15,11 +15,11 @@ class Grumbl(models.Model):
 		return self.text
 
 class Profile(models.Model):
-	username = models.CharField(max_length=30)
-	location = models.CharField(max_length=50)
-	intro = models.CharField(max_length=200)
+	user = models.ForeignKey(User)
+	location = models.CharField(max_length=50, default='')
+	intro = models.CharField(max_length=200, default='')
 
 	# avatar = models.ImageField()
 
 	def __unicode__(self):
-		return self.username
+		return self.user

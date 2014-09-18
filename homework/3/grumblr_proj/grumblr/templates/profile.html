@@ -85,9 +85,9 @@
                 </div>
 
                 <div class="profile-user">
-                  <p class="profile-name">Desai Fan</p>
-                  <p class="grumblr-intro">Grumble the music, love CMU.</p>
-                  <p class="grumblr-location">Pittsburgh, US</p>
+                  <p class="profile-name">{{current_profile_name}}</p>
+                  <p class="grumblr-intro">{{current_profile.intro}}<!-- Grumble the music, love CMU. --></p>
+                  <p class="grumblr-location">{{current_profile.location}}<!-- Pittsburgh, US --></p>
                 </div>
 
                 <div class="editbtn">
@@ -102,7 +102,7 @@
                 <br>
                 <table>
                   <tr>
-                    <th>grumbles</th>
+                    <th>grumbls</th>
                     <th>likes</th>
                     <th>following</th>
                     <th>followers</th>
@@ -135,7 +135,7 @@
             <div class="sidebar-module postbox">
             <h4>My grumblr.</h4>
               <ol class="list-unstyled">
-                <li><a href="{% url 'grumblr.views.my_grumbls' %}">My grumbles</a></li>
+                <li><a href="{% url 'grumblr.views.my_grumbls' %}">My grumbls</a></li>
                 <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My Favorite</a></li>
               </ol>
             </div>

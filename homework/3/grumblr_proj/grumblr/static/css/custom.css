@@ -409,6 +409,7 @@ p.subheading-grumblr {
   margin: 20px 0px;
   width: auto;
   height: auto;
+  vertical-align: middle;
   /*border: 1px solid #1c4c7a;*/
 }
 
@@ -423,14 +424,25 @@ p.subheading-grumblr {
 }
 
 .profile-avatar {
+	vertical-align:top;
 	display: inline-block;
 /*	float: left;*/
 	margin-right: 30px;
+	margin-top: 25px;
+}
+
+.edit-profile-avatar {
+/*	vertical-align:top;*/
+	display: inline-block;
+/*	float: left;*/
+	margin-right: 30px;
+/*	margin-top: 25px;*/
 }
 
 .profile-user {
 	display: inline-block;
-	margin-top: 10px;
+	height: 150px;
+	margin-top: 30px;
 	font-size: 24px;
   	line-height: 1.5;
 }

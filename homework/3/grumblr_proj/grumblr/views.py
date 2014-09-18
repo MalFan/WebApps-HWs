@@ -65,12 +65,35 @@ def search(request):
 
 @login_required
 def  profile(request):
-	# current_profile = Profile.objects.filter(username = request.user) # request.user need to be modified
-	return render(request, 'profile.html', {})
+	context = {}
+	errors = []
+
+	# If it is a POST request, process that request first
+	if request.method == 'POST':
+		if not 'intro' in request.POST or not 'location' in request.POST:
+			errors.append('Invalid changes is made.')
+			context['errors'] = errors
+			return render(request, 'editprofile.html', context)
+		else:
+			current_profile = Profile.objects.get(user=request.user)
+			current_profile.intro = request.POST['intro']
+			current_profile.location = request.POST['location']
+			current_profile.save()
+		
+	# current_profile = Profile.objects.filter(user = request.user) # request.user need to be modified
+	current_profile = Profile.objects.get(user=request.user)
+	context['current_profile'] = current_profile
+	context['current_profile_name'] = request.user
+
+	return render(request, 'profile.html', context)
 
 @login_required
 def  edit_profile(request):
-	return render(request, 'editprofile.html', {})
+	context = {}
+	current_profile = Profile.objects.get(user=request.user)
+	context['current_profile'] = current_profile
+	context['current_profile_name'] = request.user
+	return render(request, 'editprofile.html', context)
 
 def register(request):
 	context = {}
@@ -115,6 +138,8 @@ def register(request):
 										    email = request.POST['email'], \
 										    password = request.POST['password1'])
 	new_user.save()
+	new_user_profile = Profile(user = new_user)
+	new_user_profile.save()
 
 	# Logs in the new user and redirects to his/her todo list
 	new_user = authenticate(username = request.POST['username'], \
