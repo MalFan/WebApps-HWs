@@ -30,18 +30,23 @@ def homepage(request):
 		return render(request, 'homepage.html', context)
 	
 	# If it is a POST request, process that request first
-	if not 'grumble-text' in request.POST or not request.POST['grumble-text']:
-		errors.append('You must enter an item to add.')
-	else:
-		new_grumbl = Grumbl(text=request.POST['grumble-text'], user=request.user)
-		new_grumbl.save()
+	if request.method == 'POST':
+		if not 'grumble-text' in request.POST or not request.POST['grumble-text']:
+			errors.append('You must enter your grumbl before post.')
+		else:
+			new_grumbl = Grumbl(text=request.POST['grumble-text'], user=request.user)
+			new_grumbl.save()
+			current_profile = Profile.objects.get(user=request.user)
+			current_profile.num_grumbls = Grumbl.objects.filter(user=request.user).count()
+			current_profile.save()
 
 	# grumbls = Grumbl.objects.filter(user=request.user)
 	grumbls = Grumbl.objects.all()
 	context['grumbls'] = reversed(grumbls)
 	context['errors'] = errors
 
-	return render(request, 'homepage.html', context)
+	# return render(request, 'homepage.html', context)
+	return redirect('/')
 
 @login_required
 def my_grumbls(request):
@@ -57,7 +62,6 @@ def my_grumbls(request):
 	# There is another page--mygrumbls.html, but it is not in use for now
 	return render(request, 'homepage.html', context) 
 
-
 @login_required
 def search(request):
 	context = {}
@@ -67,7 +71,7 @@ def search(request):
 	context['current_user'] = request.user
 
 	if not 'search-content' in request.GET or not request.GET['search-content']:
-		errors.append('Username is required.')
+		errors.append('Search content is required.')
 		return render(request, 'homepage.html', context)
 	else:
 		search_content = request.GET['search-content']

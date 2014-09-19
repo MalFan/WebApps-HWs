@@ -16,8 +16,9 @@ class Grumbl(models.Model):
 
 class Profile(models.Model):
 	user = models.ForeignKey(User)
-	location = models.CharField(max_length=50, default='')
-	intro = models.CharField(max_length=200, default='')
+	location = models.CharField(max_length=50, default='Where are you?')
+	intro = models.CharField(max_length=200, default='What do you want to say?')
+	num_grumbls = models.IntegerField(default=0)
 
 	# avatar = models.ImageField()
 
