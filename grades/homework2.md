@@ -7,9 +7,7 @@ Commit graded: 3a393a446c56527beb4a8b858f1e8821e311c063
 
 Good job!
 
-### Calculator functionality (13/20)
-
--2, When you press "1 + =" it results in 2, which is incorrect. Another example is "9 + =" results in 18.
+### Calculator functionality (15/20)
 
 -5, Your calculator crashes on a string input in the hidden field. The error is "invalid literal for int() with base 10: 'wood'" See https://github.com/CMU-Web-Application-Development/dfan/blob/c18983e8d5b899bd9edf4efa33744344ecbecf84/homework/2/HW2/calc/views.py#L19 If the int method is called on a string which is not a number, it will throw an error.
 
@@ -29,7 +27,7 @@ Good job!
 
 ---
 
-#### Total score (57/65)
+#### Total score (59/65)
 
 ---
 
