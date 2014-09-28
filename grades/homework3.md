@@ -39,4 +39,4 @@ Commit graded: f34fe878f953ad961c1e2bd42934d70529d55e01
 
 Graded by: Salem Hilal (salem@cmu.edu)
 
-To view this file with formatting, visit the following page: https://github.com/CMU-Web-Application-Development/STUDENT_ANDREW_ID/blob/master/grades/homework3.md
+To view this file with formatting, visit the following page: https://github.com/CMU-Web-Application-Development/dfan/blob/master/grades/homework3.md
