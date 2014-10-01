@@ -78,7 +78,7 @@
           <div class="col-sm-8 post-main">
 
             <div class="editbox">
-              <form class="form-edit-profile" role="form" action="{% url 'grumblr.views.profile' %}" method="post">
+              <form class="form-edit-profile" role="form" action="{% url 'grumblr.views.edit_profile' %}" method="post">
 
                 <div class="edit-title">
                 <h3>Edit personal profile</h3>
@@ -103,7 +103,7 @@
                     <h3>Introduction</h3>
                   </div>
                   <div class="edit-input">
-                    <input type="intro" class="form-control" name="intro" placeholder="Write your brief intro" maxlength="200" value="{{current_profile.intro}}">
+                    <!-- <input type="text" class="form-control" name="intro" placeholder="Write your brief introduction" maxlength="200" value="{{form_profile.intro}}"> -->{{form_profile.intro}}
                   </div>
                 </div>
 
@@ -113,7 +113,7 @@
                     <h3>Location</h3>
                   </div>
                   <div class="edit-input">
-                    <input type="intro" class="form-control" name="location" placeholder="Where are you" maxlength="50" value="{{current_profile.location}}">
+                    <!-- <input type="text" class="form-control" name="location" placeholder="Where are you?" maxlength="50" value="{{form_profile.location}}"> -->{{form_profile.location}}
                   </div>
                 </div>
 

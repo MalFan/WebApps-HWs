@@ -26,14 +26,20 @@
         <form class="form-loginreg" role="form" action="{% url 'grumblr.views.register' %}" method="post">
             <h1 class="heading-grumblr">grumblr.</h1>
             <p class="subheading-grumblr">sign up for grumblr and grumble the world</p>
-            <input type="username" class="form-control input-top" name="username" placeholder="Username" autofocus>
-            <input type="email_reg" class="form-control input-middle" name="email" placeholder="Email">
-            <input type="password" class="form-control input-middle" name="password1" placeholder="Password">
-            <input type="password" class="form-control input-bottom" name="password2" placeholder="Confirm password">
+            {{form_registration.username}}
+            {{form_registration.email}}
+            {{form_registration.password1}}
+            {{form_registration.password2}}
 
-            {% for error in errors %}
+            {% for error in form_registration.non_field_errors %}
             <p style="color: #ff6666">
             {{ error }}
+            </p>
+            {% endfor %}
+
+            {% for field in form_registration.visible_fields %}
+            <p style="color: #ff6666">
+            {{field.errors}}
             </p>
             {% endfor %}
 

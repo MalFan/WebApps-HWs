@@ -26,14 +26,21 @@
         <form class="form-loginreg" role="form" action="{% url 'django.contrib.auth.views.login' %}" method="post">
             <h1 class="heading-grumblr">grumblr.</h1>
             <p class="subheading-grumblr">grumble the world</p>
-            <input type="username" class="form-control input-top" name="username" placeholder="Username" autofocus>
-            <input type="password" class="form-control input-bottom" name="password" placeholder="Password">
 
-            {% if form.errors %}
-            <p style="color: white">
-            {{ form.errors }}
+            {{ form.username }}
+            {{ form.password }}
+
+            {% for error in form.non_field_errors %}
+            <p style="color: #ff6666">
+            {{ error }}
             </p>
-            {% endif %}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+            <p style="color: #ff6666">
+            {{field.errors}}
+            </p>
+            {% endfor %}
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
 

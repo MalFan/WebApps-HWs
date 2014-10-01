@@ -39,7 +39,7 @@
           <ul class="nav navbar-nav">
             <form class="navbar-form navbar-left" action="search" method="GET">
                 <div class="input-group">
-                  <input type="text" class="form-control" name="search-content" placeholder="Search..." required>
+                  <input type="text" class="form-control" name="search-content" placeholder="Search..." required> 
                   <span class="input-group-btn">               
                     <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search">
                     </span></button>
@@ -80,13 +80,18 @@
             <div class="grumblebox">
               <form class="form-grumble" role="form" action="{% url 'grumblr.views.homepage' %}" method="post">
                 <div class="grumblecontent-div">
-                  <input type="text" class="grumbl-text" name="grumble-text" placeholder="Today, what would you like to grumbl?" maxlength="42" required>
+                  {{form_grumbl.grumbl}}
                 </div>
                 {% if errors %}
-                <p style="color: #ff6666">
-                {{ errors }}
-                </p>
+                  <p style="color: #ff6666">
+                    {{ errors }}
+                  </p>
                 {% endif %}
+                {% for field in form_grumbl.visible_fields %}
+                  <p style="color: #ff6666">
+                    {{field.errors}}
+                  </p>
+                {% endfor %}
                 <div class="grumblebtns-div">
                   <button class="btn btn-lg btn-primary btn-block grumbl-btn pull-right" type="submit">grumbl!</button>
                 </div>
