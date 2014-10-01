@@ -3,8 +3,7 @@ homework3 Feedback
 
 Commit graded: f34fe878f953ad961c1e2bd42934d70529d55e01
 
-### Version control - Git (6/10)
-  * -4, Commit messages should adequately describe what occurs in your commits. For example, "Homework 3 updated" doesn't convey any of the changes you made.
+### Version control - Git (10/10)
 
 ### Iterative design (10/10)
 
@@ -33,7 +32,7 @@ Commit graded: f34fe878f953ad961c1e2bd42934d70529d55e01
 
 ---
 
-#### Total score (96/105)
+#### Total score (100/105)
 
 ---
 
