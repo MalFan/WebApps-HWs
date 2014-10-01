@@ -86,6 +86,23 @@ class GrumblForm(forms.Form):
         return grumbl
 
 
+class CommentForm(forms.Form):
+    grumbl_comment = forms.CharField(max_length=42, widget=forms.TextInput(attrs= \
+                {'class':'form-control',
+                'placeholder':'Reply to this grumbl...',
+                'required':'true'}))
+    def clean_grumbl_comment(self):
+        # Confirms that the username is not already present in the
+        # User model database.
+        grumbl_comment = self.cleaned_data.get('grumbl_comment')
+        if not grumbl_comment:
+            raise forms.ValidationError("Must enter something before comment.")
+
+        # We must return the cleaned data we got from the cleaned_data
+        # dictionary
+        return grumbl_comment
+
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile

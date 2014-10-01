@@ -17,31 +17,83 @@ from forms import *
 @login_required
 def homepage(request):
 	context = {}
-	errors = []
 
 	# Get current user first
 	context['current_user'] = request.user
-	context['grumbls'] = Grumbl.get_grumbls_others(request.user)
+	# Get all grumbls
+	grumbls = Grumbl.get_grumbls_others(request.user)
+	# context['grumbls'] = grumbls # Need to be deleted, take care of htmls
+
+	context['grumbl_combos'] = []
+	# Get all comments for each grumbl
+	for grumbl in grumbls:
+		comments = Comment.get_comments(grumbl)
+		grumbl_combo = {'grumbl':grumbl, 'comments':comments}
+		context['grumbl_combos'].append(grumbl_combo)
+
+
+
 	# Sets up list of just the logged-in user's (request.user's) grumbls
 	# Just display the homepage if it is a GET request
 	if request.method == 'GET':
-		form_grumbl = GrumblForm()
+		context['form_grumbl'] = GrumblForm()
+		context['form_comment'] = CommentForm()
+		return render(request, 'homepage.html', context)
+	else:
+		form_grumbl = GrumblForm(request.POST)
 		context['form_grumbl'] = form_grumbl
-		return render(request, 'homepage.html', context)
-	
-	form_grumbl = GrumblForm(request.POST)
-	context['form_grumbl'] = form_grumbl
+		context['form_comment'] = CommentForm()
 
-	# Validates the form.
-	if not form_grumbl.is_valid():
-		return render(request, 'homepage.html', context)
+		# Validates the form. Error info contained in the context.
+		if not form_grumbl.is_valid():
+			return render(request, 'homepage.html', context)
+
+		# If we get valid data from the form, save it.
+		new_grumbl = Grumbl(text=form_grumbl.cleaned_data['grumbl'], user=request.user)
+		new_grumbl.save()
+
+		# Prevent from reposting via refreshing the page.
+		return redirect('/')
+
+# TO DO 
+# Add a new action to handle new grumbl
+@transaction.atomic
+@login_required
+def add_grumbl(request):
+	return redirect('/')
+
+
+@transaction.atomic
+@login_required
+def add_comment(request, grumbl_id):
+	context = {}
+	errors = []
+
+	# Get current user first
+	context['current_user'] = request.user # Maybe can be deleted?
+	
+	form_comment = CommentForm(request.POST)
+	context['form_comment'] = form_comment # Maybe can be deleted?
+
+	# Validates the form. Error info contained in the context.
+	if not form_comment.is_valid():
+		return render(request, 'homepage.html', context) # always invalid here.
+
+	# Get the parent grumbl via g_id
+	try:
+		parent_grumbl = Grumbl.objects.get(id=grumbl_id)
+	except ObjectDoesNotExist:
+		errors.append('The item did not exist in the todo list.')
 
 	# If we get valid data from the form, save it.
-	new_grumbl = Grumbl(text=form_grumbl.cleaned_data['grumbl'], user=request.user)
-	new_grumbl.save()
+	new_comment = Comment(text=form_comment.cleaned_data['grumbl_comment'], 
+								 user=request.user,
+								 grumbl=parent_grumbl)
+	new_comment.save()
 
 	# Prevent from reposting via refreshing the page.
 	return redirect('/')
+
 
 @login_required
 def my_grumbls(request):
@@ -54,6 +106,7 @@ def my_grumbls(request):
 
 	# There is another page--mygrumbls.html, but it is not in use for now
 	return render(request, 'homepage.html', context) 
+
 
 @login_required
 def search(request):
@@ -75,6 +128,7 @@ def search(request):
 
 	return render(request, 'search.html', context)
 
+
 @transaction.atomic
 @login_required
 def  profile(request):
@@ -94,6 +148,7 @@ def  profile(request):
 
 	return render(request, 'profile.html', context)
 
+
 @login_required
 def  edit_profile(request):
 	# BIG UPDATE
@@ -107,16 +162,16 @@ def  edit_profile(request):
 		form_profile = ProfileForm(instance=profile_to_edit)
 		context['form_profile'] = form_profile
 		return render(request, 'editprofile.html', context)
+	else:
+		# If method is POST
+		form_profile = ProfileForm(request.POST, instance=profile_to_edit) # Won't conflict?
 
-	# If method is POST
-	form_profile = ProfileForm(request.POST, instance=profile_to_edit) # Won't conflict?
+		if not form_profile.is_valid():
+			context['form_profile'] = form_profile
+			return render(request, 'editprofile.html', context)
 
-	if not form_profile.is_valid():
-		context['form_profile'] = form_profile
-		return render(request, 'editprofile.html', context)
-
-	form_profile.save()
-	return redirect('/profile')
+		form_profile.save()
+		return redirect('/profile')
 	# BIG UPDATE
 
 	# current_profile = Profile.objects.get(user=request.user)
@@ -133,31 +188,31 @@ def register(request):
 	if request.method == 'GET':
 		context['form_registration'] = RegistrationForm()
 		return render(request, 'register.html', context)
+	else:
+		# Creates a bound form from the request POST parameters and makes the 
+		# form available in the request context dictionary.
+		form_registration = RegistrationForm(request.POST)
+		context['form_registration'] = form_registration
 
-	# Creates a bound form from the request POST parameters and makes the 
-	# form available in the request context dictionary.
-	form_registration = RegistrationForm(request.POST)
-	context['form_registration'] = form_registration
+		# Validates the form.
+		if not form_registration.is_valid():
+		    return render(request, 'register.html', context)
 
-	# Validates the form.
-	if not form_registration.is_valid():
-	    return render(request, 'register.html', context)
+		# If we get here the form data was valid.  Register and login the user.
+		new_user = User.objects.create_user(username=form_registration.cleaned_data['username'],
+											    email = form_registration.cleaned_data['email'],
+		                                    			    password=form_registration.cleaned_data['password1'])
+		new_user.save()
+		# Create a profile for the new user at the same time.
+		new_user_profile = Profile(user = new_user)
+		new_user_profile.save()
 
-	# If we get here the form data was valid.  Register and login the user.
-	new_user = User.objects.create_user(username=form_registration.cleaned_data['username'],
-										    email = form_registration.cleaned_data['email'],
-	                                    			    password=form_registration.cleaned_data['password1'])
-	new_user.save()
-	# Create a profile for the new user at the same time.
-	new_user_profile = Profile(user = new_user)
-	new_user_profile.save()
-
-	# Logs in the new user and redirects to his/her todo list
-	new_user = authenticate(username=form_registration.cleaned_data['username'],
-							    email = form_registration.cleaned_data['email'],
-	                              	    password=form_registration.cleaned_data['password1'])
-	login(request, new_user)
-	return redirect('/')
+		# Logs in the new user and redirects to his/her todo list
+		new_user = authenticate(username=form_registration.cleaned_data['username'],
+								    email = form_registration.cleaned_data['email'],
+		                              	    password=form_registration.cleaned_data['password1'])
+		login(request, new_user)
+		return redirect('/')
 
 
 

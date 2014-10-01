@@ -298,9 +298,7 @@ border-color: #325d87;
 	padding: 0px 0px 3px 1px;
 	background-color: #1c4c7a;
 	font: bold 17px Georgia, serif;
-
 }
-
 
 .postbox {
 	margin-bottom: 60px;
@@ -334,6 +332,18 @@ border-color: #325d87;
 	margin-bottom: 0;
 }
 
+.post-write-comment {
+	margin: 5px 0px;
+}
+
+/*.post-comments {
+	padding-left: 30px;
+}*/
+hr.comment-hr {
+	border-top: 1px solid #a4b7c9;
+	width: 100%;
+	margin: 8px 0px;
+}
 
 /*image sprite*/
 img.avatar1 {

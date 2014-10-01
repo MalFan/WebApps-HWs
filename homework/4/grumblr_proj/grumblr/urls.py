@@ -9,6 +9,8 @@ urlpatterns = patterns('',
 	url(r'^$', 'grumblr.views.homepage', name='home'),
 	url(r'^my-grumbls$', 'grumblr.views.my_grumbls', name='mygrumbls'),
 	url(r'^search$', 'grumblr.views.search', name='search'),
+	url(r'^add-grumbl$', 'grumblr.views.add_grumbl', name='addgrumbl'),
+	url(r'^add-comment/(?P<grumbl_id>\d+)$', 'grumblr.views.add_comment', name='addcomment'),
 
 	url(r'^profile$', 'grumblr.views.profile'),
 	url(r'^edit-profile$', 'grumblr.views.edit_profile', name='editprofile'),

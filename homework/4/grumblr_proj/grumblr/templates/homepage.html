@@ -100,7 +100,8 @@
             </div>
 
 
-            {% for grumbl in grumbls %}
+            <!-- for grumbl in grumbls  -->
+            {% for grumbl_combo in grumbl_combos %}
             <!-- load post -->
             <div class="postbox">
               <div class="post-title">
@@ -110,12 +111,12 @@
                   </a>
                 </div>
                 <div class="post-user">
-                  <p class="grumblr-name">{{grumbl.user}}</p>
-                  <p>{{grumbl.pub_time}}</p>
+                  <p class="grumblr-name">{{grumbl_combo.grumbl.user}}</p>
+                  <p>{{grumbl_combo.grumbl.pub_time}}</p>
                 </div>
               </div>
               <div class="post-content">
-                <p>{{grumbl.text}}</p>
+                <p>{{grumbl_combo.grumbl.text}}</p>
               </div>
 
               <div class="post-footer">
@@ -137,6 +138,41 @@
                   </li>
                 </ul>
               </div>
+
+              <div class="post-write-comment">
+                <form class="form-comment" role="form" action="{% url 'addcomment' grumbl_combo.grumbl.id %}" method="post">
+                  <div class="input-group">
+                    <!-- <input type="text" class="form-control" placeholder="Reply to this grumbl..." required> -->{{form_comment.grumbl_comment}}
+                    <span class="input-group-btn"> 
+                      <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil">
+                      </span></button>
+                    </span>
+                  </div>
+                  {% csrf_token %}
+                </form>
+              </div>
+
+              {% for comment in grumbl_combo.comments %}
+              <hr class="comment-hr">
+              <div class="post-comments">
+                <div class="post-title">
+                <div class="post-avatar">
+                  <a href="{% url 'grumblr.views.profile' %}">
+                    <img class="avatar5" src="../static/img/img_trans.gif"><br>
+                  </a>
+                </div>
+                <div class="post-user">
+                  <p class="grumblr-name">{{comment.user}}</p>
+                  <p>{{comment.pub_time}}</p>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>{{comment.text}}</p>
+              </div>
+              </div>
+              {% endfor %}
+              <!-- for loop to load all comments for each grumbl -->
+
             </div><!-- /.load post -->
             {% endfor %}
 
