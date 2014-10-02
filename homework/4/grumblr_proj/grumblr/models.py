@@ -20,8 +20,8 @@ class Grumbl(models.Model):
 		grumbls = Grumbl.objects.all() # To be modified to render all following grumbls instead of all grumbls
 		return reversed(grumbls)
 	@staticmethod
-	def get_grumbls_self(user):
-		grumbls = Grumbl.objects.filter(user=user)
+	def get_grumbls_self(current_user):
+		grumbls = Grumbl.objects.filter(user=current_user)
 		return reversed(grumbls)
 	@staticmethod
 	def search_grumbls(search_content):

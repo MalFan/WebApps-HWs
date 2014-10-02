@@ -6,7 +6,7 @@ urlpatterns = patterns('',
 	# Examples:
 	# url(r'^$', 'grumblr_proj.views.home', name='home'),
 	# url(r'^blog/', include('blog.urls')),
-	url(r'^$', 'grumblr.views.homepage', name='home'),
+	url(r'^$', 'grumblr.views.homepage', name='homepage'),
 	url(r'^my-grumbls$', 'grumblr.views.my_grumbls', name='mygrumbls'),
 	url(r'^search$', 'grumblr.views.search', name='search'),
 	url(r'^add-grumbl$', 'grumblr.views.add_grumbl', name='addgrumbl'),
