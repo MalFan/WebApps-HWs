@@ -39,7 +39,8 @@
           <ul class="nav navbar-nav">
             <form class="navbar-form navbar-left" action="search" method="GET">
                 <div class="input-group">
-                  <input type="text" class="form-control" name="search-content" placeholder="Search..." value="{{search_content}}" required>
+                  {{form_search.search_content}} 
+                  <div class="hidden">{{form_search.search_type}}</div>
                   <span class="input-group-btn">               
                     <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search">
                     </span></button>
@@ -48,7 +49,7 @@
                 {% csrf_token %}
             </form>
           </ul>
-
+          
           <ul class="nav navbar-nav navbar-right">
 
             <li class="dropdown">
@@ -78,7 +79,23 @@
           <div class="col-sm-8 post-main">
 
             <div class="searchbox">
-              <p>Results for <b>{{search_content}}</b></p>
+              <form action="search" method="GET">
+              <p>Results for <b>{{form_search_main.search_content.value}}</b></p>
+              <p class="search-radio-btns pull-left"> Search for:
+              {% for choice in form_search_main.search_type %}
+                {{ choice.tag }} {{ choice.choice_label }}<tab>
+              {% endfor %}
+              </p><br>
+              
+                <div class="input-group">
+                  {{form_search_main.search_content}}
+                  <span class="input-group-btn">               
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search">
+                    </span></button>
+                  </span>          
+                </div>
+                {% csrf_token %}
+              </form>
             </div>
 
             {% for grumbl in grumbls %}
@@ -87,7 +104,7 @@
               <div class="post-title">
                 <div class="post-avatar">
                   <a href="{% url 'grumblr.views.profile' %}">
-                    <img class="avatar5" src="../static/img/img_trans.gif"><br>
+                    <img src="{% url 'getphoto' grumbl.user.username %}" alt="{{grumbl.user.username}}" width="64px">
                   </a>
                 </div>
                 <div class="post-user">
@@ -103,34 +120,25 @@
                      because I use grumbl_id to add comment to specific grumbl
                      in previous pages and it's not the same case this time. -->
 
-              {% for comment in grumbl_combo.comments %}
-              <hr class="comment-hr">
-              <div class="post-comments">
-                <div class="post-title">
+              <!-- for loop to load all comments for each grumbl -->
+            </div>
+            {% endfor %}
+
+            {% for profile in grumblrs %}
+            <div class="postbox">
+              <div class="post-title">
                 <div class="post-avatar">
                   <a href="{% url 'grumblr.views.profile' %}">
-                    <img class="avatar5" src="../static/img/img_trans.gif"><br>
+                    <img src="{% url 'getphoto' profile.user.username %}" alt="{{profile.user.username}}" width="64px">    
                   </a>
                 </div>
                 <div class="post-user">
-                  <p class="grumblr-name">{{comment.user}}</p>
-                  <p>{{comment.pub_time}}</p>
+                  <p class="grumblr-name">{{profile.user}}</p>
+                  <p>{{profile.intro}}</p>
                 </div>
               </div>
-              <div class="post-content">
-                <p>{{comment.text}}</p>
-              </div>
-              </div>
-              {% endfor %}
-              <!-- for loop to load all comments for each grumbl -->
-              </div>
+            </div>
             {% endfor %}
-
-
-            <!-- <ul class="pager">
-              <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Previous</a></li>
-              <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Next</a></li>
-            </ul> -->
 
           </div><!-- /.post-main -->
 

@@ -10,6 +10,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 
+# Needed to manually create HttpResponses or raise an Http404 exception
+from django.http import HttpResponse, Http404
+
+# Helper function to guess a MIME type from a file name
+from mimetypes import guess_type
+
 from models import *
 from forms import *
 
@@ -38,6 +44,7 @@ def homepage(request):
 
 	context['form_grumbl'] = GrumblForm()
 	context['form_comment'] = CommentForm()
+	context['form_search'] = SearchForm()
 	return render(request, 'homepage.html', context)
 
 
@@ -50,6 +57,7 @@ def my_grumbls(request):
 	# Store forms for HTML files
 	context['form_grumbl'] = GrumblForm()
 	context['form_comment'] = CommentForm()
+	context['form_search'] = SearchForm() 
 
 	grumbls = Grumbl.get_grumbls_self(request.user)
 	context['grumbl_combos'] = []
@@ -131,21 +139,22 @@ def dislike(request, grumbl_id, next):
 @login_required
 def search(request):
 	context = {}
-	errors = []
 
 	# Get current user first
 	context['current_user'] = request.user
 
-	# Prevent from sending mal-formed data
-	if not 'search-content' in request.GET or not request.GET['search-content']:
-		errors.append('Search content is required.')
-		return render(request, 'homepage.html', context)
+	context['form_search'] = SearchForm()
+	form_search_main = SearchForm(request.GET)
+	context['form_search_main'] = form_search_main
 
-	search_content = request.GET['search-content']
-	context['search_content'] = search_content
+	# search_content = request.GET['search-content']
+	# context['search_content'] = search_content
 
-	context['grumbls'] = Grumbl.search_grumbls(search_content)
-
+	if request.GET['search_type'] == 'search_grumbls':
+		context['grumbls'] = Grumbl.search_grumbls(request.GET['search_content'])
+	else:
+		context['grumblrs'] = Profile.search_grumblrs(request.GET['search_content'])
+	
 	return render(request, 'search.html', context)
 
 
@@ -157,6 +166,8 @@ def  profile(request):
 	# Get current user first
 	user = request.user
 	context['current_user'] = user
+
+	context['form_search'] = SearchForm() 
 
 	# current_profile = Profile.objects.filter(user = request.user) # request.user need to be modified
 	current_profile = Profile.objects.get(user=request.user)
@@ -174,6 +185,8 @@ def  edit_profile(request):
 	# Get current user first
 	context['current_user'] = request.user
 
+	context['form_search'] = SearchForm() 
+
 	profile_to_edit = get_object_or_404(Profile, user=request.user)
 
 	if request.method == 'GET':
@@ -190,12 +203,16 @@ def  edit_profile(request):
 
 		form_profile.save()
 		return redirect('/profile')
-	# BIG UPDATE
 
-	# current_profile = Profile.objects.get(user=request.user)
-	# context['current_profile'] = current_profile
-	# # context['current_profile_name'] = request.user
-	# return render(request, 'edit-profile.html', context)
+
+@login_required
+def  get_photo(request, username):
+	profile = get_object_or_404(Profile, user=User.objects.get(username=username))
+	if not profile.avatar:
+		raise Http404
+
+	content_type = guess_type(profile.avatar.name)
+	return HttpResponse(profile.avatar, content_type=content_type)
 
 
 @transaction.atomic

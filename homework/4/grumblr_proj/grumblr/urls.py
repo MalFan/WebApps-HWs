@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 
 	url(r'^profile$', 'grumblr.views.profile'),
 	url(r'^edit-profile$', 'grumblr.views.edit_profile', name='editprofile'),
+	url(r'^get-photo/(?P<username>\w+)$', 'grumblr.views.get_photo', name='getphoto'),
 
 	# Route for built-in authentication with our own custom login page
 	url(r'^login$', 'django.contrib.auth.views.login', 

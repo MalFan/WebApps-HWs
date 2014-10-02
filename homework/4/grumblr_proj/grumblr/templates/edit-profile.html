@@ -39,7 +39,8 @@
           <ul class="nav navbar-nav">
             <form class="navbar-form navbar-left" action="search" method="GET">
                 <div class="input-group">
-                  <input type="text" class="form-control" name="search-content" placeholder="Search..." required>
+                  {{form_search.search_content}} 
+                  <div class="hidden">{{form_search.search_type}}</div>
                   <span class="input-group-btn">               
                     <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search">
                     </span></button>
@@ -90,9 +91,9 @@
                     <h3>Avatar</h3>
                   </div>
                   <div class="edit-profile-avatar">
-                    <!-- <img class="avatar6" src="../static/img/img_trans.gif"><br> -->
+                    <!-- <img class="avatar6" src="../static/img/img_trans.gif">-->
                     {% if form_profile.avatar.value %}
-                      <img src="{% url 'photo' %}" alt="{{form_profile.user.username}}" width="120px">
+                      <img src="{% url 'getphoto' current_user.username %}" alt="{{form_profile.user.username}}" width="120px">
                     {% endif %}
                   </div>
                   <div class="edit-btn">

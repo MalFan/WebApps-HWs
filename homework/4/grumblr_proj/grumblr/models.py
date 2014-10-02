@@ -34,6 +34,9 @@ class Comment(models.Model):
 	grumbl = models.ForeignKey(Grumbl)
 	pub_time = models.DateTimeField(auto_now_add=True)
 
+	def __unicode__(self):
+		return self.text
+
 	@staticmethod
 	def get_comments(grumbl):
 		comments = Comment.objects.filter(grumbl=grumbl)
@@ -48,11 +51,20 @@ class Profile(models.Model):
 			blank=True)
 	# num_grumbls = models.IntegerField(default=0) # TO BE deleted.
 
-	avatar = models.ImageField(upload_to="profile-photos", blank=True)
+	avatar = models.ImageField(upload_to='profile-photos', default='profile-photos/user_default.png')
 
 	def __unicode__(self):
-		return self.user
+		return self.user.username
+
 	@staticmethod
 	def get_num_grumbls(user):
 		grumbls = Grumbl.objects.filter(user=user)
 		return len(grumbls)
+	@staticmethod
+	def search_grumblrs(search_content):
+		users = User.objects.filter(username__contains=search_content)
+		profiles = []
+		for user in users:
+			profile = Profile.objects.get(user=user)
+			profiles.append(profile)
+		return profiles

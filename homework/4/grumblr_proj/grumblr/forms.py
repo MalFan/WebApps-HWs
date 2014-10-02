@@ -79,7 +79,7 @@ class GrumblForm(forms.Form):
         # User model database.
         grumbl = self.cleaned_data.get('grumbl')
         if not grumbl:
-            raise forms.ValidationError("Must enter something before grumbl.")
+            raise forms.ValidationError("Must enter something before grumbling.")
 
         # We must return the cleaned data we got from the cleaned_data
         # dictionary
@@ -96,7 +96,7 @@ class CommentForm(forms.Form):
         # User model database.
         grumbl_comment = self.cleaned_data.get('grumbl_comment')
         if not grumbl_comment:
-            raise forms.ValidationError("Must enter something before comment.")
+            raise forms.ValidationError("Must enter something before commenting.")
 
         # We must return the cleaned data we got from the cleaned_data
         # dictionary
@@ -120,3 +120,28 @@ class ProfileForm(forms.ModelForm):
                         {'class':'btn btn-lg btn-primary btn-block',
                         'name':'avatar'})
         }
+
+class SearchForm(forms.Form):
+    search_content = forms.CharField(max_length=42,
+                widget=forms.TextInput(attrs= \
+                {'class':'form-control',
+                'name':'search-content',
+                'placeholder':'Search...'}))
+    search_type = forms.ChoiceField(choices= \
+                [('search_grumbls','grumbls'), ('search_grumblrs','grumblrs')], 
+                widget=forms.RadioSelect( \
+                        attrs={'name':"search_type"} \
+                ),
+                initial = 'search_grumbls')
+
+    def clean_search_content(self):
+        # Confirms that the username is not already present in the
+        # User model database.
+        search_content = self.cleaned_data.get('search_content')
+        if not search_content:
+            raise forms.ValidationError("Must enter something before searching.")
+
+        # We must return the cleaned data we got from the cleaned_data
+        # dictionary
+        return search_content
+        

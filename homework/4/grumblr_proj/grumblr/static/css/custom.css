@@ -396,6 +396,12 @@ p {
 p.subheading-grumblr {
 	margin-bottom: 10px;
 }
+p.search-radio-btns {
+	font-size: 16px;
+}
+tab {
+	padding-left: 2em; 
+}
 
 .grumblr-name {
 	margin-top: 10px;
@@ -632,4 +638,8 @@ padding: 10px 15px;
 }
 .dropdown-menu {
 padding: 0px;
+}
+
+div.hidden {
+    visibility: hidden;
 }
