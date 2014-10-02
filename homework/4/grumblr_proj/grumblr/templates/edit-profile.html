@@ -78,7 +78,7 @@
           <div class="col-sm-8 post-main">
 
             <div class="editbox">
-              <form class="form-edit-profile" role="form" action="{% url 'grumblr.views.edit_profile' %}" method="post">
+              <form class="form-edit-profile" enctype="multipart/form-data" role="form" action="{% url 'grumblr.views.edit_profile' %}" method="post">
 
                 <div class="edit-title">
                 <h3>Edit personal profile</h3>
@@ -90,10 +90,14 @@
                     <h3>Avatar</h3>
                   </div>
                   <div class="edit-profile-avatar">
-                    <img class="avatar6" src="../static/img/img_trans.gif"><br>
+                    <!-- <img class="avatar6" src="../static/img/img_trans.gif"><br> -->
+                    {% if form_profile.avatar.value %}
+                      <img src="{% url 'photo' %}" alt="{{form_profile.user.username}}" width="120px">
+                    {% endif %}
                   </div>
                   <div class="edit-btn">
-                    <button class="btn btn-lg btn-primary btn-block" type="button">Change photo</button>
+<!--                     <button class="btn btn-lg btn-primary btn-block" type="button">Change photo</button> -->
+<!-- <input name="avatar" class="btn btn-lg btn-primary btn-block" type="file"> -->{{form_profile.avatar}}
                   </div>
                 </div>
 

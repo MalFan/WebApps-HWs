@@ -20,8 +20,8 @@ class Grumbl(models.Model):
 		grumbls = Grumbl.objects.all() # To be modified to render all following grumbls instead of all grumbls
 		return grumbls[::-1]
 	@staticmethod
-	def get_grumbls_self(current_user):
-		grumbls = Grumbl.objects.filter(user=current_user)
+	def get_grumbls_self(user):
+		grumbls = Grumbl.objects.filter(user=user)
 		return grumbls[::-1]
 	@staticmethod
 	def search_grumbls(search_content):
@@ -46,9 +46,13 @@ class Profile(models.Model):
 			blank=True)
 	location = models.CharField(max_length=50, default='Where are you?', 
 			blank=True)
-	num_grumbls = models.IntegerField(default=0)
+	# num_grumbls = models.IntegerField(default=0) # TO BE deleted.
 
-	# avatar = models.ImageField()
+	avatar = models.ImageField(upload_to="profile-photos", blank=True)
 
 	def __unicode__(self):
 		return self.user
+	@staticmethod
+	def get_num_grumbls(user):
+		grumbls = Grumbl.objects.filter(user=user)
+		return len(grumbls)

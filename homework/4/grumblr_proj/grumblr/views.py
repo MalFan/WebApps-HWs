@@ -155,16 +155,14 @@ def  profile(request):
 	context = {}
 
 	# Get current user first
-	context['current_user'] = request.user
+	user = request.user
+	context['current_user'] = user
 
 	# current_profile = Profile.objects.filter(user = request.user) # request.user need to be modified
 	current_profile = Profile.objects.get(user=request.user)
-	# Update num_grumbls in Profile class
-	current_profile.num_grumbls = Grumbl.objects.filter(user=request.user).count()
-	current_profile.save()
 
 	context['current_profile'] = current_profile
-	# context['current_profile_name'] = request.user
+	context['current_profile_num_grumbls'] = Profile.get_num_grumbls(user)
 
 	return render(request, 'profile.html', context)
 
@@ -181,14 +179,14 @@ def  edit_profile(request):
 	if request.method == 'GET':
 		form_profile = ProfileForm(instance=profile_to_edit)
 		context['form_profile'] = form_profile
-		return render(request, 'editprofile.html', context)
+		return render(request, 'edit-profile.html', context)
 	else:
 		# If method is POST
-		form_profile = ProfileForm(request.POST, instance=profile_to_edit) # Won't conflict?
+		form_profile = ProfileForm(request.POST, request.FILES, instance=profile_to_edit) # Won't conflict?
 
 		if not form_profile.is_valid():
 			context['form_profile'] = form_profile
-			return render(request, 'editprofile.html', context)
+			return render(request, 'edit-profile.html', context)
 
 		form_profile.save()
 		return redirect('/profile')
@@ -197,7 +195,7 @@ def  edit_profile(request):
 	# current_profile = Profile.objects.get(user=request.user)
 	# context['current_profile'] = current_profile
 	# # context['current_profile_name'] = request.user
-	# return render(request, 'editprofile.html', context)
+	# return render(request, 'edit-profile.html', context)
 
 
 @transaction.atomic

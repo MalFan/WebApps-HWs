@@ -106,14 +106,17 @@ class CommentForm(forms.Form):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('intro', 'location', )    
+        fields = ('intro', 'location', 'avatar', )    
         widgets = {
-            'intro': forms.TextInput(attrs= \
+            'intro':forms.TextInput(attrs= \
                         {'class':'form-control',
                         'name':'intro', 
                         'placeholder':'Write your brief introduction'}), 
-            'location': forms.TextInput(attrs= \
+            'location':forms.TextInput(attrs= \
                         {'class':'form-control',
                         'name':'location', 
-                        'placeholder':'Where are you?'})
+                        'placeholder':'Where are you?'}),
+            'avatar':forms.FileInput(attrs= \
+                        {'class':'btn btn-lg btn-primary btn-block',
+                        'name':'avatar'})
         }
