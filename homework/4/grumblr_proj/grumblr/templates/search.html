@@ -76,19 +76,6 @@
         <div class="row">
 
           <div class="col-sm-8 post-main">
-<!-- 
-            <div class="grumblebox">
-              <form class="form-grumble" role="form" action="{% url 'grumblr.views.homepage' %}" method="post">
-                <div class="grumblecontent-div">
-                  <input type="text" class="grumbl-text" name="grumble-text" placeholder="Today, what would you like to grumbl?" required>
-                </div>
-                <div class="grumblebtns-div">
-                  <button class="btn btn-lg btn-primary btn-block grumbl-btn pull-right" type="submit">grumbl!</button>
-                </div>
-                {% csrf_token %}
-              </form>
-                            <p>Results for {{search_content}}</p>
-            </div> -->
 
             <div class="searchbox">
               <p>Results for <b>{{search_content}}</b></p>
@@ -111,29 +98,33 @@
               <div class="post-content">
                 <p>{{grumbl.text}}</p>
               </div>
+              
+<!-- TO DO: display footer and all comments in the searching page.
+                     because I use grumbl_id to add comment to specific grumbl
+                     in previous pages and it's not the same case this time. -->
 
-              <div class="post-footer">
-                <ul class="nav nav-pills pull-right">
-                  <li class="function-reply-container">
-                    <a role="button" href="#" >
-                      <span class="glyphicon glyphicon-pencil"></span> Reply
-                    </a>
-                  </li>
-                  <li class="function-like-container">
-                    <a role="button" href="#" >
-                      <span class="glyphicon glyphicon-heart"></span> Like
-                    </a>
-                  </li>
-                  <li class="function-dislike-container">
-                    <a role="button" href="#" >
-                      <span class="glyphicon glyphicon-thumbs-down"></span> Dislike
-                    </a>
-                  </li>
-                </ul>
+              {% for comment in grumbl_combo.comments %}
+              <hr class="comment-hr">
+              <div class="post-comments">
+                <div class="post-title">
+                <div class="post-avatar">
+                  <a href="{% url 'grumblr.views.profile' %}">
+                    <img class="avatar5" src="../static/img/img_trans.gif"><br>
+                  </a>
+                </div>
+                <div class="post-user">
+                  <p class="grumblr-name">{{comment.user}}</p>
+                  <p>{{comment.pub_time}}</p>
+                </div>
               </div>
-            </div><!-- /.load post -->
+              <div class="post-content">
+                <p>{{comment.text}}</p>
+              </div>
+              </div>
+              {% endfor %}
+              <!-- for loop to load all comments for each grumbl -->
+              </div>
             {% endfor %}
-
 
 
             <!-- <ul class="pager">

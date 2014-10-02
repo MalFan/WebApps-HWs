@@ -78,7 +78,7 @@
           <div class="col-sm-8 post-main">
 
             <div class="grumblebox">
-              <form class="form-grumble" role="form" action="{% url 'addgrumbl' %}" method="post">
+              <form class="form-grumble" role="form" action="{% url 'addgrumbl' 'homepage' %}" method="post">
                 <div class="grumblecontent-div">
                   {{form_grumbl.grumbl}}
                 </div>
@@ -95,7 +95,6 @@
                 <div class="grumblebtns-div">
                   <button class="btn btn-lg btn-primary btn-block grumbl-btn pull-right" type="submit">grumbl!</button>
                 </div>
-                <input type="hidden" name="source" value="homepage">
                 {% csrf_token %}
               </form>
             </div>
@@ -122,26 +121,26 @@
 
               <div class="post-footer">
                 <ul class="nav nav-pills pull-right">
-                  <li class="function-reply-container">
-                    <a role="button" href="#" >
-                      <span class="glyphicon glyphicon-pencil"></span> Reply
-                    </a>
-                  </li>
-                  <li class="function-like-container">
+<!--                   <li class="function-like-container">
                     <a role="button" href="#" >
                       <span class="glyphicon glyphicon-heart"></span> Like
                     </a>
-                  </li>
+                  </li> -->
                   <li class="function-dislike-container">
+                    <a role="button" href="{% url 'dislike' grumbl_combo.grumbl.id 'homepage' %}" >
+                      <span class="glyphicon glyphicon-thumbs-down"></span> Dislike ({{grumbl_combo.num_dislikes}})
+                    </a>
+                  </li>
+                  <li class="function-reply-container">
                     <a role="button" href="#" >
-                      <span class="glyphicon glyphicon-thumbs-down"></span> Dislike
+                      <span class="glyphicon glyphicon-pencil"></span> Reply ({{grumbl_combo.num_comments}})
                     </a>
                   </li>
                 </ul>
               </div>
 
               <div class="post-write-comment">
-                <form class="form-comment" role="form" action="{% url 'addcomment' grumbl_combo.grumbl.id %}" method="post">
+                <form class="form-comment" role="form" action="{% url 'addcomment' grumbl_combo.grumbl.id 'homepage' %}" method="post">
                   <div class="input-group">
                     <!-- <input type="text" class="form-control" placeholder="Reply to this grumbl..." required> -->{{form_comment.grumbl_comment}}
                     <span class="input-group-btn"> 
@@ -149,7 +148,6 @@
                       </span></button>
                     </span>
                   </div>
-                  <input type="hidden" name="source" value="homepage">
                   {% csrf_token %}
                 </form>
               </div>
@@ -178,74 +176,9 @@
             </div><!-- /.load post -->
             {% endfor %}
 
-
-            <!-- first post -->
-            <!-- <div class="postbox">
-              <div class="post-title">
-
-                <div class="post-avatar">
-                  <a href="{% url 'grumblr.views.profile' %}">
-                    <img class="avatar1" src="../static/img/img_trans.gif"><br>
-                  </a>
-                </div>
-
-                <div class="post-user">
-                  
-                  <p class="grumblr-name">Robin Van Persie</p>
-                  <p>35 minutes ago</p>
-                  
-                </div>
-              </div>
-              <div class="post-content">
-                  
-                <p>Robin van Persie (Dutch pronunciation: [ˈrɔbɪn vɑn ˈpɛrsi] ( listen); born 6 August 1983) is a Dutch footballer who plays as a striker for Manchester United and is the captain of the Netherlands national team. </p>
-                
-              </div>
-
-              <div class="post-picture">
-                <img class="center-block" src="../static/img/mr_grumble.png"><br>
-              </div>
-
-            </div> --><!-- /.post -->
-
-            <!-- 2nd post -->
-            <!-- <div class="postbox">
-              <div class="post-title">
-
-                <div class="post-avatar">
-                  <a href="{% url 'grumblr.views.profile' %}">
-                    <img class="avatar2" src="../static/img/img_trans.gif"><br>
-                  </a>
-                </div>
-
-                <div class="post-user">
-                  
-                  <p class="grumblr-name">Lionel Messi</p>
-                  <p>1 hour ago</p>
-                  
-                </div>
-              </div>
-              <div class="post-content">
-                  
-                <p>Lionel Andrés "Leo" Messi Cuccittini (Spanish pronunciation: [ljoˈnel anˈdɾes ˈmesi] ( listen); born 24 June 1987), is an Argentine footballer who plays as a forward for Spanish club FC Barcelona and the Argentina national team.</p>
-                
-              </div>
-
-            </div> --><!-- /.post -->
-          
-
-            <!-- <ul class="pager">
-              <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Previous</a></li>
-              <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Next</a></li>
-            </ul> -->
-
           </div><!-- /.post-main -->
 
           <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-<!--             <div class="sidebar-module sidebar-module-inset">
-              <h4></h4>
-              <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-            </div> -->
 
             <div class="sidebar-module postbox">
             <h4>My grumblr.</h4>

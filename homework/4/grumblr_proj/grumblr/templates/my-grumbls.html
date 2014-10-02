@@ -78,7 +78,7 @@
           <div class="col-sm-8 post-main">
 
             <div class="grumblebox">
-              <form class="form-grumble" role="form" action="{% url 'addgrumbl' %}" method="post">
+              <form class="form-grumble" role="form" action="{% url 'addgrumbl' 'mygrumbls' %}" method="post">
                 <div class="grumblecontent-div">
                   {{form_grumbl.grumbl}}
                 </div>
@@ -95,7 +95,6 @@
                 <div class="grumblebtns-div">
                   <button class="btn btn-lg btn-primary btn-block grumbl-btn pull-right" type="submit">grumbl!</button>
                 </div>
-                <input type="hidden" name="source" value="mygrumbls">
                 {% csrf_token %}
               </form>
             </div>
@@ -122,26 +121,26 @@
 
               <div class="post-footer">
                 <ul class="nav nav-pills pull-right">
-                  <li class="function-reply-container">
-                    <a role="button" href="#" >
-                      <span class="glyphicon glyphicon-pencil"></span> Reply
-                    </a>
-                  </li>
-                  <li class="function-like-container">
+<!--                   <li class="function-like-container">
                     <a role="button" href="#" >
                       <span class="glyphicon glyphicon-heart"></span> Like
                     </a>
-                  </li>
+                  </li> -->
                   <li class="function-dislike-container">
+                    <a role="button" href="{% url 'dislike' grumbl_combo.grumbl.id 'mygrumbls' %}" >
+                      <span class="glyphicon glyphicon-thumbs-down"></span> Dislike ({{grumbl_combo.num_dislikes}})
+                    </a>
+                  </li>
+                  <li class="function-reply-container">
                     <a role="button" href="#" >
-                      <span class="glyphicon glyphicon-thumbs-down"></span> Dislike
+                      <span class="glyphicon glyphicon-pencil"></span> Reply ({{grumbl_combo.num_comments}})
                     </a>
                   </li>
                 </ul>
               </div>
 
               <div class="post-write-comment">
-                <form class="form-comment" role="form" action="{% url 'addcomment' grumbl_combo.grumbl.id %}" method="post">
+                <form class="form-comment" role="form" action="{% url 'addcomment' grumbl_combo.grumbl.id 'mygrumbls' %}" method="post">
                   <div class="input-group">
                     <!-- <input type="text" class="form-control" placeholder="Reply to this grumbl..." required> -->{{form_comment.grumbl_comment}}
                     <span class="input-group-btn"> 
@@ -149,7 +148,6 @@
                       </span></button>
                     </span>
                   </div>
-                  <input type="hidden" name="source" value="mygrumbls">
                   {% csrf_token %}
                 </form>
               </div>

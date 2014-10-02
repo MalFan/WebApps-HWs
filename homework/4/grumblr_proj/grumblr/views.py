@@ -28,69 +28,17 @@ def homepage(request):
 	# Get all comments for each grumbl
 	for grumbl in grumbls:
 		comments = Comment.get_comments(grumbl)
-		grumbl_combo = {'grumbl':grumbl, 'comments':comments}
+		num_comments = len(comments)
+		num_dislikes = len(grumbl.dislike_list.all())
+		grumbl_combo = {'grumbl':grumbl, 
+				'comments':comments, 
+				'num_comments':num_comments,
+				'num_dislikes':num_dislikes}
 		context['grumbl_combos'].append(grumbl_combo)
 
 	context['form_grumbl'] = GrumblForm()
 	context['form_comment'] = CommentForm()
 	return render(request, 'homepage.html', context)
-
-
-@transaction.atomic
-@login_required
-def add_grumbl(request):
-	# Handle POST requests and then redirect.
-	if not 'source' in request.POST or not request.POST['source']:
-		next = '/'
-	else:
-		next = request.POST['source']
-
-	form_grumbl = GrumblForm(request.POST)
-	# Validates the form. Error info contained in the context.
-	if not form_grumbl.is_valid():
-		return render(request, 'homepage.html', context)
-
-	# If we get valid data from the form, save it.
-	new_grumbl = Grumbl(text=form_grumbl.cleaned_data['grumbl'], user=request.user)
-	new_grumbl.save()
-
-	return redirect(next)
-
-
-@transaction.atomic
-@login_required
-def add_comment(request, grumbl_id):
-	# Handle POST requests and then redirect.
-	if not 'source' in request.POST or not request.POST['source']:
-		next = '/'
-	else:
-		next = request.POST['source']
-
-	# # Get current user first
-	# context['current_user'] = request.user # Maybe can be deleted?
-	
-	form_comment = CommentForm(request.POST)
-	# context['form_comment'] = form_comment # Maybe can be deleted?
-
-	# Validates the form. Error info contained in the context.
-	if not form_comment.is_valid():
-		return render(request, 'homepage.html', context) # always invalid here.
-
-	# Get the parent grumbl via g_id
-	errors = []
-	try:
-		parent_grumbl = Grumbl.objects.get(id=grumbl_id)
-	except ObjectDoesNotExist:
-		errors.append('The grumbl did not exist.')
-
-	# If we get valid data from the form, save it.
-	new_comment = Comment(text=form_comment.cleaned_data['grumbl_comment'], 
-								 user=request.user,
-								 grumbl=parent_grumbl)
-	new_comment.save()
-
-	# Prevent from reposting via refreshing the page.
-	return redirect(next)
 
 
 @login_required
@@ -108,10 +56,76 @@ def my_grumbls(request):
 	# Get all comments for each grumbl
 	for grumbl in grumbls:
 		comments = Comment.get_comments(grumbl)
-		grumbl_combo = {'grumbl':grumbl, 'comments':comments}
+		num_comments = len(comments)
+		num_dislikes = len(grumbl.dislike_list.all())
+		grumbl_combo = {'grumbl':grumbl, 
+				'comments':comments, 
+				'num_comments':num_comments,
+				'num_dislikes':num_dislikes}
 		context['grumbl_combos'].append(grumbl_combo)
 
 	return render(request, 'my-grumbls.html', context)
+
+
+@transaction.atomic
+@login_required
+def add_grumbl(request, next):
+	# Handle POST requests and then redirect.
+
+	form_grumbl = GrumblForm(request.POST)
+	# Validates the form. Error info contained in the context.
+	if not form_grumbl.is_valid():
+		return render(request, 'homepage.html', context)
+
+	# If we get valid data from the form, save it.
+	new_grumbl = Grumbl(text=form_grumbl.cleaned_data['grumbl'], user=request.user)
+	new_grumbl.save()
+
+	return redirect(next)
+
+
+@transaction.atomic
+@login_required
+def add_comment(request, grumbl_id, next):
+	# Handle POST requests and then redirect.
+	
+	form_comment = CommentForm(request.POST)
+
+	# Validates the form. Error info contained in the context.
+	if not form_comment.is_valid():
+		return render(request, 'homepage.html', context) # always invalid here.
+
+	# Get the parent grumbl via g_id
+	errors = []
+	try:
+		parent_grumbl = Grumbl.objects.get(id=grumbl_id)
+		# If we get valid data from the form, save it.
+		new_comment = Comment(text=form_comment.cleaned_data['grumbl_comment'], 
+								 user=request.user,
+								 grumbl=parent_grumbl)
+		new_comment.save()
+	except ObjectDoesNotExist:
+		errors.append('The grumbl did not exist.')
+
+	# Prevent from reposting via refreshing the page.
+	return redirect(next)
+
+
+@login_required
+def dislike(request, grumbl_id, next):
+	# Get the parent grumbl via g_id
+	errors = []
+	try:
+		parent_grumbl = Grumbl.objects.get(id=grumbl_id)
+		current_user = request.user
+		if current_user in parent_grumbl.dislike_list.all():
+			parent_grumbl.dislike_list.remove(current_user)
+		else:
+			parent_grumbl.dislike_list.add(current_user)
+	except ObjectDoesNotExist:
+		errors.append('The grumbl did not exist.')
+
+	return redirect(next)
 
 
 @login_required

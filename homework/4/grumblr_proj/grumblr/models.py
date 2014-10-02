@@ -5,12 +5,12 @@ from django.contrib.auth.models import User
 
 class Grumbl(models.Model):
 	text = models.CharField(max_length=42)
-	user = models.ForeignKey(User,related_name='grumblr_of_this_grumbl')
+	user = models.ForeignKey(User, related_name='grumblr_of_this_grumbl')
 	pub_time = models.DateTimeField(auto_now_add=True)
-	likes = models.IntegerField(default=0)
-	dislikes = models.IntegerField(default=0)
+	# likes = models.IntegerField(default=0)
+	# dislikes = models.IntegerField(default=0)
 	# img = models.ImageField()
-	# dislike_list = models.ManyToManyField(User)
+	dislike_list = models.ManyToManyField(User)
 
 	def __unicode__(self):
 		return self.text
@@ -18,15 +18,15 @@ class Grumbl(models.Model):
 	@staticmethod
 	def get_grumbls_others(user):
 		grumbls = Grumbl.objects.all() # To be modified to render all following grumbls instead of all grumbls
-		return reversed(grumbls)
+		return grumbls[::-1]
 	@staticmethod
 	def get_grumbls_self(current_user):
 		grumbls = Grumbl.objects.filter(user=current_user)
-		return reversed(grumbls)
+		return grumbls[::-1]
 	@staticmethod
 	def search_grumbls(search_content):
 		grumbls = Grumbl.objects.filter(text__contains=search_content)
-		return reversed(grumbls)
+		return grumbls[::-1]
 
 class Comment(models.Model):
 	text = models.CharField(max_length=42) # Note that "comment" changed to "text", bugs may be raised.
@@ -37,7 +37,7 @@ class Comment(models.Model):
 	@staticmethod
 	def get_comments(grumbl):
 		comments = Comment.objects.filter(grumbl=grumbl)
-		return reversed(comments)
+		return comments[::-1]
 
 
 class Profile(models.Model):
