@@ -1,10 +1,11 @@
+{% extends "base.html" %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>grumblr.</title>
+    {% block title %}<title>grumblr.</title>{% endblock %}
 
     <!-- Bootstrap -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -20,55 +21,6 @@
 
   <body class="homepage">
 
-    <!-- Static navbar -->
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
-      <div class="container">
-
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-            <a class="navbar-brand nav-grumblr " href="{% url 'grumblr.views.homepage' %}">grumblr.</a>
-        </div>
-
-        <div class="navbar-collapse collapse">
-
-          <ul class="nav navbar-nav">
-            <form class="navbar-form navbar-left" action="search" method="GET">
-                <div class="input-group">
-                  {{form_search.search_content}} 
-                  <div class="hidden">{{form_search.search_type}}</div>
-                  <span class="input-group-btn">               
-                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search">
-                    </span></button>
-                  </span>          
-                </div>
-                {% csrf_token %}
-            </form>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right">
-
-            <li class="dropdown">
-              <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{current_user.username}} <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="{% url 'profile' current_user.id %}"><span class="glyphicon glyphicon-home"></span> My profile</a></li>
-                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
-                <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
-                <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
-              </ul>
-            </li>
-
-          </ul>
-
-        </div><!--/.nav-collapse -->
-
-      </div>
-    </div><!-- Static navbar -->
-
     <div class="container"><!-- Post Body -->
 
       <!-- Main component for a primary marketing message or call to action -->
@@ -78,143 +30,19 @@
 
           <div class="col-sm-8 post-main">
 
-            <div class="grumblebox">
-              <form class="form-grumble" role="form" action="{% url 'addgrumbl' 'homepage' %}" method="post">
-                <div class="grumblecontent-div">
-                  {{form_grumbl.grumbl}}
-                </div>
-                {% if errors %}
-                  <p style="color: #ff6666">
-                    {{ errors }}
-                  </p>
-                {% endif %}
-                {% for field in form_grumbl.visible_fields %}
-                  <p style="color: #ff6666">
-                    {{field.errors}}
-                  </p>
-                {% endfor %}
-                <div class="grumblebtns-div">
-                  <button class="btn btn-lg btn-primary btn-block grumbl-btn pull-right" type="submit">grumbl!</button>
-                </div>
-                {% csrf_token %}
-              </form>
-            </div>
+              {% block form-grumble-action %}
+                "{% url 'addgrumbl' 'homepage' %}"
+              {% endblock form-grumble-action %}
 
+              {% block dislike-href %}
+                "{% url 'dislike' grumbl_combo.grumbl.id 'homepage' %}"
+              {% endblock dislike-href %}
 
-            <!-- for grumbl in grumbls  -->
-            {% for grumbl_combo in grumbl_combos %}
-            <!-- load post -->
-            <div class="postbox">
-              <div class="post-title">
-                <div class="post-avatar">
-                  <a href="{% url 'profile' grumbl_combo.grumbl.user.id %}">
-                    <img src="{% url 'getphoto' grumbl_combo.grumbl.user.username %}" alt="{{grumbl_combo.grumbl.user.username}}" width="64px">
-                  </a>
-                </div>
-                <div class="post-user">
-                  <p class="grumblr-name">{{grumbl_combo.grumbl.user}}</p>
-                  <p>{{grumbl_combo.grumbl.pub_time}}</p>
-                </div>
-              </div>
-              <div class="post-content">
-                <p>{{grumbl_combo.grumbl.text}}</p>
-              </div>
-
-              <div class="post-footer">
-                <ul class="nav nav-pills pull-right">
-                  <li class="function-like-container">
-                    <a role="button" href="{% url 'block' grumbl_combo.grumbl.user.id %}" >
-                      <span class="glyphicon glyphicon-ban-circle"></span> Block
-                    </a>
-                  </li>
-                  <li class="function-dislike-container">
-                    <a role="button" href="{% url 'dislike' grumbl_combo.grumbl.id 'homepage' %}" >
-                      <span class="glyphicon glyphicon-thumbs-down"></span> Dislike ({{grumbl_combo.num_dislikes}})
-                    </a>
-                  </li>
-                  <li class="function-reply-container">
-                    <a role="button" href="#" >
-                      <span class="glyphicon glyphicon-pencil"></span> Reply ({{grumbl_combo.num_comments}})
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="post-write-comment">
-                <form class="form-comment" role="form" action="{% url 'addcomment' grumbl_combo.grumbl.id 'homepage' %}" method="post">
-                  <div class="input-group">
-                    <!-- <input type="text" class="form-control" placeholder="Reply to this grumbl..." required> -->{{form_comment.grumbl_comment}}
-                    <span class="input-group-btn"> 
-                      <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-pencil">
-                      </span></button>
-                    </span>
-                  </div>
-                  {% csrf_token %}
-                </form>
-              </div>
-
-              {% for comment in grumbl_combo.comments %}
-              <hr class="comment-hr">
-              <div class="post-comments">
-                <div class="post-title">
-                <div class="post-avatar">
-                  <a href="{% url 'profile' comment.user.id %}">
-                    <img src="{% url 'getphoto' comment.user.username %}" alt="{{comment.user.username}}" width="64px">
-                  </a>
-                </div>
-                <div class="post-user">
-                  <p class="grumblr-name">{{comment.user}}</p>
-                  <p>{{comment.pub_time}}</p>
-                </div>
-              </div>
-              <div class="post-content">
-                <p>{{comment.text}}</p>
-              </div>
-              </div>
-              {% endfor %}
-              <!-- for loop to load all comments for each grumbl -->
-
-            </div><!-- /.load post -->
-            {% endfor %}
+              {% block form-comment-action %}
+                "{% url 'addcomment' grumbl_combo.grumbl.id 'homepage' %}"
+              {% endblock form-comment-action %}
 
           </div><!-- /.post-main -->
-
-          <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-
-            <div class="sidebar-module postbox">
-            <h4>My grumblr.</h4>
-              <ol class="list-unstyled">
-                <li><a href="{% url 'grumblr.views.my_grumbls' %}">My grumbls</a></li>
-                <li><a href="#">My favorite</a></li>
-                <li><a href="{% url 'myfollowing' %}">My following</a></li>
-                <li><a href="{% url 'myblocking' %}">My blocking</a></li>
-              </ol>
-            </div>
-
-            <div class="sidebar-module postbox">
-              <h4>Hot grumblrs</h4>
-              <ol class="list-unstyled">
-                <li><a href="#">
-                    <img class="avatar3" src="../static/img/img_trans.gif"></a>
-                    CamGrumblr
-                </li>
-                <li><a href="#">
-                    <img class="avatar4" src="../static/img/img_trans.gif"></a>
-                    TwitGrumblr
-                </li>
-              </ol>
-            </div>
-
-            <div class="sidebar-module postbox">
-              <h4>Elsewhere</h4>
-              <ol class="list-unstyled">
-                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">GitHub</a></li>
-                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Twitter</a></li>
-                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">Facebook</a></li>
-              </ol>
-            </div>
-
-          </div><!-- /.blog-sidebar -->
 
         </div><!-- /.row -->
 
