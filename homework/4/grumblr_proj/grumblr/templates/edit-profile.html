@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Edit Profile</title>
+    <title>Edit profile</title>
 
     <!-- Bootstrap -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -55,7 +55,7 @@
             <li class="dropdown">
               <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{current_user.username}} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="{% url 'grumblr.views.profile' %}"><span class="glyphicon glyphicon-home"></span> My profile</a></li>
+                <li><a href="{% url 'profile' current_user.id %}"><span class="glyphicon glyphicon-home"></span> My profile</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
                 <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
@@ -143,18 +143,20 @@
             <h4>My grumblr.</h4>
               <ol class="list-unstyled">
                 <li><a href="{% url 'grumblr.views.my_grumbls' %}">My grumbls</a></li>
-                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My Favorite</a></li>
+                <li><a href="#">My favorite</a></li>
+                <li><a href="{% url 'myfollowing' %}">My following</a></li>
+                <li><a href="{% url 'myblocking' %}">My blocking</a></li>
               </ol>
             </div>
 
             <div class="sidebar-module postbox">
               <h4>Hot grumblrs</h4>
               <ol class="list-unstyled">
-                <li><a href="{% url 'grumblr.views.profile' %}">
+                <li><a href="#">
                     <img class="avatar3" src="../static/img/img_trans.gif"></a>
                     CamGrumblr
                 </li>
-                <li><a href="{% url 'grumblr.views.profile' %}">
+                <li><a href="#">
                     <img class="avatar4" src="../static/img/img_trans.gif"></a>
                     TwitGrumblr
                 </li>

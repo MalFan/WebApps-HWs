@@ -55,7 +55,7 @@
             <li class="dropdown">
               <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{current_user.username}} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="{% url 'grumblr.views.profile' %}"><span class="glyphicon glyphicon-home"></span> My profile</a></li>
+                <li><a href="{% url 'profile' current_user.id %}"><span class="glyphicon glyphicon-home"></span> My profile</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
                 <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
@@ -107,7 +107,7 @@
             <div class="postbox">
               <div class="post-title">
                 <div class="post-avatar">
-                  <a href="{% url 'grumblr.views.profile' %}">
+                  <a href="{% url 'profile' grumbl_combo.grumbl.user.id %}">
                     <img src="{% url 'getphoto' grumbl_combo.grumbl.user.username %}" alt="{{grumbl_combo.grumbl.user.username}}" width="64px">
                   </a>
                 </div>
@@ -122,11 +122,11 @@
 
               <div class="post-footer">
                 <ul class="nav nav-pills pull-right">
-<!--                   <li class="function-like-container">
-                    <a role="button" href="#" >
-                      <span class="glyphicon glyphicon-heart"></span> Like
+                  <li class="function-like-container">
+                    <a role="button" href="{% url 'block' grumbl_combo.grumbl.user.id %}" >
+                      <span class="glyphicon glyphicon-ban-circle"></span> Block
                     </a>
-                  </li> -->
+                  </li>
                   <li class="function-dislike-container">
                     <a role="button" href="{% url 'dislike' grumbl_combo.grumbl.id 'mygrumbls' %}" >
                       <span class="glyphicon glyphicon-thumbs-down"></span> Dislike ({{grumbl_combo.num_dislikes}})
@@ -158,7 +158,7 @@
               <div class="post-comments">
                 <div class="post-title">
                 <div class="post-avatar">
-                  <a href="{% url 'grumblr.views.profile' %}">
+                  <a href="{% url 'profile' comment.user.id %}">
                     <img src="{% url 'getphoto' comment.user.username %}" alt="{{comment.user.username}}" width="64px">
                   </a>
                 </div>
@@ -185,18 +185,20 @@
             <h4>My grumblr.</h4>
               <ol class="list-unstyled">
                 <li><a href="{% url 'grumblr.views.my_grumbls' %}">My grumbls</a></li>
-                <li><a href="./Blog Template for Bootstrap_files/Blog Template for Bootstrap.html">My Favorite</a></li>
+                <li><a href="#">My favorite</a></li>
+                <li><a href="{% url 'myfollowing' %}">My following</a></li>
+                <li><a href="{% url 'myblocking' %}">My blocking</a></li>
               </ol>
             </div>
 
             <div class="sidebar-module postbox">
               <h4>Hot grumblrs</h4>
               <ol class="list-unstyled">
-                <li><a href="{% url 'grumblr.views.profile' %}">
+                <li><a href="#">
                     <img class="avatar3" src="../static/img/img_trans.gif"></a>
                     CamGrumblr
                 </li>
-                <li><a href="{% url 'grumblr.views.profile' %}">
+                <li><a href="#">
                     <img class="avatar4" src="../static/img/img_trans.gif"></a>
                     TwitGrumblr
                 </li>

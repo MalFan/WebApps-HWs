@@ -5,7 +5,6 @@ from django.db import transaction
 
 # Decorator to use built-in authentication system
 from django.contrib.auth.decorators import login_required
-
 # Used to create and manually log in a user
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
@@ -15,6 +14,11 @@ from django.http import HttpResponse, Http404
 
 # Helper function to guess a MIME type from a file name
 from mimetypes import guess_type
+
+# Used to send mail from within Django
+from django.core.mail import send_mail
+# Used to generate a one-time-use token to verify a user's email address
+from django.contrib.auth.tokens import default_token_generator
 
 from models import *
 from forms import *
@@ -137,6 +141,106 @@ def dislike(request, grumbl_id, next):
 
 
 @login_required
+def block(request, user_id):
+	# Get the user via u_id
+	
+	try:
+		target_user = User.objects.get(id=user_id)
+		current_user = request.user
+		if target_user in current_user.relationship.block_list.all():
+			current_user.relationship.block_list.remove(target_user)
+		else:
+			current_user.relationship.block_list.add(target_user)
+	except ObjectDoesNotExist:
+		errors = []
+		errors.append('The user did not exist.')
+
+	return redirect('/')
+
+
+@login_required
+def follow(request, user_id):
+	# Get the user via u_id
+	
+	try:
+		target_user = User.objects.get(id=user_id)
+		current_user = request.user
+		if target_user in current_user.relationship.follow_list.all():
+			current_user.relationship.follow_list.remove(target_user)
+		else:
+			current_user.relationship.follow_list.add(target_user)
+	except ObjectDoesNotExist:
+		errors = []
+		errors.append('The user did not exist.')
+
+	return redirect('/')
+
+
+@login_required
+def my_following(request):
+	context = {}
+	if request.method == 'POST':
+		# Get the user via u_id
+		try:
+			target_user = User.objects.get(id=user_id)
+			current_user = request.user
+			if target_user in current_user.relationship.follow_list.all():
+				current_user.relationship.follow_list.remove(target_user)
+			else:
+				current_user.relationship.follow_list.add(target_user)
+		except ObjectDoesNotExist:
+			errors = []
+			errors.append('The user did not exist.')
+		return redirect('myfollowing')
+
+	# Get current user first
+	current_user = request.user
+	context['current_user'] = current_user
+
+	follow_list = current_user.relationship.follow_list.all()
+	profiles = []
+	for user in follow_list:
+		profile = Profile.objects.get(user=user)
+		profiles.append(profile)
+
+	context['profiles'] =profiles
+	context['form_search'] = SearchForm()
+	return render(request, 'my-following.html', context)
+
+
+@login_required
+def my_blocking(request):
+	context = {}
+	if request.method == 'POST':
+		# Get the user via u_id
+		try:
+			target_user = User.objects.get(id=user_id)
+			current_user = request.user
+			if target_user in current_user.relationship.block_list.all():
+				current_user.relationship.block_list.remove(target_user)
+			else:
+				current_user.relationship.block_list.add(target_user)
+		except ObjectDoesNotExist:
+			errors = []
+			errors.append('The user did not exist.')
+		return redirect('myblocking')
+
+	# Get current user first
+	current_user = request.user
+	context['current_user'] = current_user
+
+	block_list = current_user.relationship.block_list.all()
+	profiles = []
+	for user in block_list:
+		profile = Profile.objects.get(user=user)
+		profiles.append(profile)
+
+	context['profiles'] =profiles
+	context['form_search'] = SearchForm()
+	return render(request, 'my-blocking.html', context)
+
+
+@login_required
 def search(request):
 	context = {}
 
@@ -160,20 +264,21 @@ def search(request):
 
 @transaction.atomic
 @login_required
-def  profile(request):
+def  profile(request, user_id):
 	context = {}
 
 	# Get current user first
 	user = request.user
 	context['current_user'] = user
+	target_user = User.objects.get(id=user_id)
 
 	context['form_search'] = SearchForm() 
 
 	# current_profile = Profile.objects.filter(user = request.user) # request.user need to be modified
-	current_profile = Profile.objects.get(user=request.user)
+	target_profile = Profile.objects.get(user=target_user)
 
-	context['current_profile'] = current_profile
-	context['current_profile_num_grumbls'] = Profile.get_num_grumbls(user)
+	context['target_profile'] = target_profile
+	context['target_profile_num_grumbls'] = Profile.get_num_grumbls(target_user)
 
 	return render(request, 'profile.html', context)
 
@@ -237,17 +342,59 @@ def register(request):
 		new_user = User.objects.create_user(username=form_registration.cleaned_data['username'],
 											    email = form_registration.cleaned_data['email'],
 		                                    			    password=form_registration.cleaned_data['password1'])
+	    	# Mark the user as inactive to prevent login before email confirmation.
+    		new_user.is_active = False
 		new_user.save()
 		# Create a profile for the new user at the same time.
 		new_user_profile = Profile(user = new_user)
 		new_user_profile.save()
+		# Create a relationship for the new user at the same time.
+		new_user_relationship = Relationship(user = new_user)
+		new_user_relationship.save()
 
-		# Logs in the new user and redirects to his/her todo list
-		new_user = authenticate(username=form_registration.cleaned_data['username'],
-								    email = form_registration.cleaned_data['email'],
-		                              	    password=form_registration.cleaned_data['password1'])
-		login(request, new_user)
-		return redirect('/')
+    		# Generate a one-time use token and an email message body
+    		token = default_token_generator.make_token(new_user)	
+
+		email_body = """
+		Welcome to the Simple Address Book.  Please click the link below to
+		verify your email address and complete the registration of your account:
+
+		  http://%s%s
+		""" % (request.get_host(), 
+		       reverse('confirm', args=(new_user.username, token)))
+
+		send_mail(subject="Verify your email address",
+		          message= email_body,
+		          from_email="dfan+@andrew.cmu.edu",
+		          recipient_list=[new_user.email])
+
+		context['email'] = form_registration.cleaned_data['email']
+		return render(request, 'needs-confirmation.html', context)
+		    
+
+@transaction.atomic
+def confirm_registration(request, username, token):
+	user = get_object_or_404(User, username=username)
+
+	# Send 404 error if token is invalid
+	if not default_token_generator.check_token(user, token):
+	    raise Http404
+
+	# Otherwise token was valid, activate the user.
+	user.is_active = True
+	user.save()
+	return render(request, 'confirmed.html', {})
+
+
+
+
+
+		# # Logs in the new user and redirects to his/her todo list
+		# new_user = authenticate(username=form_registration.cleaned_data['username'],
+		# 						    email = form_registration.cleaned_data['email'],
+		#                               	    password=form_registration.cleaned_data['password1'])
+		# login(request, new_user)
+		# return redirect('/')
 
 
 

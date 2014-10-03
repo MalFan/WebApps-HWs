@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profile</title>
+    <title>My blocking</title>
 
     <!-- Bootstrap -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@
     <![endif]-->
   </head>
 
-  <body class="profile">
+  <body class="homepage">
 
     <!-- Static navbar -->
     <div class="navbar navbar-default navbar-static-top" role="navigation">
@@ -49,7 +49,7 @@
                 {% csrf_token %}
             </form>
           </ul>
-
+          
           <ul class="nav navbar-nav navbar-right">
 
             <li class="dropdown">
@@ -78,55 +78,29 @@
 
           <div class="col-sm-8 post-main">
 
-            <div class="profilebox">
-              <div class="profile-title">
+            <div class="searchbox">           
+              <p>Blocking list</p> 
+            </div>
 
-                <div class="profile-avatar"> 
-                  <!-- <img class="avatar6" src="../static/img/img_trans.gif"> --><br>
-                    {% if target_profile.avatar %}
-                      <img src="{% url 'getphoto' target_profile.user.username %}" alt="{{target_profile.user.username}}" width="120px">
-                    {% endif %}
+            {% for profile in profiles %}
+            <div class="postbox">
+              <div class="post-title">
+                <div class="post-avatar">
+                  <a href="{% url 'profile' profile.user.id %}">
+                    <img src="{% url 'getphoto' profile.user.username %}" alt="{{profile.user.username}}" width="64px">    
+                  </a>
                 </div>
-
-                <div class="profile-user">
-                  <p class="profile-name">{{target_profile.user.username}}</p>
-                  <p class="grumblr-intro"><span class="glyphicon glyphicon-comment"></span> {{target_profile.intro}}<!-- Grumble the music, love CMU. --></p>
-                  <p class="grumblr-location"><span class="glyphicon glyphicon-map-marker"></span> {{target_profile.location}}<!-- Pittsburgh, US --></p>
+                <div class="follow">
+                  <a href="{% url 'block' profile.user.id %}" >
+                  <button class="btn btn-lg btn-primary btn-block" type="button"><span class="glyphicon glyphicon-ban-circle"></span> Unblock</button></a> 
                 </div>
-
-                <div class="editbtn">
-                  <a class="blue-text trans-move" href={% url 'grumblr.views.edit_profile' %}>Edit profile</a>
+                <div class="post-user">
+                  <p class="grumblr-name">{{profile.user}}</p>
+                  <p>{{profile.intro}}</p>
                 </div>
               </div>
-
-              <hr class="profile-hr">
-              
-              <div class="profile-detail">
-                <h3>Details of {{target_profile.user.username}}</h3>
-                <br>
-                <table>
-                  <tr>
-                    <th>grumbls</th>
-                    <th>likes</th>
-                    <th>following</th>
-                    <th>followers</th>
-                  </tr>
-                  <tr>
-                    <td>{{target_profile_num_grumbls}}</td>
-                    <td>3564</td>
-                    <td>345</td>
-                    <td>123</td>
-                  </tr>
-                </table>
-
-                <br>
-                <!-- <hr class="profile-hr"> -->
-
-
-
-              </div>
-
-            </div><!-- /.post -->
+            </div>
+            {% endfor %}
 
           </div><!-- /.post-main -->
 

@@ -309,7 +309,7 @@ border-color: #325d87;
 	border: 2px solid #496f94;
 }
 .post-title {
-	margin-bottom: 6px;
+	margin-bottom: 10px;
 	font-size: 16px;
 }
 .post-meta {
@@ -634,12 +634,23 @@ h3,
 
 /* Dropdown list padding modified */
 .dropdown-menu>li>a {
-padding: 10px 15px;
+	padding: 10px 15px;
 }
 .dropdown-menu {
-padding: 0px;
+	padding: 0px;
 }
 
 div.hidden {
     visibility: hidden;
+}
+
+div.follow {
+	float: right;
+	margin-top: 10px;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #325d87;
+	border-color: #1c4c7a;
 }
