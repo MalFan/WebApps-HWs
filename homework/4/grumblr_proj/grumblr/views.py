@@ -307,7 +307,8 @@ def  edit_profile(request):
 			return render(request, 'edit-profile.html', context)
 
 		form_profile.save()
-		return redirect('/profile')
+		url = '/profile/' + str(request.user.id)
+		return redirect(url)
 
 
 @login_required
