@@ -22,9 +22,11 @@
                   <p class="grumblr-location"><span class="glyphicon glyphicon-map-marker"></span> {{target_profile.location}}<!-- Pittsburgh, US --></p>
                 </div>
 
+                {% if target_profile.user == current_user %}
                 <div class="editbtn">
                   <a class="blue-text trans-move" href={% url 'grumblr.views.edit_profile' %}>Edit profile</a>
                 </div>
+                {% endif %}
               </div>
 
               <hr class="profile-hr">
