@@ -16,6 +16,8 @@ In this homework, I add many features to make it a mature web application.
 
 8. Registration requires email confirmation to active the new account.
 
+9. UPDATE: Users can search not only grumbls, but also grumblrs. Up to now, users can only follow new users in this way. For example, click search button in the top nav bar, and then click search grumblrs. With an empty search content, all users in the database will be displayed in the search result, and then you can follow them. 
+
 Existing sample data issues:
 I created a few account to test my data. some of them are created earlier before some features are added that might cause crashing while newly created user will act perfectly.
 You could test with new account by register or use my existing test account:
