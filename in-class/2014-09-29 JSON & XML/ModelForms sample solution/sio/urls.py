@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     url(r'^create-student$', 'sio.views.create_student'),
     url(r'^create-course$', 'sio.views.create_course'),
     url(r'^register-student$', 'sio.views.register_student'),
+    url(r'^get-one-course$', 'sio.views.get_one_course'),
     url(r'^get-all-courses$', 'sio.views.get_all_courses'),
 )

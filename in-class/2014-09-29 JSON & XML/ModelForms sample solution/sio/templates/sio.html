@@ -53,6 +53,21 @@
 </ul>
 </p>
 
+{% if jsonone %}
+  <p>JSON for one course:</p>
+  {% for json in jsonone %}
+  <p>{{json}}</p>
+  {% endfor %}
+{% endif %}
+
+{% if jsonall %}
+  <p>JSON for all course:</p>
+  {% for json in jsonall %}
+  <p>{{json}}</p>
+  {% endfor %}
+{% endif %}
+
+<p><a href="/sio/get-one-course">Get a JSON response of one course</a></p>
 <p><a href="/sio/get-all-courses">Get a JSON response of all courses</a></p>
 
 </body>
