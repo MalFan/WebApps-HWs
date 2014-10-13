@@ -1,0 +1,27 @@
+1.
+insert into sio_student (andrew_id, first_name, last_name)
+values('dfan', 'Desai', 'Fan');
+
+insert into sio_student (andrew_id, first_name, last_name)
+values('ranp', 'Ran', 'Peng');
+
+2.
+select * from sio_student;
+
+3.
+select course_name from sio_course;
+
+4.
+select * from sio_student where first_name='Charlie' or last_name='Charlie';
+
+5.
+select * from sio_student order by last_name asc;
+
+6.
+select * from sio_student where first_name like '%ha%';
+
+7.
+select count(*) from sio_student where first_name like '%ha%';
+
+8.
+select course_id,count(course_id) from sio_course_students group by course_id;
