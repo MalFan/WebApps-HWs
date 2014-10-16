@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+    {% block title %}<title>grumblr.</title>{% endblock %}
+
+
+              {% block form-grumble-action %}
+                "{% url 'addgrumbl' 'homepage' %}"
+              {% endblock form-grumble-action %}
+
+              {% block dislike-href %}
+                "{% url 'dislike' grumbl_combo.grumbl.id 'homepage' %}"
+              {% endblock dislike-href %}
+
+              {% block form-comment-action %}
+                "{% url 'addcomment' grumbl_combo.grumbl.id 'homepage' %}"
+              {% endblock form-comment-action %}
+
+ 

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+    {% block title %}<title>Search grumbls</title>{% endblock title %}
+
+            {% block grumblbox %} {% endblock grumblbox %}
+            {% block postbox %} {% endblock postbox %}
+
+            {% block otherbox %}
+            <div class="searchbox">
+              <form action="search" method="GET">
+              <p>Results for <b>{{form_search_main.search_content.value}}</b></p>
+              <p class="search-radio-btns pull-left"> Search for:
+              {% for choice in form_search_main.search_type %}
+                {{ choice.tag }} {{ choice.choice_label }}<tab>
+              {% endfor %}
+              </p><br>
+              
+                <div class="input-group">
+                  {{form_search_main.search_content}}
+                  <span class="input-group-btn">               
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search">
+                    </span></button>
+                  </span>          
+                </div>
+                {% csrf_token %}
+              </form>
+            </div>
+
+            {% for grumbl in grumbls %}
+            <!-- load post -->
+            <div class="postbox">
+              <div class="post-title">
+                <div class="post-avatar">
+                  <a href="{% url 'profile' grumbl.user.id %}">
+                    <img src="{% url 'getphoto' grumbl.user.username %}" alt="{{grumbl.user.username}}" width="64px">
+                  </a>
+                </div>
+                <div class="post-user">
+                  <p class="grumblr-name">{{grumbl.user}}</p>
+                  <p>{{grumbl.pub_time}}</p>
+                </div>
+              </div>
+              <div class="post-content">
+                <p>{{grumbl.text}}</p>
+              </div>
+              
+<!-- TO DO: display footer and all comments in the searching page.
+                     because I use grumbl_id to add comment to specific grumbl
+                     in previous pages and it's not the same case this time. -->
+
+              <!-- for loop to load all comments for each grumbl -->
+            </div>
+            {% endfor %}
+
+            {% for profile in grumblrs %}
+            <div class="postbox">
+              <div class="post-title">
+                <div class="post-avatar">
+                  <a href="{% url 'profile' profile.user.id %}">
+                    <img src="{% url 'getphoto' profile.user.username %}" alt="{{profile.user.username}}" width="64px">    
+                  </a>
+                </div>
+                <div class="follow">
+                  <a href="{% url 'follow' profile.user.id %}" >
+                  <button class="btn btn-lg btn-primary btn-block" type="button"><span class="glyphicon glyphicon-plus"></span> Follow</button></a> 
+                </div>
+                <div class="post-user">
+                  <p class="grumblr-name">{{profile.user}}</p>
+                  <p>{{profile.intro}}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+            {% endblock otherbox %}

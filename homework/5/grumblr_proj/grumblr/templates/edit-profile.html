@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+    {% block title %}<title>Edit profile</title>{% endblock %}
+
+            {% block grumblbox %} {% endblock grumblbox %}
+            {% block postbox %} {% endblock postbox %}
+
+            {% block otherbox %}
+            <div class="editbox">
+              <form class="form-edit-profile" enctype="multipart/form-data" role="form" action="{% url 'grumblr.views.edit_profile' %}" method="post">
+
+                <div class="edit-title">
+                <h3>Edit personal profile</h3>
+                </div>
+
+                <hr class="profile-hr">
+                <div class="edit-list">
+                  <div class="edit-item-name">
+                    <h3>Avatar</h3>
+                  </div>
+                  <div class="edit-profile-avatar">
+                    <!-- <img class="avatar6" src="../static/img/img_trans.gif">-->
+                    {% if form_profile.avatar.value %}
+                      <img src="{% url 'getphoto' current_user.username %}" alt="{{form_profile.user.username}}" width="120px">
+                    {% endif %}
+                  </div>
+                  <div class="edit-btn">
+<!--                     <button class="btn btn-lg btn-primary btn-block" type="button">Change photo</button> -->
+<!-- <input name="avatar" class="btn btn-lg btn-primary btn-block" type="file"> -->{{form_profile.avatar}}
+                  </div>
+                </div>
+
+                <hr class="profile-hr">
+                <div class="edit-list">
+                  <div class="edit-item-name">
+                    <h3>Introduction</h3>
+                  </div>
+                  <div class="edit-input">
+                    <!-- <input type="text" class="form-control" name="intro" placeholder="Write your brief introduction" maxlength="200" value="{{form_profile.intro}}"> -->{{form_profile.intro}}
+                  </div>
+                </div>
+
+                <hr class="profile-hr">
+                <div class="edit-list">
+                  <div class="edit-item-name">
+                    <h3>Location</h3>
+                  </div>
+                  <div class="edit-input">
+                    <!-- <input type="text" class="form-control" name="location" placeholder="Where are you?" maxlength="50" value="{{form_profile.location}}"> -->{{form_profile.location}}
+                  </div>
+                </div>
+
+                <div class="edit-save">
+                  <div class="edit-btn">
+                      <button class="btn btn-lg btn-primary btn-block" type="submit">Save changes</button>
+                  </div>
+                </div>
+                {% csrf_token %}
+              </form><!-- form -->
+            </div><!-- /.box -->
+
+            {% endblock otherbox %}

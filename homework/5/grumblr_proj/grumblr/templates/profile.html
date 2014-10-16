@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+    {% block title %}<title>Profile</title>{% endblock %}
+
+            {% block grumblbox %} {% endblock grumblbox %}
+            {% block postbox %} {% endblock postbox %}
+
+            {% block otherbox %}
+            <div class="profilebox">
+              <div class="profile-title">
+
+                <div class="profile-avatar"> 
+                  <!-- <img class="avatar6" src="../static/img/img_trans.gif"> --><br>
+                    {% if target_profile.avatar %}
+                      <img src="{% url 'getphoto' target_profile.user.username %}" alt="{{target_profile.user.username}}" width="120px">
+                    {% endif %}
+                </div>
+
+                <div class="profile-user">
+                  <p class="profile-name">{{target_profile.user.username}}</p>
+                  <p class="grumblr-intro"><span class="glyphicon glyphicon-comment"></span> {{target_profile.intro}}<!-- Grumble the music, love CMU. --></p>
+                  <p class="grumblr-location"><span class="glyphicon glyphicon-map-marker"></span> {{target_profile.location}}<!-- Pittsburgh, US --></p>
+                </div>
+
+                {% if target_profile.user == current_user %}
+                <div class="editbtn">
+                  <a class="blue-text trans-move" href={% url 'grumblr.views.edit_profile' %}>Edit profile</a>
+                </div>
+                {% endif %}
+              </div>
+
+              <hr class="profile-hr">
+              
+              <div class="profile-detail">
+                <h3>Details of {{target_profile.user.username}}</h3>
+                <br>
+                <table>
+                  <tr>
+                    <th>grumbls</th>
+                    <th>likes</th>
+                    <th>following</th>
+                    <th>followers</th>
+                  </tr>
+                  <tr>
+                    <td>{{target_profile_num_grumbls}}</td>
+                    <td>3564</td>
+                    <td>345</td>
+                    <td>123</td>
+                  </tr>
+                </table>
+
+                <br>
+                <!-- <hr class="profile-hr"> -->
+
+              </div>
+
+            </div><!-- /.post -->
+
+            {% endblock otherbox %}

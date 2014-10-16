@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+    {% block title %}<title>My following</title>{% endblock %}
+
+            {% block grumblbox %} {% endblock grumblbox %}
+            {% block postbox %} {% endblock postbox %}
+
+            {% block otherbox %}
+            <div class="searchbox">           
+              <p>Following list</p> 
+            </div>
+
+            {% for profile in profiles %}
+            <div class="postbox">
+              <div class="post-title">
+                <div class="post-avatar">
+                  <a href="{% url 'profile' profile.user.id %}">
+                    <img src="{% url 'getphoto' profile.user.username %}" alt="{{profile.user.username}}" width="64px">    
+                  </a>
+                </div>
+                <div class="follow">
+                  <a href="{% url 'follow' profile.user.id %}" >
+                  <button class="btn btn-lg btn-primary btn-block" type="button"><span class="glyphicon glyphicon-plus"></span> Unfollow</button></a> 
+                </div>
+                <div class="post-user">
+                  <p class="grumblr-name">{{profile.user}}</p>
+                  <p>{{profile.intro}}</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+            {% endblock otherbox %}
