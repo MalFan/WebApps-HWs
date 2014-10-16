@@ -1,0 +1,25 @@
+1. 
+Shannon'; DELETE FROM sio_course_students WHERE course_id='15-437
+
+2.
+a. SELECT * FROM sio_student;
+b. SELECT * FROM sio_student WHERE UPPER(first_name)='CHARLIE';
+c. SELECT * FROM sio_student WHERE UPPER(first_name) LIKE 'C%';
+d. SELECT * FROM sio_student WHERE first_name LIKE 'C%';
+e. SELECT * FROM sio_student WHERE first_name LIKE '%har%';
+f. SELECT * FROM sio_student WHERE first_name='Charlie' AND first_name NOT IN (SELECT first_name FROM sio_student WHERE last_name='Garrod');
+g. SELECT sio_course_students.course_id,sio_student.first_name,sio_student.last_name FROM sio_course_students INNER JOIN sio_student ON sio_course_students.student_id = sio_student.andrew_id WHERE sio_student.first_name='Charlie';
+
+3. 
+Django query:
+courses = Course.objects.filter(students__first_name__exact='Charlie')
+stu_list = []
+for course in courses:
+    students = course.students.exclude(first_name__exact='Charlie')
+    for student in students:
+        stu_list.append(student)
+
+
+SQL query:
+SELECT sio_course_students.course_id,sio_student.first_name,sio_student.last_name FROM sio_course_students INNER JOIN sio_student ON sio_course_students.student_id = sio_student.andrew_id WHERE sio_student.first_name<>'Charlie' AND sio_course_students.course_id IN (SELECT sio_course_students.course_id FROM sio_course_students INNER JOIN sio_student ON sio_course_students.student_id = sio_student.andrew_id WHERE sio_student.first_name='Charlie');
+
