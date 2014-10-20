@@ -1,42 +1,62 @@
 // Customized javascript via jQuery
 $(document).ready( function() {
 
-
 	$(".form-comment").submit(function(e)
 	{
-		var postData = $(this).serializeArray();
-		var formURL = $(this).attr("action");
+		var post_data = $(this).serializeArray();
+		var form_url = $(this).attr("action");
 		var id = $( this ).attr( "grumbl-id" );
 		$.ajax(
 		{
-			url : formURL,
+			url : form_url,
 			type: "POST",
-			data : postData,
+			data : post_data,
 			success:function(comment) 
 			{
-				//data: return data from server
-				alert( "success" + id );
+				// alert( "success" + id );
 
 				// new hr
 				var hr = $( "<hr class=\"comment-hr\">" );
-				// new comment div
-				var comment_div = $( "div.post-comments" ).eq( 0 ).clone();
+				
 				var current_username = $( "li.dropdown a" ).first().contents().filter(function() {
 					return this.nodeType == 3;
 				}).text();
-				current_username = current_username.substring(1, current_username.length - 1)
-				comment_div.children( "div.post-title" ).children( "div.post-avatar" ).children().attr( "href", "/profile/" + comment[0].fields.user );
-				comment_div.children( "div.post-title" ).children( "div.post-avatar" ).children().children().attr( {
-					src: "/get-photo/" + current_username,
-					alt: current_username
-				});
-				alert( current_username + comment[0].fields.pub_time + comment[0].fields.text );
-				comment_div.children( "div.post-title" ).children( "div.post-user" ).children().first().html( current_username );
-				comment_div.children( "div.post-title" ).children( "div.post-user" ).children().last().html( comment[0].fields.pub_time );
-				comment_div.children( "div.post-content" ).children().html( comment[0].fields.text );
+				current_username = current_username.substring(1, current_username.length - 1)			
 
-				$( "div.post-write-comment[grumbl-id=" + id + "]" ).after( comment_div );
-				$( "div.post-write-comment[grumbl-id=" + id + "]" ).after( hr );			    
+				// new comment div
+              		var div_post_comments = $( "<div class=\"post-comments\"></div>" );
+              		var div_post_title = $( "<div class=\"post-title\"></div>" );
+				var div_post_content = $( "<div class=\"post-content\"></div>" );
+				div_post_comments.append( div_post_title );
+				div_post_comments.append( div_post_content );
+
+				var div_post_avatar = $( "<div class=\"post-avatar\"></div>" );
+				var div_post_user = $( "<div class=\"post-user\"></div>" );
+				div_post_title.append( div_post_avatar );
+				div_post_title.append( div_post_user );
+
+				var img_href = $( "<a/>", { href: "/profile/" + comment[0].fields.user } );
+				div_post_avatar.append( img_href );
+				img_href.append( $( "<img>", { 
+					src: "/get-photo/" + current_username,
+					alt: current_username,
+					width: "64px"
+				} ) );
+				div_post_user.append( "<p class=\"grumblr-name\">" + current_username + "</p>" );
+				div_post_user.append( "<p>" + comment[0].fields.pub_time + "</p>" );
+				div_post_content.append( "<p>" + comment[0].fields.text + "</p>" )
+
+				// Append new comment.
+				$( "div.post-write-comment[grumbl-id=" + id + "]" ).after( div_post_comments );
+				$( "div.post-write-comment[grumbl-id=" + id + "]" ).after( hr );
+
+				// Change the reply count.
+				$( "form[grumbl-id=" + id + "] input[name='grumbl_comment']" ).val( "" );
+				var current_text = $( "a.reply-btn[grumbl-id=" + id + "]" ).children().last().html();
+				current_replys = current_text.substring(current_text.indexOf("(") + 1, current_text.indexOf(")"))
+				var new_replys = parseInt(current_replys, 10) + 1;
+				new_text = current_text.replace(current_replys, new_replys);
+				$( "a.reply-btn[grumbl-id=" + id + "]" ).children().last().html( new_text );			    
 			},
 			error: function() 
 			{
@@ -48,72 +68,37 @@ $(document).ready( function() {
 	});
 
 
+	$( "a.dislike-btn" ).click(function( e ) {		
 
+		var id = $( this ).attr( "grumbl-id" );
+		var btn_href = "/dislike/" + id
+		$.ajax(
+		{
+			url : btn_href,
+			success:function(response) 
+			{
+				// alert( "success" );
 
-	// $( ".comment-btn" ).click(function( event ) {
-
-	// 	var id = $( this ).attr( "grumbl-id" );
-	// 	var form_data = $( this ).parents( ".form-comment" ).serialize();
-
-	// 	// $.ajaxSetup({ 
-	// 	//      beforeSend: function(xhr, settings) {
-	// 	//          function getCookie(name) {
-	// 	//              var cookieValue = null;
-	// 	//              if (document.cookie && document.cookie != '') {
-	// 	//                  var cookies = document.cookie.split(';');
-	// 	//                  for (var i = 0; i < cookies.length; i++) {
-	// 	//                      var cookie = jQuery.trim(cookies[i]);
-	// 	//                      // Does this cookie string begin with the name we want?
-	// 	//                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
-	// 	//                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-	// 	//                      break;
-	// 	//                  }
-	// 	//              }
-	// 	//          }
-	// 	//          return cookieValue;
-	// 	//          }
-	// 	//          if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-	// 	//              // Only send the token to relative URLs i.e. locally.
-	// 	//              xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-	// 	//          }
-	// 	//      } 
-	// 	// });
-
-	// 	// $.ajax(
-	// 	// {
-	// 	// 	url : "/add-comment/" + id,
-	// 	// 	type: "POST",
-	// 	// 	data : form_data,
-	// 	// 	success:function(response) 
-	// 	// 	{
-	// 	// 		//data: return data from server
-	// 	// 		alert( "success" );
-	// 	// 		alert( response );
-	// 	// 		// var comment = $.parseJSON(response);
+				var current_text = $( "a.dislike-btn[grumbl-id=" + id + "]" ).children().last().html();
+				current_dislikes = current_text.substring(current_text.indexOf("(") + 1, current_text.indexOf(")"))
 				
-	//  //  			// new hr
-	// 	// 		var hr = $( "<hr class=\"comment-hr\">" );
-	// 	// 		// new comment div
-	// 	// 		var comment_div = $( ".post-comments:first" ).clone();
-	// 	// 		comment_div.children( "div.post-avatar" ).children().attr( "href", "{% url 'profile' comment.user.id %}" );
-	// 	// 		comment_div.children( "div.post-avatar" ).children().children().attr( {
-	// 	// 			src: "{% url 'getphoto' comment.user.username %}",
-	// 	// 			alt: "{{comment.user.username}}"
-	// 	// 		} );
-	// 	// 		// comment_div.children( "div.post-user" ).children().first().html( {{comment.user.username}} );
-	// 	// 		// comment_div.children( "div.post-user" ).children().last().html( {{comment.pub_time}} );
-	// 	// 		// comment_div.children( "div.post-content" ).children().html( {{comment.text}} );
+				// alert( current_dislikes );
+				var new_dislikes = parseInt(current_dislikes, 10) + parseInt(response, 10);
+				// alert( new_dislikes );
+				new_text = current_text.replace(current_dislikes, new_dislikes);
+				$( "a.dislike-btn[grumbl-id=" + id + "]" ).children().last().html( new_text );
+					
+			},
+			error: function() 
+			{
+			    //if fails 
+			    alert( "error" );     
+			}
+		});
+		e.preventDefault(); //STOP default action
+	});
 
-	// 	// 		$( "div.post-write-comment" ).after( comment_div );
-	// 	// 		$( "div.post-write-comment" ).after( hr );
-	// 	// 	},
-	// 	// 	error: function() 
-	// 	// 	{
-	// 	// 	    //if fails 
-	// 	// 	    alert( "error" );     
-	// 	// 	}
-	// 	// });
-	// });
+
 });
 
 

@@ -12,7 +12,7 @@ urlpatterns = patterns('',
 	url(r'^add-grumbl/(?P<next>\w+)$', 'grumblr.views.add_grumbl', name='addgrumbl'),
 	url(r'^add-comment/(?P<grumbl_id>\d+)$', 'grumblr.views.add_comment', name='addcomment'),
 
-	url(r'^dislike/(?P<grumbl_id>\d+)/(?P<next>\w+)$', 'grumblr.views.dislike', name='dislike'),
+	url(r'^dislike/(?P<grumbl_id>\d+)$', 'grumblr.views.dislike', name='dislike'),
 	url(r'^block/(?P<user_id>\d+)$', 'grumblr.views.block', name='block'),
 	url(r'^follow/(?P<user_id>\d+)$', 'grumblr.views.follow', name='follow'),
 
@@ -22,6 +22,8 @@ urlpatterns = patterns('',
 	url(r'^profile/(?P<user_id>\d+)$', 'grumblr.views.profile', name='profile'),
 	url(r'^edit-profile$', 'grumblr.views.edit_profile', name='editprofile'),
 	url(r'^get-photo/(?P<username>\w+)$', 'grumblr.views.get_photo', name='getphoto'),
+
+	url(r'^settings$', 'grumblr.views.settings', name='settings'),
 
 	# Route for built-in authentication with our own custom login page
 	url(r'^login$', 'django.contrib.auth.views.login', 

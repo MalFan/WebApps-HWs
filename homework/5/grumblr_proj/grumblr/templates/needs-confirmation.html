@@ -22,6 +22,10 @@
 	</div><!-- Static navbar -->
 	{% endblock navbar %}
 
+	{% block maincol %}
+	<div class="col-sm-12 post-main">
+	{% endblock maincol %}
+
 	{% block grumblbox %} {% endblock grumblbox %}
 	{% block postbox %} {% endblock postbox %}
 
@@ -30,7 +34,6 @@
 	  <p>A confirmation email has been sent to {{email}}.</p> 
         <p>Please click the link in that email to confirm your email address and complete your registation for your grumblr.</p> 
 	</div>
-
 	{% endblock otherbox %}
 
 	{% block sidebar %}

@@ -7,10 +7,4 @@
                 "{% url 'addgrumbl' 'mygrumbls' %}"
               {% endblock form-grumble-action %}
 
-              {% block dislike-href %}
-                "{% url 'dislike' grumbl_combo.grumbl.id 'mygrumbls' %}"
-              {% endblock dislike-href %}
 
-              {% block form-comment-action %}
-                "{% url 'addcomment' grumbl_combo.grumbl.id 'homepage' %}"
-              {% endblock form-comment-action %}

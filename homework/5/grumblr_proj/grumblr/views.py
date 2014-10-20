@@ -131,17 +131,12 @@ def add_comment(request, grumbl_id):
 		errors.append('The grumbl did not exist.')
 
 	response_text = serializers.serialize('json', [new_comment])
-	
-	# response_text.extend([{'current_username': request.user.username}])
-	print response_text
 
     	return HttpResponse(response_text, content_type='application/json')
 
 
-
-
 @login_required
-def dislike(request, grumbl_id, next):
+def dislike(request, grumbl_id):
 	# Get the parent grumbl via g_id
 	errors = []
 	try:
@@ -149,12 +144,14 @@ def dislike(request, grumbl_id, next):
 		current_user = request.user
 		if current_user in parent_grumbl.dislike_list.all():
 			parent_grumbl.dislike_list.remove(current_user)
+			response_text = -1
 		else:
 			parent_grumbl.dislike_list.add(current_user)
+			response_text = 1	
 	except ObjectDoesNotExist:
 		errors.append('The grumbl did not exist.')
 
-	return redirect(next)
+	return HttpResponse(response_text)
 
 
 @login_required
@@ -342,6 +339,37 @@ def  get_photo(request, username):
 
 	content_type = guess_type(profile.avatar.name)
 	return HttpResponse(profile.avatar, content_type=content_type)
+
+
+@login_required
+def  settings(request):
+	# BIG UPDATE
+	context = {}
+	# Get current user first
+	context['current_user'] = request.user
+
+	context['form_search'] = SearchForm() 
+
+	form_changepassword = ChangePasswordForm()
+	context['form_changepassword'] = form_changepassword
+
+	# profile_to_edit = get_object_or_404(Profile, user=request.user)
+
+	# if request.method == 'GET':
+	# 	form_profile = ProfileForm(instance=profile_to_edit)
+	# 	context['form_profile'] = form_profile
+	# 	return render(request, 'edit-profile.html', context)
+	# else:
+	# 	# If method is POST
+	# 	form_profile = ProfileForm(request.POST, request.FILES, instance=profile_to_edit) # Won't conflict?
+
+	# 	if not form_profile.is_valid():
+	# 		context['form_profile'] = form_profile
+	# 		return render(request, 'edit-profile.html', context)
+
+	# 	form_profile.save()
+	# 	url = '/profile/' + str(request.user.id)
+	return render(request, 'settings.html', context)
 
 
 @transaction.atomic
