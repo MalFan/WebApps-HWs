@@ -22,7 +22,6 @@
                     </span></button>
                   </span>          
                 </div>
-                {% csrf_token %}
               </form>
             </div>
 
@@ -53,7 +52,7 @@
             {% endfor %}
 
             {% for profile in grumblrs %}
-            <div class="postbox">
+            <div class="postbox search-profile-box">
               <div class="post-title">
                 <div class="post-avatar">
                   <a href="{% url 'profile' profile.user.id %}">

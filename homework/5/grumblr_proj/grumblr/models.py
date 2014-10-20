@@ -7,9 +7,6 @@ class Grumbl(models.Model):
 	text = models.CharField(max_length=42)
 	user = models.ForeignKey(User)
 	pub_time = models.DateTimeField(auto_now_add=True)
-	# likes = models.IntegerField(default=0)
-	# dislikes = models.IntegerField(default=0)
-	# img = models.ImageField()
 	dislike_list = models.ManyToManyField(User, related_name='dislike_list')
 
 	def __unicode__(self):
@@ -18,8 +15,8 @@ class Grumbl(models.Model):
 	@staticmethod
 	def get_grumbls_others(current_user):
 		user_list = []
-		follow_list = current_user.relationship.follow_list.all()
-		block_list = current_user.relationship.block_list.all()
+		follow_list = current_user.profile.follow_list.all()
+		block_list = current_user.profile.block_list.all()
 		for user in follow_list:
 			if not user in block_list:
 				user_list.append(user)
@@ -53,14 +50,13 @@ class Comment(models.Model):
 
 
 class Profile(models.Model):
-	user = models.ForeignKey(User)
-	intro = models.CharField(max_length=200, default='What do you want to say?',
-			blank=True)
-	location = models.CharField(max_length=50, default='Where are you?', 
-			blank=True)
-	# num_grumbls = models.IntegerField(default=0) # TO BE deleted.
-
+	user = models.OneToOneField(User)
+	intro = models.CharField(max_length=200, blank=True)
+	location = models.CharField(max_length=50,	blank=True)
 	avatar = models.ImageField(upload_to='profile-photos', default='profile-photos/user_default.png')
+	
+	follow_list = models.ManyToManyField(User, related_name='follow_list', blank=True)
+	block_list = models.ManyToManyField(User, related_name='block_list', blank=True)
 
 	def __unicode__(self):
 		return self.user.username
@@ -79,10 +75,9 @@ class Profile(models.Model):
 		return profiles
 
 
-class Relationship(models.Model):
-	user = models.OneToOneField(User)
-	follow_list = models.ManyToManyField(User, related_name='follow_list', blank=True)
-	block_list = models.ManyToManyField(User, related_name='block_list', blank=True)
+# class Relationship(models.Model):
+# 	user = models.OneToOneField(User)
 
-	def __unicode__(self):
-		return self.user.username
+
+# 	def __unicode__(self):
+# 		return self.user.username

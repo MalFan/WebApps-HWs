@@ -308,6 +308,9 @@ border-color: #325d87;
 	border-radius: 4px;
 	border: 2px solid #496f94;
 }
+.search-profile-box {
+	height: 100px;
+}
 .post-title {
 	margin-bottom: 10px;
 	font-size: 16px;

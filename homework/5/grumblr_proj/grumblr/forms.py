@@ -72,7 +72,8 @@ class GrumblForm(forms.Form):
     grumbl = forms.CharField(max_length=42, widget=forms.TextInput(attrs= \
                 {'class':'grumbl-text',
                 'name':'grumble-text', 
-                'placeholder':'Today, what would you like to grumbl?'}))
+                'placeholder':'Today, what would you like to grumbl?',
+                'required':'true'}))
 
     def clean_grumbl(self):
         # Confirms that the username is not already present in the
@@ -111,7 +112,7 @@ class ProfileForm(forms.ModelForm):
             'intro':forms.TextInput(attrs= \
                         {'class':'form-control',
                         'name':'intro', 
-                        'placeholder':'Write your brief introduction'}), 
+                        'placeholder':'Write your brief intro'}), 
             'location':forms.TextInput(attrs= \
                         {'class':'form-control',
                         'name':'location', 

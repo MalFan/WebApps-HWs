@@ -3,6 +3,9 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 
+from django.core import serializers
+from django.http import HttpResponse
+
 # Decorator to use built-in authentication system
 from django.contrib.auth.decorators import login_required
 # Used to create and manually log in a user
@@ -87,6 +90,9 @@ def add_grumbl(request, next):
 	form_grumbl = GrumblForm(request.POST)
 	# Validates the form. Error info contained in the context.
 	if not form_grumbl.is_valid():
+		context = {}
+		errors = 'invalid input. Note that you cannot post an empty grumbl.'
+		context['errors'] = errors
 		return render(request, 'homepage.html', context)
 
 	# If we get valid data from the form, save it.
@@ -98,14 +104,19 @@ def add_grumbl(request, next):
 
 @transaction.atomic
 @login_required
-def add_comment(request, grumbl_id, next):
+def add_comment(request, grumbl_id):
 	# Handle POST requests and then redirect.
-	
+
 	form_comment = CommentForm(request.POST)
 
 	# Validates the form. Error info contained in the context.
 	if not form_comment.is_valid():
-		return render(request, 'homepage.html', context) # always invalid here.
+		context = {}
+		errors = 'invalid input. Note that you cannot post an empty comment.'
+		context['errors'] = errors
+		return None
+		# return redirect('/')
+		# return render(request, 'homepage.html', context) # always invalid here.
 
 	# Get the parent grumbl via g_id
 	errors = []
@@ -119,8 +130,14 @@ def add_comment(request, grumbl_id, next):
 	except ObjectDoesNotExist:
 		errors.append('The grumbl did not exist.')
 
-	# Prevent from reposting via refreshing the page.
-	return redirect(next)
+	response_text = serializers.serialize('json', [new_comment])
+	
+	# response_text.extend([{'current_username': request.user.username}])
+	print response_text
+
+    	return HttpResponse(response_text, content_type='application/json')
+
+
 
 
 @login_required
@@ -147,10 +164,10 @@ def block(request, user_id):
 	try:
 		target_user = User.objects.get(id=user_id)
 		current_user = request.user
-		if target_user in current_user.relationship.block_list.all():
-			current_user.relationship.block_list.remove(target_user)
+		if target_user in current_user.profile.block_list.all():
+			current_user.profile.block_list.remove(target_user)
 		else:
-			current_user.relationship.block_list.add(target_user)
+			current_user.profile.block_list.add(target_user)
 	except ObjectDoesNotExist:
 		errors = []
 		errors.append('The user did not exist.')
@@ -165,10 +182,10 @@ def follow(request, user_id):
 	try:
 		target_user = User.objects.get(id=user_id)
 		current_user = request.user
-		if target_user in current_user.relationship.follow_list.all():
-			current_user.relationship.follow_list.remove(target_user)
+		if target_user in current_user.profile.follow_list.all():
+			current_user.profile.follow_list.remove(target_user)
 		else:
-			current_user.relationship.follow_list.add(target_user)
+			current_user.profile.follow_list.add(target_user)
 	except ObjectDoesNotExist:
 		errors = []
 		errors.append('The user did not exist.')
@@ -184,10 +201,10 @@ def my_following(request):
 		try:
 			target_user = User.objects.get(id=user_id)
 			current_user = request.user
-			if target_user in current_user.relationship.follow_list.all():
-				current_user.relationship.follow_list.remove(target_user)
+			if target_user in current_user.profile.follow_list.all():
+				current_user.profile.follow_list.remove(target_user)
 			else:
-				current_user.relationship.follow_list.add(target_user)
+				current_user.profile.follow_list.add(target_user)
 		except ObjectDoesNotExist:
 			errors = []
 			errors.append('The user did not exist.')
@@ -197,7 +214,7 @@ def my_following(request):
 	current_user = request.user
 	context['current_user'] = current_user
 
-	follow_list = current_user.relationship.follow_list.all()
+	follow_list = current_user.profile.follow_list.all()
 	profiles = []
 	for user in follow_list:
 		profile = Profile.objects.get(user=user)
@@ -216,10 +233,10 @@ def my_blocking(request):
 		try:
 			target_user = User.objects.get(id=user_id)
 			current_user = request.user
-			if target_user in current_user.relationship.block_list.all():
-				current_user.relationship.block_list.remove(target_user)
+			if target_user in current_user.profile.block_list.all():
+				current_user.profile.block_list.remove(target_user)
 			else:
-				current_user.relationship.block_list.add(target_user)
+				current_user.profile.block_list.add(target_user)
 		except ObjectDoesNotExist:
 			errors = []
 			errors.append('The user did not exist.')
@@ -229,7 +246,7 @@ def my_blocking(request):
 	current_user = request.user
 	context['current_user'] = current_user
 
-	block_list = current_user.relationship.block_list.all()
+	block_list = current_user.profile.block_list.all()
 	profiles = []
 	for user in block_list:
 		profile = Profile.objects.get(user=user)
@@ -268,17 +285,23 @@ def  profile(request, user_id):
 	context = {}
 
 	# Get current user first
-	user = request.user
-	context['current_user'] = user
+	current_user = request.user
+	context['current_user'] = current_user
 	target_user = User.objects.get(id=user_id)
 
 	context['form_search'] = SearchForm() 
 
-	# current_profile = Profile.objects.filter(user = request.user) # request.user need to be modified
 	target_profile = Profile.objects.get(user=target_user)
 
 	context['target_profile'] = target_profile
 	context['target_profile_num_grumbls'] = Profile.get_num_grumbls(target_user)
+	num_dislikes = 0
+	for grumbl in Grumbl.objects.all():
+		if current_user == grumbl.user:
+			num_dislikes += grumbl.dislike_list.count()
+	context['target_profile_num_dislikes'] = num_dislikes
+	context['target_profile_num_followings'] = current_user.profile.follow_list.all().count()
+	context['target_profile_num_followers'] = current_user.follow_list.all().count()
 
 	return render(request, 'profile.html', context)
 
@@ -349,18 +372,15 @@ def register(request):
 		# Create a profile for the new user at the same time.
 		new_user_profile = Profile(user = new_user)
 		new_user_profile.save()
-		# Create a relationship for the new user at the same time.
-		new_user_relationship = Relationship(user = new_user)
-		new_user_relationship.save()
 
     		# Generate a one-time use token and an email message body
     		token = default_token_generator.make_token(new_user)	
 
 		email_body = """
-		Welcome to the Simple Address Book.  Please click the link below to
-		verify your email address and complete the registration of your account:
+Welcome to grumblr. Please click the link below to
+verify your email address and complete the registration of your account:
 
-		  http://%s%s
+http://%s%s
 		""" % (request.get_host(), 
 		       reverse('confirm', args=(new_user.username, token)))
 
@@ -385,17 +405,5 @@ def confirm_registration(request, username, token):
 	user.is_active = True
 	user.save()
 	return render(request, 'confirmed.html', {})
-
-
-
-
-
-		# # Logs in the new user and redirects to his/her todo list
-		# new_user = authenticate(username=form_registration.cleaned_data['username'],
-		# 						    email = form_registration.cleaned_data['email'],
-		#                               	    password=form_registration.cleaned_data['password1'])
-		# login(request, new_user)
-		# return redirect('/')
-
 
 
