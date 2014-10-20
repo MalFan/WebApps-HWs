@@ -1,6 +1,8 @@
 from django.db import models
 
 from django.contrib.auth.models import BaseUserManager
+    
+import hashlib
 
 class UserManager(BaseUserManager):
     def create_user(self, username, password):
@@ -16,10 +18,14 @@ class User(models.Model):
     last_login = models.DateField(auto_now_add=True)
 
     def set_password(self, password):
+        self.password = hashlib.sha256(password).hexdigest()
         pass
 
     def check_password(self, password):
-        return True
+        if (self.password == hashlib.sha256(password).hexdigest()):
+            return True
+        else:
+            return False
 
     def __unicode__(self):
         return self.username
