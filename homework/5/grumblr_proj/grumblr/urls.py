@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.contrib.auth import views
 from forms import *
 
 urlpatterns = patterns('',
@@ -23,8 +24,15 @@ urlpatterns = patterns('',
 	url(r'^edit-profile$', 'grumblr.views.edit_profile', name='editprofile'),
 	url(r'^get-photo/(?P<username>\w+)$', 'grumblr.views.get_photo', name='getphoto'),
 
-	url(r'^settings$', 'grumblr.views.settings', name='settings'),
+	url(r'^change-password$', 'grumblr.views.my_password_change', name='password_change'),
+	url(r'^password-changed$', 'grumblr.views.my_password_change_done', name='password_change_done'),
 
+	url(r'^forgot-password$', 'grumblr.views.my_password_reset', name="password_reset"),
+    	url(r'^password-reset-done$', 'grumblr.views.my_password_reset_done', name="password_reset_done"),
+    	url(r'^password-reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', 
+        	{'post_reset_redirect' : '/user/password/done/'}, name="password_reset_confirm"),
+    	url(r'^password-reset-complete/$', 'django.contrib.auth.views.password_reset_complete', name="password_reset_complete"),
+	
 	# Route for built-in authentication with our own custom login page
 	url(r'^login$', 'django.contrib.auth.views.login', 
 		{'template_name':'login.html', 

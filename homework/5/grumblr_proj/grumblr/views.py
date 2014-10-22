@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 # Used to create and manually log in a user
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.views import *
 
 # Needed to manually create HttpResponses or raise an Http404 exception
 from django.http import HttpResponse, Http404
@@ -341,37 +342,6 @@ def  get_photo(request, username):
 	return HttpResponse(profile.avatar, content_type=content_type)
 
 
-@login_required
-def  settings(request):
-	# BIG UPDATE
-	context = {}
-	# Get current user first
-	context['current_user'] = request.user
-
-	context['form_search'] = SearchForm() 
-
-	form_changepassword = ChangePasswordForm()
-	context['form_changepassword'] = form_changepassword
-
-	# profile_to_edit = get_object_or_404(Profile, user=request.user)
-
-	# if request.method == 'GET':
-	# 	form_profile = ProfileForm(instance=profile_to_edit)
-	# 	context['form_profile'] = form_profile
-	# 	return render(request, 'edit-profile.html', context)
-	# else:
-	# 	# If method is POST
-	# 	form_profile = ProfileForm(request.POST, request.FILES, instance=profile_to_edit) # Won't conflict?
-
-	# 	if not form_profile.is_valid():
-	# 		context['form_profile'] = form_profile
-	# 		return render(request, 'edit-profile.html', context)
-
-	# 	form_profile.save()
-	# 	url = '/profile/' + str(request.user.id)
-	return render(request, 'settings.html', context)
-
-
 @transaction.atomic
 def register(request):
 	context = {}
@@ -435,3 +405,43 @@ def confirm_registration(request, username, token):
 	return render(request, 'confirmed.html', {})
 
 
+@login_required
+def my_password_change(request, *args, **kwargs):
+	return password_change(request,
+		template_name='change-password.html',
+		post_change_redirect='password_change_done',
+		password_change_form=ChangePasswordForm,
+		current_app=None,
+		extra_context={'current_user':request.user,
+		'form_search':SearchForm()})
+
+
+@login_required
+def my_password_change_done(request, *args, **kwargs):
+	return password_change(request,
+		template_name='password-change-confirmation.html',
+		current_app=None,
+		extra_context={'current_user':request.user,
+		'form_search':SearchForm()})
+
+
+def my_password_reset(request, *args, **kwargs):
+	return password_reset(request,
+		is_admin_site=None,
+		template_name='password_reset_form.html',
+		email_template_name='password_reset_email.html',
+		password_reset_form=ResetPasswordForm,
+		# token_generator=None,
+		post_reset_redirect='password_reset_done',
+		# from_email=None,
+		current_app=None,
+		extra_context=None#,
+		# html_email_template_name=None
+		)
+
+
+def my_password_reset_done(request, *args, **kwargs):
+	return password_reset_done(request,
+		template_name='password_reset_done.html',
+		current_app=None,
+		extra_context=None)

@@ -2,7 +2,9 @@ from django import forms
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth import login, views
 
 from models import *
 
@@ -147,39 +149,26 @@ class SearchForm(forms.Form):
         return search_content
         
 
-class ChangePasswordForm(forms.Form):
-    password0 = forms.CharField(max_length=200, label='Old password', 
+class ChangePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(max_length=200, label='Current password', 
                 widget = forms.PasswordInput(attrs= \
                 {'class':'form-control',
-                'name':'password0', 
-                'placeholder':'Old password'}))
-    password1 = forms.CharField(max_length=200, label='New password', 
+                'name':'password0',
+                'required':'true'}))
+    new_password1 = forms.CharField(max_length=200, label='New password', 
                 widget = forms.PasswordInput(attrs= \
                 {'class':'form-control',
-                'name':'password1', 
-                'placeholder':'Password'}))
-    password2 = forms.CharField(max_length=200, label='Confirm new password',  
+                'name':'password1',
+                'required':'true'}))
+    new_password2 = forms.CharField(max_length=200, label='Verify password',  
                 widget = forms.PasswordInput(attrs= \
                 {'class':'form-control',
-                'name':'password2', 
-                'placeholder':'Confirm password'}))
+                'name':'password2',
+                'required':'true'}))
 
-    # Customizes form validation for properties that apply to more
-    # than one field.  Overrides the forms.Form.clean function.
-    def clean(self):
-        # Calls our parent (forms.Form) .clean function, gets a dictionary
-        # of cleaned data as a result
-        cleaned_data = super(ChangePasswordForm, self).clean()
 
-        # Confirms that the two password fields match
-        password1 = cleaned_data.get('password1')
-        password2 = cleaned_data.get('password2')
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords did not match.")
-
-        password0 = cleaned_data.get('password0')
-        if password0 == password1:
-            raise forms.ValidationError("New password must be different with old one.")
-
-        # We must return the cleaned data we got from our parent.
-        return cleaned_data
+class ResetPasswordForm(PasswordResetForm):
+    email = forms.EmailField(max_length=200, widget=forms.EmailInput(attrs= \
+                {'class':'form-control',
+                'name': 'email', 
+                'placeholder':'Enter your email'}))

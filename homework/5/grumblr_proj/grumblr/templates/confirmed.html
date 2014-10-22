@@ -1,6 +1,6 @@
 {% extends "base.html" %}
   
-{% block title %}<title>grumblr. -- Confirmation needed</title>{% endblock %}
+{% block title %}<title>grumblr. -- Confirmed</title>{% endblock %}
 
       {% block navbar %}
       <!-- Static navbar -->
@@ -30,7 +30,7 @@
 	{% block postbox %} {% endblock postbox %}
 
 	{% block otherbox %}
-	<div class="searchbox">           
+	<div class="messagebox">           
         <p>Thank you for confirming your email address.</p>
         <p>Please <a href="{% url 'login' %}">login</a> to enjoy your grumblr.</p>
 	</div>

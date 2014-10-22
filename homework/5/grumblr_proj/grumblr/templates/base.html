@@ -57,7 +57,7 @@
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{% url 'profile' current_user.id %}"><span class="glyphicon glyphicon-home"></span> My profile</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
-                <li><a href="{% url 'settings' %}"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                <li><a href="{% url 'password_change' %}"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
                 <li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}"><span class="glyphicon glyphicon-off"></span> Log out</a></li>
               </ul>
             </li>

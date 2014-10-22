@@ -544,6 +544,7 @@ img.avatar6 {
 	margin-left: 45px;
 }
 .edit-item-name {
+	text-align: right;
 	display: inline-block;
 	width: 150px;
 	margin-right: 10px;
@@ -656,4 +657,16 @@ div.follow {
 	color: #fff;
 	background-color: #325d87;
 	border-color: #1c4c7a;
+}
+
+.messagebox {
+	overflow:hidden; 
+	margin-bottom: 60px;
+	background-color: #fff;
+	padding: 15px 15px 15px 15px;
+	margin: 20px 0px;
+	border-radius: 4px;
+	border: 2px solid #496f94;
+	text-align: left;
+	font-size: 25px;
 }
