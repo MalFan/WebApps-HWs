@@ -115,9 +115,8 @@ def add_comment(request, grumbl_id):
 		context = {}
 		errors = 'invalid input. Note that you cannot post an empty comment.'
 		context['errors'] = errors
-		return None
 		# return redirect('/')
-		# return render(request, 'homepage.html', context) # always invalid here.
+		return render(request, 'homepage.html', context) # always invalid here.
 
 	# Get the parent grumbl via g_id
 	errors = []
@@ -418,7 +417,7 @@ def my_password_change(request, *args, **kwargs):
 
 @login_required
 def my_password_change_done(request, *args, **kwargs):
-	return password_change(request,
+	return password_change_done(request,
 		template_name='password-change-confirmation.html',
 		current_app=None,
 		extra_context={'current_user':request.user,
@@ -445,3 +444,102 @@ def my_password_reset_done(request, *args, **kwargs):
 		template_name='password_reset_done.html',
 		current_app=None,
 		extra_context=None)
+
+
+@login_required
+def refresh(request):
+
+	current_grumbl_id = request.GET['grumblid']
+	current_username = request.GET['username']
+
+	current_user=User.objects.get(username=current_username)
+	grumbls = Grumbl.get_grumbls_others(request.user)
+	grumbls = grumbls[::-1]
+
+	grumbl_user = []
+	for grumbl in grumbls:
+		if int(grumbl.id) > int(current_grumbl_id):
+			print grumbl.id
+			grumbl_user.append(grumbl)
+			grumbl_user.append(grumbl.user)
+
+	response_text = serializers.serialize('json', grumbl_user)
+
+    	return HttpResponse(response_text, content_type='application/json')
+
+
+
+
+	# # context = {}
+
+	# # Get current user first
+	# context['current_user'] = request.user
+	# # Get all grumbls
+	# grumbls = Grumbl.get_grumbls_others(request.user)
+	# # context['grumbls'] = grumbls # Need to be deleted, take care of htmls
+
+	# context['grumbl_combos'] = []
+	# # Get all comments for each grumbl
+	# for grumbl in grumbls:
+	# 	comments = Comment.get_comments(grumbl)
+	# 	num_comments = len(comments)
+	# 	num_dislikes = len(grumbl.dislike_list.all())
+	# 	grumbl_combo = {'grumbl':grumbl, 
+	# 			'comments':comments, 
+	# 			'num_comments':num_comments,
+	# 			'num_dislikes':num_dislikes}
+	# 	context['grumbl_combos'].append(grumbl_combo)
+
+	# context['form_grumbl'] = GrumblForm()
+	# context['form_comment'] = CommentForm()
+	# context['form_search'] = SearchForm()
+	# return render(request, 'homepage.html', context)
+
+
+
+	# # Get the parent grumbl via g_id
+	# errors = []
+	# try:
+	# 	parent_grumbl = Grumbl.objects.get(id=grumbl_id)
+	# 	current_user = request.user
+	# 	if current_user in parent_grumbl.dislike_list.all():
+	# 		parent_grumbl.dislike_list.remove(current_user)
+	# 		response_text = -1
+	# 	else:
+	# 		parent_grumbl.dislike_list.add(current_user)
+	# 		response_text = 1	
+	# except ObjectDoesNotExist:
+	# 	errors.append('The grumbl did not exist.')
+
+	# return HttpResponse(response_text)
+
+
+
+
+
+	# form_comment = CommentForm(request.POST)
+
+	# # Validates the form. Error info contained in the context.
+	# if not form_comment.is_valid():
+	# 	context = {}
+	# 	errors = 'invalid input. Note that you cannot post an empty comment.'
+	# 	context['errors'] = errors
+	# 	return None
+	# 	# return redirect('/')
+	# 	# return render(request, 'homepage.html', context) # always invalid here.
+
+	# # Get the parent grumbl via g_id
+	# errors = []
+	# try:
+	# 	parent_grumbl = Grumbl.objects.get(id=grumbl_id)
+	# 	# If we get valid data from the form, save it.
+	# 	new_comment = Comment(text=form_comment.cleaned_data['grumbl_comment'], 
+	# 							 user=request.user,
+	# 							 grumbl=parent_grumbl)
+	# 	new_comment.save()
+	# except ObjectDoesNotExist:
+	# 	errors.append('The grumbl did not exist.')
+
+	# response_text = serializers.serialize('json', [new_comment])
+
+ #    	return HttpResponse(response_text, content_type='application/json')
