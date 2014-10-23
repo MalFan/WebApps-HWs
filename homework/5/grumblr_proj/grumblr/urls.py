@@ -28,14 +28,18 @@ urlpatterns = patterns('',
 	url(r'^change-password$', 'grumblr.views.my_password_change', name='password_change'),
 	url(r'^password-changed$', 'grumblr.views.my_password_change_done', name='password_change_done'),
 
-	# , {'template_name':'password-reset-form.html'}
+	# ,{'template_name':'password-reset-form.html', 'password_reset_form':MyPasswordResetForm},
+	# 'django.contrib.auth.views.password_reset'
+	# , {'template_name':'password-reset-comfirm.html', 'set_password_form':MySetPasswordForm}
 	# 
-	# , {'template_name':'password-reset-comfirm.html'}
-	# 
-	url(r'^forgot-password$', 'django.contrib.auth.views.password_reset', name='password_reset'),
-    	url(r'^password-reset-request$', 'django.contrib.auth.views.password_reset_done', {'template_name':'password-reset-done.html'}, name='password_reset_done'),
-    	url(r'^password-reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', name='password_reset_confirm'),
-    	url(r'^password-reset-complete$', 'django.contrib.auth.views.password_reset_complete', {'template_name':'password-reset-complete.html'}, name='password_reset_complete'),
+	url(r'^forgot-password$', 'django.contrib.auth.views.password_reset', 
+		{'template_name':'password-reset-form.html', 'password_reset_form':MyPasswordResetForm}, name='password_reset'),
+    	url(r'^password-reset-request$', 'django.contrib.auth.views.password_reset_done', 
+    		{'template_name':'password-reset-done.html'}, name='password_reset_done'),
+    	url(r'^password-reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', 
+    		{'template_name':'password-reset-confirm.html', 'set_password_form':MySetPasswordForm}, name='password_reset_confirm'),
+    	url(r'^password-reset-complete$', 'django.contrib.auth.views.password_reset_complete', 
+    		{'template_name':'password-reset-complete.html'}, name='password_reset_complete'),
 	
 
 

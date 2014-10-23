@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth import login, views
 
 from models import *
@@ -171,9 +172,21 @@ class ChangePasswordForm(PasswordChangeForm):
                 'name':'password2',
                 'required':'true'}))
 
-
-class ResetPasswordForm(PasswordResetForm):
-    email = forms.EmailField(max_length=200, widget=forms.EmailInput(attrs= \
+class MyPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(max_length=200, widget=forms.TextInput(attrs= \
                 {'class':'form-control',
                 'name': 'email', 
-                'placeholder':'Enter your email'}))
+                'placeholder':'Enter your email',
+                'required':'true'}))
+
+class MySetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(max_length=200, label='New password', 
+                widget = forms.PasswordInput(attrs= \
+                {'class':'form-control',
+                'name':'password1',
+                'required':'true'}))
+    new_password2 = forms.CharField(max_length=200, label='Verify password',  
+                widget = forms.PasswordInput(attrs= \
+                {'class':'form-control',
+                'name':'password2',
+                'required':'true'}))

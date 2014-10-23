@@ -16,6 +16,11 @@ class Grumbl(models.Model):
 	@staticmethod
 	def get_grumbls_others(current_user):
 		user_list = []
+		
+		# current_profile = Profile.objects.get(user=current_user)
+		# follow_list = current_profile.follow_list.all()
+		# block_list = current_profile.block_list.all()
+
 		follow_list = current_user.profile.follow_list.all()
 		block_list = current_user.profile.block_list.all()
 		for user in follow_list:
