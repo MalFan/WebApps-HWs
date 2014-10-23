@@ -17,9 +17,9 @@ Commit graded: a17f9b50cdf9d8c4afcd8ab0fa27c44e84a62803
 
   * Hmm... *"Welcome to Simple Address Book."...
 
-### ORM usage (24/30)
+### ORM usage (26/30)
 
-  * -5, No demonstration of advanced ORM data retrieval/storage involving many-to-many relationships between models; for example, retrieving the grumbls filtered by the following relation as well as the blocking relation.
+  * -3, You should not get all instances of a model and manually filter it with a loop. This is very inefficient compared to using Django’s built in filtering (generally O(n) vs O(log n)).
 
   * -1, Profile stats ('likes: N, following: M, followers: P') should be accurate and can be retrieved using the QuerySet (or template feature) `count`.
 
@@ -53,7 +53,7 @@ Commit graded: a17f9b50cdf9d8c4afcd8ab0fa27c44e84a62803
 
 ---
 
-#### Total score (119/130)
+#### Total score (121/130)
 
 ---
 
