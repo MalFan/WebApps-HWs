@@ -8,7 +8,7 @@ class Grumbl(models.Model):
 	user = models.ForeignKey(User)
 	pub_time = models.DateTimeField(auto_now_add=True)
 	dislike_list = models.ManyToManyField(User, related_name='dislike_list')
-	picture = models.ImageField(upload_to='grumbl-pics', null='True')
+	picture = models.ImageField(upload_to='grumbl-pics', null='True', blank='True')
 
 	def __unicode__(self):
 		return self.text
@@ -36,7 +36,7 @@ class Grumbl(models.Model):
 		return grumbls[::-1]
 
 class Comment(models.Model):
-	text = models.CharField(max_length=42) # Note that "comment" changed to "text", bugs may be raised.
+	text = models.CharField(max_length=42) 
 	user = models.ForeignKey(User)
 	grumbl = models.ForeignKey(Grumbl)
 	pub_time = models.DateTimeField(auto_now_add=True)

@@ -86,11 +86,19 @@ def my_grumbls(request):
 @transaction.atomic
 @login_required
 def add_grumbl(request, next):
-	
+
 	form_grumbl = GrumblForm(request.POST, request.FILES, instance=Grumbl(user=request.user))
 
 	if not form_grumbl.is_valid():
+		context = {}
+		# Get current user first
+		context['current_user'] = request.user
+		# Store forms for HTML files
+		context['form_grumbl'] = GrumblForm()
+		context['form_comment'] = CommentForm()
+		context['form_search'] = SearchForm() 
 		context['form_grumbl'] = form_grumbl
+
 		return render(request, 'homepage.html', context)
 
 	form_grumbl.save()
@@ -456,26 +464,26 @@ def my_password_change_done(request, *args, **kwargs):
 		'form_search':SearchForm()})
 
 
-def my_password_reset(request, *args, **kwargs):
-	return password_reset(request,
-		is_admin_site=None,
-		template_name='password_reset_form.html',
-		email_template_name='password_reset_email.html',
-		password_reset_form=ResetPasswordForm,
-		# token_generator=None,
-		post_reset_redirect='password_reset_done',
-		# from_email=None,
-		current_app=None,
-		extra_context=None#,
-		# html_email_template_name=None
-		)
+# def my_password_reset(request, *args, **kwargs):
+# 	return password_reset(request,
+# 		is_admin_site=None,
+# 		template_name='password_reset_form.html',
+# 		email_template_name='password_reset_email.html',
+# 		password_reset_form=ResetPasswordForm,
+# 		# token_generator=None,
+# 		post_reset_redirect='password_reset_done',
+# 		# from_email=None,
+# 		current_app=None,
+# 		extra_context=None#,
+# 		# html_email_template_name=None
+# 		)
 
 
-def my_password_reset_done(request, *args, **kwargs):
-	return password_reset_done(request,
-		template_name='password_reset_done.html',
-		current_app=None,
-		extra_context=None)
+# def my_password_reset_done(request, *args, **kwargs):
+# 	return password_reset_done(request,
+# 		template_name='password_reset_done.html',
+# 		current_app=None,
+# 		extra_context=None)
 
 
 @login_required

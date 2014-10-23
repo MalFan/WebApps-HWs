@@ -1,12 +1,11 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.contrib.auth import views
+from django.contrib.auth import views, urls
 from forms import *
 
 urlpatterns = patterns('',
-	# Examples:
-	# url(r'^$', 'grumblr_proj.views.home', name='home'),
-	# url(r'^blog/', include('blog.urls')),
+	url(r'^admin/', include(admin.site.urls)),
+
 	url(r'^$', 'grumblr.views.homepage', name='homepage'),
 	url(r'^my-grumbls$', 'grumblr.views.my_grumbls', name='mygrumbls'),
 	url(r'^search$', 'grumblr.views.search', name='search'),
@@ -29,12 +28,18 @@ urlpatterns = patterns('',
 	url(r'^change-password$', 'grumblr.views.my_password_change', name='password_change'),
 	url(r'^password-changed$', 'grumblr.views.my_password_change_done', name='password_change_done'),
 
-	url(r'^forgot-password$', 'grumblr.views.my_password_reset', name="password_reset"),
-    	url(r'^password-reset-done$', 'grumblr.views.my_password_reset_done', name="password_reset_done"),
-    	url(r'^password-reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', 
-        	{'post_reset_redirect' : '/user/password/done/'}, name="password_reset_confirm"),
-    	url(r'^password-reset-complete/$', 'django.contrib.auth.views.password_reset_complete', name="password_reset_complete"),
+	# , {'template_name':'password-reset-form.html'}
+	# 
+	# , {'template_name':'password-reset-comfirm.html'}
+	# 
+	url(r'^forgot-password$', 'django.contrib.auth.views.password_reset', name='password_reset'),
+    	url(r'^password-reset-request$', 'django.contrib.auth.views.password_reset_done', {'template_name':'password-reset-done.html'}, name='password_reset_done'),
+    	url(r'^password-reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', name='password_reset_confirm'),
+    	url(r'^password-reset-complete$', 'django.contrib.auth.views.password_reset_complete', {'template_name':'password-reset-complete.html'}, name='password_reset_complete'),
 	
+
+
+
 	# Route for built-in authentication with our own custom login page
 	url(r'^login$', 'django.contrib.auth.views.login', 
 		{'template_name':'login.html', 

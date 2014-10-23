@@ -112,8 +112,11 @@ function dislikeAjax() {
 function refreshAjax() {
 	var newestGrumbl = $( 'div.grumbl-main' ).first()
 	var newestID = newestGrumbl.attr( 'grumbl-id' )
-	
-	var currentUsername = $( "li.dropdown a" ).find( "span.current-username" ).html();		
+	if (newestID == null) {
+		// alert( "no grumbls" );
+		newestID = 0;
+	}
+	var currentUsername = $( "li.dropdown a" ).find( "span.current-username" ).html();	
 
 	$.ajax(
 	{
@@ -147,7 +150,7 @@ function refreshAjax() {
 				divPostUser.append( "<p>" + newGrumblsUsers[i].fields.pub_time + "</p>" );
 				divPostContent.append( "<p>" + newGrumblsUsers[i].fields.text + "</p>" )
 
-				if (newGrumblsUsers[i].fields.picture != null) {
+				if (newGrumblsUsers[i].fields.picture.length != 0) {
 					var divPostPicture = $( "<div class=\"post-picture\"></div>" );
 					divPostBox.append( divPostPicture );
 					divPostPicture.append( $( "<img>", { 
@@ -156,14 +159,8 @@ function refreshAjax() {
 					} ) );
 				}
 
-				// alert( newGrumblsUsers[i].pk + "\n" +
-				// 		newGrumblsUsers[i].fields.user + "\n" +
-				// 		newGrumblsUsers[i+1].fields.username + "\n" +
-				// 		newGrumblsUsers[i].fields.pub_time  + "\n" +
-				// 		newGrumblsUsers[i].fields.text );
-
 				// Append new grumbl.
-				$( 'div.grumbl-main' ).first().before( divPostBox );
+				$( 'div.grumblebox' ).after( divPostBox );
 	          }
 	
 		},
@@ -173,4 +170,5 @@ function refreshAjax() {
 		    alert( "error" );     
 		}
 	});
+	
 }
