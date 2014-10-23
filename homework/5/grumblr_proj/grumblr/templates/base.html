@@ -11,7 +11,7 @@
     <link href="/static/css/custom.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="/static/js/jquery-1.11.1.js" type="text/javascript"></script>
-    <script src="/static/js/custom.js" type="text/javascript"></script>   
+    {% block customjs %}{% endblock customjs %}   
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/js/bootstrap.min.js"></script> 
 
@@ -53,7 +53,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><span class="current-username">{{current_user.username}}</span><span class="caret"></span></a>
+              <a href="http://getbootstrap.com/examples/navbar-static-top/#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <span class="current-username">{{current_user.username}}</span> <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{% url 'profile' current_user.id %}"><span class="glyphicon glyphicon-home"></span> My profile</a></li>
                 <li><a href="http://getbootstrap.com/examples/navbar-static-top/#"><span class="glyphicon glyphicon-envelope"></span> Inbox</a></li>
@@ -80,20 +80,13 @@
 
             {% block grumblbox %}
             <div class="grumblebox">
-              <form class="form-grumble" role="form" action={% block form-grumble-action %}{% endblock form-grumble-action %} method="post">
+              <form class="form-grumble" enctype="multipart/form-data" role="form" action={% block form-grumble-action %}{% endblock form-grumble-action %} method="post">
                 <div class="grumblecontent-div">
-                  {{form_grumbl.grumbl}}
+                  {{form_grumbl.text}}
                 </div>
-                {% if errors %}
-                  <p style="color: #ff6666">
-                    {{ errors }}
-                  </p>
-                {% endif %}
-                {% for field in form_grumbl.visible_fields %}
-                  <p style="color: #ff6666">
-                    {{field.errors}}
-                  </p>
-                {% endfor %}
+                {% if errors %}<p style="color: #ff6666">{{ errors }}</p>{% endif %}
+                {% for field in form_grumbl.visible_fields %}<p style="color: #ff6666">{{field.errors}}</p>{% endfor %}
+                <div class="edit-btn">{{form_grumbl.picture}}</div>
                 <div class="grumblebtns-div">
                   <button class="btn btn-lg btn-primary btn-block grumbl-btn pull-right" type="submit">grumbl!</button>
                 </div>
@@ -121,6 +114,11 @@
               <div class="post-content">
                 <p>{{grumbl_combo.grumbl.text}}</p>
               </div>
+              {% if grumbl_combo.grumbl.picture %}
+              <div class="post-picture">
+                  <img src="{% url 'getpicture' grumbl_combo.grumbl.id %}" width="100%"> 
+              </div>
+              {% endif %}
 
               <div class="post-footer">
                 <ul class="nav nav-pills pull-right">

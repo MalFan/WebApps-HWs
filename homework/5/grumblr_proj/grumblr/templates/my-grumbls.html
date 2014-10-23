@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
     {% block title %}<title>My grumbls</title>{% endblock %}
-
+    {% block customjs %}<script src="/static/js/custom.js" type="text/javascript"></script>{% endblock customjs %}
 
               {% block form-grumble-action %}
                 "{% url 'addgrumbl' 'mygrumbls' %}"

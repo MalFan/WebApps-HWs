@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 	url(r'^my-grumbls$', 'grumblr.views.my_grumbls', name='mygrumbls'),
 	url(r'^search$', 'grumblr.views.search', name='search'),
 	url(r'^add-grumbl/(?P<next>\w+)$', 'grumblr.views.add_grumbl', name='addgrumbl'),
+	url(r'^get-picture/(?P<grumbl_id>\d+)$', 'grumblr.views.get_picture', name='getpicture'),
 	url(r'^add-comment/(?P<grumbl_id>\d+)$', 'grumblr.views.add_comment', name='addcomment'),
 	url(r'^refresh$', 'grumblr.views.refresh', name='refresh'),
 

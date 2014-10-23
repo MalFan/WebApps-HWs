@@ -8,6 +8,7 @@ class Grumbl(models.Model):
 	user = models.ForeignKey(User)
 	pub_time = models.DateTimeField(auto_now_add=True)
 	dislike_list = models.ManyToManyField(User, related_name='dislike_list')
+	picture = models.ImageField(upload_to='grumbl-pics', null='True')
 
 	def __unicode__(self):
 		return self.text

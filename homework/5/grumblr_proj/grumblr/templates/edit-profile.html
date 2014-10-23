@@ -19,7 +19,6 @@
                     <h3>Avatar</h3>
                   </div>
                   <div class="edit-profile-avatar">
-                    <!-- <img class="avatar6" src="../static/img/img_trans.gif">-->
                     {% if form_profile.avatar.value %}
                       <img src="{% url 'getphoto' current_user.username %}" alt="{{form_profile.user.username}}" width="120px">
                     {% endif %}

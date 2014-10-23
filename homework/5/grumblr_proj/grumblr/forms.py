@@ -70,23 +70,29 @@ class RegistrationForm(forms.Form):
         return username
 
 
-class GrumblForm(forms.Form):
-    grumbl = forms.CharField(max_length=42, widget=forms.TextInput(attrs= \
+class GrumblForm(forms.ModelForm):
+    class Meta:
+        model = Grumbl
+        fields = ('text', 'picture', )    
+        widgets = {
+            'text':forms.TextInput(attrs= \
                 {'class':'grumbl-text',
-                'name':'grumble-text', 
+                'name':'grumbl-text', # TO BE delete, an 'e'
                 'placeholder':'Today, what would you like to grumbl?',
-                'required':'true'}))
+                'required':'true'}), 
+            'picture':forms.FileInput(attrs= \
+                {'name':'grumbl-pic'})
+        }
+    # def clean_grumbl(self):
+    #     # Confirms that the username is not already present in the
+    #     # User model database.
+    #     grumbl = self.cleaned_data.get('grumbl')
+    #     if not grumbl:
+    #         raise forms.ValidationError("Must enter something before grumbling.")
 
-    def clean_grumbl(self):
-        # Confirms that the username is not already present in the
-        # User model database.
-        grumbl = self.cleaned_data.get('grumbl')
-        if not grumbl:
-            raise forms.ValidationError("Must enter something before grumbling.")
-
-        # We must return the cleaned data we got from the cleaned_data
-        # dictionary
-        return grumbl
+    #     # We must return the cleaned data we got from the cleaned_data
+    #     # dictionary
+    #     return grumbl
 
 
 class CommentForm(forms.Form):
@@ -120,8 +126,7 @@ class ProfileForm(forms.ModelForm):
                         'name':'location', 
                         'placeholder':'Where are you?'}),
             'avatar':forms.FileInput(attrs= \
-                        {'class':'btn btn-lg btn-primary btn-block',
-                        'name':'avatar'})
+                        {'name':'avatar'})
         }
 
 class SearchForm(forms.Form):

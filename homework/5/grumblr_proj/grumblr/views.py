@@ -86,21 +86,53 @@ def my_grumbls(request):
 @transaction.atomic
 @login_required
 def add_grumbl(request, next):
-	# Handle POST requests and then redirect.
+	
+	form_grumbl = GrumblForm(request.POST, request.FILES, instance=Grumbl(user=request.user))
 
-	form_grumbl = GrumblForm(request.POST)
-	# Validates the form. Error info contained in the context.
 	if not form_grumbl.is_valid():
-		context = {}
-		errors = 'invalid input. Note that you cannot post an empty grumbl.'
-		context['errors'] = errors
+		context['form_grumbl'] = form_grumbl
 		return render(request, 'homepage.html', context)
 
-	# If we get valid data from the form, save it.
-	new_grumbl = Grumbl(text=form_grumbl.cleaned_data['grumbl'], user=request.user)
-	new_grumbl.save()
-
+	form_grumbl.save()
 	return redirect(next)
+
+@login_required
+def  get_picture(request, grumbl_id):
+	grumbl = get_object_or_404(Grumbl, id=grumbl_id)
+	
+	if not grumbl.picture:
+		raise Http404
+
+	content_type = guess_type(grumbl.picture.name)
+	return HttpResponse(grumbl.picture, content_type=content_type)
+
+
+	# # BIG UPDATE
+	# context = {}
+	# # Get current user first
+	# context['current_user'] = request.user
+
+	# context['form_search'] = SearchForm() 
+
+	# profile_to_edit = get_object_or_404(Profile, user=request.user)
+
+	# if request.method == 'GET':
+	# 	form_profile = ProfileForm(instance=profile_to_edit)
+	# 	context['form_profile'] = form_profile
+	# 	return render(request, 'edit-profile.html', context)
+	# else:
+	# 	# If method is POST
+	# 	form_profile = ProfileForm(request.POST, request.FILES, instance=profile_to_edit) # Won't conflict?
+
+	# 	if not form_profile.is_valid():
+	# 		context['form_profile'] = form_profile
+	# 		return render(request, 'edit-profile.html', context)
+
+	# 	form_profile.save()
+	# 	url = '/profile/' + str(request.user.id)
+	# 	return redirect(url)
+
+
 
 
 @transaction.atomic
