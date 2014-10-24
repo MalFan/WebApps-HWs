@@ -251,11 +251,7 @@ def my_following(request):
 	current_user = request.user
 	context['current_user'] = current_user
 
-	follow_list = current_user.profile.follow_list.all()
-	profiles = []
-	for user in follow_list:
-		profile = Profile.objects.get(user=user)
-		profiles.append(profile)
+	profiles = Profile.objects.filter(user__follow_list__user__username__contains=current_user.username)
 
 	context['profiles'] =profiles
 	context['form_search'] = SearchForm()
@@ -283,11 +279,7 @@ def my_blocking(request):
 	current_user = request.user
 	context['current_user'] = current_user
 
-	block_list = current_user.profile.block_list.all()
-	profiles = []
-	for user in block_list:
-		profile = Profile.objects.get(user=user)
-		profiles.append(profile)
+	profiles = Profile.objects.filter(user__block_list__user__username__contains=current_user.username)
 
 	context['profiles'] =profiles
 	context['form_search'] = SearchForm()
@@ -471,15 +463,12 @@ def refresh(request):
 	current_username = request.GET['username']
 
 	current_user=User.objects.get(username=current_username)
-	grumbls = Grumbl.get_grumbls_others(request.user)
-	grumbls = grumbls[::-1]
+	grumbls = Grumbl.get_new_grumbls_others(request.user, current_grumbl_id)
 
 	grumbl_user = []
 	for grumbl in grumbls:
-		if int(grumbl.id) > int(current_grumbl_id):
-			print grumbl.id
-			grumbl_user.append(grumbl)
-			grumbl_user.append(grumbl.user)
+		grumbl_user.append(grumbl)
+		grumbl_user.append(grumbl.user)
 
 	response_text = serializers.serialize('json', grumbl_user)
 
