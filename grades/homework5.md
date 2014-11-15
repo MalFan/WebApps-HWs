@@ -7,8 +7,8 @@ Commit graded: 29dedc5fb6f55ed7a78e688a44fcaf19f9dc1c51
 ### Version control - Git (13/15)
 - -2, You should have more granularity in your commits. For example, bug fixes should have their own commits.
 
-### Iterative development (30/40)
-- -6, hw4 feedback: -3, You should not get all instances of a model and manually filter it with a loop. This is very inefficient compared to using Django’s built in filtering (generally O(n) vs O(log n)).
+### Iterative development (36/40)
+- -0, You still have some unnecessary loops that iterate through your QuerySets. hw4 feedback: -3, You should not get all instances of a model and manually filter it with a loop. This is very inefficient compared to using Django’s built in filtering (generally O(n) vs O(log n)).
 - -4, hw4 feedback: -0, It's unclear how to follow ~~or block~~ another user...
 
 ### Coverage of technologies (35/40)
@@ -22,7 +22,7 @@ Commit graded: 29dedc5fb6f55ed7a78e688a44fcaf19f9dc1c51
 
 ---
 
-#### Total score (98/125)
+#### Total score (104/125)
 
 ---
 
